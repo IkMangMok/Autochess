@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 //ÉÔ×÷ÐÞ¸Ä//
-
+//wuwuwu 
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 
