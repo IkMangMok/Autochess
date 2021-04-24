@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "HelloWorldScene.h"
+#include "HelloWorldScene.h"                 //黑进来了
 
 USING_NS_CC;
 
