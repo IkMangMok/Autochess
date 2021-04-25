@@ -1,2 +1,2 @@
-# self-running-chess
+# Autochess
 高程大作业。
