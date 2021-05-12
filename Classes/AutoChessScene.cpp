@@ -101,10 +101,10 @@ bool AutoChess::init()
     }
 
     // add "AutoChess" splash screen"
-    auto sprite = Sprite::create("AutoChess.png");
+    auto sprite = Sprite::create("HelloWorld.png");
     if (sprite == nullptr)
     {
-        problemLoading("'AutoChess.png'");
+        problemLoading("'HelloWorld.png'");
     }
     else
     {
