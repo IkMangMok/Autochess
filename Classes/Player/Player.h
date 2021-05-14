@@ -7,5 +7,5 @@
 class Player : public cocos2d::Sprite {
 
 };
-
+;
 #endif
