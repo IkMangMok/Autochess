@@ -24,7 +24,7 @@
 //ÉÔ×÷ÐÞ¸Ä//
 
 #include "AppDelegate.h"
-#include "AutoChessSceneStart.h"
+#include "AutoChessScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 
