@@ -6,4 +6,5 @@ int main()
 	a=1;
 	cout<<"123"<<endl;
 int b;
+cout<<"haonan";
 }
