@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "AutoChessScene.h"
-
+;
 USING_NS_CC;
 
 Scene* AutoChess::createScene()
