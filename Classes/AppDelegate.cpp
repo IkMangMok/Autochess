@@ -22,9 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 //ÉÔ×÷ÐÞ¸Ä//
-
 // 2021/5/14 21:11 Bill Han ²âÊÔ git desktop 
-// sefdksdnkdsfnkdsfnkdsnfks 
+// wuwuwuwuawuuwuwuwuuw
 #include "AppDelegate.h"
 #include "Scene/AutoChessScene.h"
 
