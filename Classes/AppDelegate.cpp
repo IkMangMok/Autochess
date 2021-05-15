@@ -26,7 +26,7 @@
 // 2021/5/14 21:11 Bill Han ≤‚ ‘ git desktop 
 // sefdksdnkdsfnkdsfnkdsnfks 
 #include "AppDelegate.h"
-#include "AutoChessScene.h"
+#include "Scene/AutoChessScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 
