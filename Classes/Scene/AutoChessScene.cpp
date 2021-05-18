@@ -158,15 +158,8 @@ bool AutoChess::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-<<<<<<< HEAD
-    auto label = Label::createWithTTF("AutoChess", "fonts/Marker Felt.ttf", 24);
-=======
-<<<<<<< Updated upstream
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-=======
     auto label = Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 24);
->>>>>>> Stashed changes
->>>>>>> hjr
+
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -180,44 +173,10 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-<<<<<<< HEAD
-     auto GameStart = MenuItemImage::create(           
-                                           "GameStart.jpg",
-                                           "GameStart.jpg",
-                                           CC_CALLBACK_1(AutoChess::menuGameStart, this));
 
-    if (GameStart == nullptr ||
-        GameStart->getContentSize().width <= 0 ||
-        GameStart->getContentSize().height <= 0)
-=======
-<<<<<<< Updated upstream
-
-    // add "AutoChess" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
->>>>>>> hjr
-    {
-        problemLoading("'GameStart.jpg' and 'GameStart.jpg'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width / 2;
-        float y = origin.y + GameStart->getContentSize().height / 2 + visibleSize.height / 2;
-        GameStart->setPosition(Vec2(x,y));
-    }
-<<<<<<< HEAD
-
-    auto gamestart = Menu::create(GameStart, NULL);
-    gamestart->setPosition(Vec2::ZERO);
-    this->addChild(gamestart, 1);
+     
    
     
-=======
-=======
-   
-    
->>>>>>> Stashed changes
->>>>>>> hjr
     return true;
 }
 
@@ -234,17 +193,12 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 
 
 }
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> hjr
+
 void AutoChess::menuGameStart(Ref* pSender)   //¿ªÊ¼ÓÎÏ·
 {
     _director->replaceScene(scene1::createScene());
 }
-<<<<<<< HEAD
-=======
+
 void AutoChess::menuHelp(Ref* pSender)   //°ïÖú
 {
     _director->replaceScene(HelpScene::createScene());
@@ -253,5 +207,4 @@ void AutoChess::menuSetting(Ref* pSender)   //°ïÖú
 {
     _director->replaceScene(SettingScene::createScene());
 }
->>>>>>> Stashed changes
->>>>>>> hjr
+

@@ -17,11 +17,7 @@ static void problemLoading(const char* filename)
 }
 bool scene1::init()
 {
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> hjr
+
     if (!Scene::init())
     {
         return false;
@@ -29,7 +25,7 @@ bool scene1::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-<<<<<<< HEAD
+
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
@@ -52,7 +48,7 @@ bool scene1::init()
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-=======
+
 
     /*---------------------MenuItemImage BackInScene1----------------------*/
     auto BackInScene1 = MenuItemImage::create(
@@ -77,7 +73,7 @@ bool scene1::init()
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
     
->>>>>>> hjr
+
     
     auto person = Chess::createChess("person.jpg", 0, 0);
     
@@ -89,10 +85,7 @@ bool scene1::init()
    // this->scheduleUpdate();
     person->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
     person1->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> hjr
+
     return true;
 
   
