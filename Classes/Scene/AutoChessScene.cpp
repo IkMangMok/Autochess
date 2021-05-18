@@ -24,6 +24,9 @@
 
 #include "AutoChessScene.h"
 #include"scene1.h"
+#include "HelpScene.h"
+#include "SettingScene.h"
+
 USING_NS_CC;
 
 Scene* AutoChess::createScene()
@@ -56,6 +59,7 @@ bool AutoChess::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
+    /*----------------MenuItemImage closeItem---------------------*/
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -79,13 +83,90 @@ bool AutoChess::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+    /*----------------MenuItemImage GameStart 开始游戏---------------------*/
+    auto GameStart = MenuItemImage::create(
+        "GameStart.jpg",
+        "GameStart.jpg",
+        CC_CALLBACK_1(AutoChess::menuGameStart, this));
+
+    if (GameStart == nullptr ||
+        GameStart->getContentSize().width <= 0 ||
+        GameStart->getContentSize().height <= 0)
+    {
+        problemLoading("'GameStart.jpg' and 'GameStart.jpg'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + GameStart->getContentSize().height / 2 + visibleSize.height / 2;
+        GameStart->setPosition(Vec2(x, y));
+    }
+
+    auto gamestart = Menu::create(GameStart, NULL);
+    gamestart->setPosition(Vec2::ZERO);
+    this->addChild(gamestart, 1);
+
+    /*----------------MenuItemImage Help 帮助---------------------*/
+    auto Help = MenuItemImage::create(
+        "Help.png",
+        "Help.png",
+        CC_CALLBACK_1(AutoChess::menuHelp, this));
+
+    if (Help == nullptr ||
+        Help->getContentSize().width <= 0 ||
+        Help->getContentSize().height <= 0)
+    {
+        problemLoading("'Help.png' and 'Help.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y +  visibleSize.height / 2 - 60;
+        Help->setPosition(Vec2(x, y));
+    }
+
+    auto menuhelp = Menu::create(Help, NULL);
+    menuhelp->setPosition(Vec2::ZERO);
+    this->addChild(menuhelp, 1);
+
+    /*----------------MenuItemImage Setting 设置---------------------*/
+    auto Setting = MenuItemImage::create(
+        "Setting.png",
+        "Setting.png",
+        CC_CALLBACK_1(AutoChess::menuSetting, this));
+
+    if (Setting == nullptr ||
+        Setting->getContentSize().width <= 0 ||
+        Setting->getContentSize().height <= 0)
+    {
+        problemLoading("'Setting.png' and 'Setting.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + visibleSize.height / 2 - 150;
+        Setting->setPosition(Vec2(x, y));
+    }
+
+    auto menusetting = Menu::create(Setting, NULL);
+    menusetting->setPosition(Vec2::ZERO);
+    this->addChild(menusetting, 1);
+
     /////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
 
+<<<<<<< HEAD
     auto label = Label::createWithTTF("AutoChess", "fonts/Marker Felt.ttf", 24);
+=======
+<<<<<<< Updated upstream
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+=======
+    auto label = Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 24);
+>>>>>>> Stashed changes
+>>>>>>> hjr
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -99,6 +180,7 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+<<<<<<< HEAD
      auto GameStart = MenuItemImage::create(           
                                            "GameStart.jpg",
                                            "GameStart.jpg",
@@ -107,6 +189,13 @@ bool AutoChess::init()
     if (GameStart == nullptr ||
         GameStart->getContentSize().width <= 0 ||
         GameStart->getContentSize().height <= 0)
+=======
+<<<<<<< Updated upstream
+
+    // add "AutoChess" splash screen"
+    auto sprite = Sprite::create("HelloWorld.png");
+    if (sprite == nullptr)
+>>>>>>> hjr
     {
         problemLoading("'GameStart.jpg' and 'GameStart.jpg'");
     }
@@ -116,12 +205,19 @@ bool AutoChess::init()
         float y = origin.y + GameStart->getContentSize().height / 2 + visibleSize.height / 2;
         GameStart->setPosition(Vec2(x,y));
     }
+<<<<<<< HEAD
 
     auto gamestart = Menu::create(GameStart, NULL);
     gamestart->setPosition(Vec2::ZERO);
     this->addChild(gamestart, 1);
    
     
+=======
+=======
+   
+    
+>>>>>>> Stashed changes
+>>>>>>> hjr
     return true;
 }
 
@@ -138,7 +234,24 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 
 
 }
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> hjr
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
     _director->replaceScene(scene1::createScene());
 }
+<<<<<<< HEAD
+=======
+void AutoChess::menuHelp(Ref* pSender)   //帮助
+{
+    _director->replaceScene(HelpScene::createScene());
+}
+void AutoChess::menuSetting(Ref* pSender)   //帮助
+{
+    _director->replaceScene(SettingScene::createScene());
+}
+>>>>>>> Stashed changes
+>>>>>>> hjr
