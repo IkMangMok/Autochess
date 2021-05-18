@@ -85,7 +85,7 @@ bool AutoChess::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("AutoChess", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -99,21 +99,29 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+     auto GameStart = MenuItemImage::create(           
+                                           "GameStart.jpg",
+                                           "GameStart.jpg",
+                                           CC_CALLBACK_1(AutoChess::menuGameStart, this));
 
-    // add "AutoChess" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
+    if (GameStart == nullptr ||
+        GameStart->getContentSize().width <= 0 ||
+        GameStart->getContentSize().height <= 0)
     {
-        problemLoading("'HelloWorld.png'");
+        problemLoading("'GameStart.jpg' and 'GameStart.jpg'");
     }
     else
     {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + GameStart->getContentSize().height / 2 + visibleSize.height / 2;
+        GameStart->setPosition(Vec2(x,y));
     }
+
+    auto gamestart = Menu::create(GameStart, NULL);
+    gamestart->setPosition(Vec2::ZERO);
+    this->addChild(gamestart, 1);
+   
+    
     return true;
 }
 
@@ -121,7 +129,7 @@ bool AutoChess::init()
 void AutoChess::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
-    _director->replaceScene(scene1::createScene());
+    Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
 
@@ -129,4 +137,8 @@ void AutoChess::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+void AutoChess::menuGameStart(Ref* pSender)   //¿ªÊ¼ÓÎÏ·
+{
+    _director->replaceScene(scene1::createScene());
 }

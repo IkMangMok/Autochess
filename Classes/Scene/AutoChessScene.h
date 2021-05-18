@@ -36,7 +36,7 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
+    void menuGameStart(cocos2d::Ref* pSender);
     // implement the "static create()" method manually
     CREATE_FUNC(AutoChess);
 };
