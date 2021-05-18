@@ -7,6 +7,6 @@ class scene1 : public cocos2d::Scene {
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
-	void menuCloseCallback(cocos2d::Ref* pSender);
+	void scene1Back(cocos2d::Ref* pSender);
 	CREATE_FUNC(scene1);
 };
