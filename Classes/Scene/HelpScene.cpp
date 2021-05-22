@@ -2,6 +2,7 @@
 #include<iostream>
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
+#include "Timer/RoundTimer.h"
 
 using namespace std;
 USING_NS_CC;
@@ -64,6 +65,12 @@ bool HelpScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+
+    /*-------------------RoundTimer test_timer---------------*/
+    RoundTimer* test_timer = RoundTimer::create(300);
+    test_timer->setPosition(50, 50);
+    this->addChild(test_timer);
+
 
     return true;
 
