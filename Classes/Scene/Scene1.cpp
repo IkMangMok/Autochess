@@ -41,19 +41,48 @@ bool scene1::init()
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
     
+<<<<<<< Updated upstream
+=======
+    /*------------------------TMXTiledMap _tileMap---------------------*/
+    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+    _tileMap->setPosition(origin.x, origin.y);
+    this->addChild(_tileMap);
+
+
+    /*-----------------------Chess test_chess_1------------------------*/
+    auto test_chess_1 = Chess::create("test_chess_1.png");
+    test_chess_1->setPosition(112, 112);
+    this->addChild(test_chess_1, 0);
+
+
+    /*-----------------------Chess test_chess_2------------------------*/
+    auto test_chess_2 = Chess::create("test_chess_2.png");
+    test_chess_2->setPosition(112, 176);
+    this->addChild(test_chess_2, 0);
+
+>>>>>>> Stashed changes
     
-    auto person = Chess::createChess("person.jpg", 0, 0);
+    /*-----------------------Chess person------------------------*/
+    //auto person = Chess::createChess("person.jpg", 0, 0);
     
-    this->addChild(person, 0);
+    //this->addChild(person, 0);
    // this->scheduleUpdate();
-    
-    auto person1 = Chess::createChess("person.jpg", 500, 500);
-    this->addChild(person1, 0);
+    /*-----------------------Chess person------------------------*/
+    //auto person1 = Chess::createChess("person.jpg", 500, 500);
+   // this->addChild(person1, 0);
    // this->scheduleUpdate();
+<<<<<<< Updated upstream
     person->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
     person1->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
 >>>>>>> Stashed changes
     return true;
+=======
+    //person->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
+   // person1->schedule(CC_SCHEDULE_SELECTOR(Chess::scan), 0.01f);
+
+    return true;
+
+>>>>>>> Stashed changes
 }
 
 void scene1::scene1Back(cocos2d::Ref* pSender)
