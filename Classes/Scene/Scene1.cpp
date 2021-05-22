@@ -15,7 +15,15 @@ static void problemLoading(const char* filename)
 }
 bool scene1::init()
 {
+<<<<<<< Updated upstream
     
+=======
+
+    if (!Scene::init())
+    {
+        return false;
+    }
+>>>>>>> Stashed changes
  
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -63,10 +71,11 @@ bool scene1::init()
         BackInScene1->setPosition(Vec2(x, y));
     }
 
-    auto back_in_scene1 = Menu::create(BackInScene1, NULL);
+    auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //·µ»Ø°´Å¥
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
     
+<<<<<<< Updated upstream
 
     
     auto person = Chess::createChess("person.jpg", 0, 0);
@@ -81,6 +90,25 @@ bool scene1::init()
     ccArrayAppendObject(pArray, person);
     ccArrayAppendObject(pArray, person1);
     ccArrayAppendObject(pArray, person2);
+=======
+    /*------------------------TMXTiledMap _tileMap---------------------*/
+    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+    _tileMap->setPosition(origin.x, origin.y);
+    this->addChild(_tileMap);
+    
+    auto person = Chess::createChess("test_chess_1.png", 112, 112);
+    this->addChild(person, 0);
+    person->scheduleUpdate();
+    auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
+    this->addChild(person1, 0);
+    person1->scheduleUpdate();
+  //  auto person2 = Chess::createChess("person.jpg", 1000, 200);
+   // this->addChild(person2, 0);
+   // person2->scheduleUpdate();
+    ccArrayAppendObject(pArray, person);
+    ccArrayAppendObject(pArray, person1);
+ //   ccArrayAppendObject(pArray, person2);
+>>>>>>> Stashed changes
     this->scheduleUpdate();
     return true;
     

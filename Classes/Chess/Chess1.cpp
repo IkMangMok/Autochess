@@ -10,7 +10,11 @@ Chess* Chess::createChess(string picture_name, float x1 = 0., float y1 = 0.)
 
 	auto chess = new  Chess();
 	chess->set(x1, y1);
+<<<<<<< Updated upstream
 	auto temp = Sprite::create("person.jpg");
+=======
+	auto temp = Sprite::create(picture_name);
+>>>>>>> Stashed changes
 
 	chess->addChild(temp);
 	chess->setPosition(chess->x, chess->y);
