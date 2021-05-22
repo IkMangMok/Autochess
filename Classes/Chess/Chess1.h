@@ -7,16 +7,19 @@ using namespace std;
 
 class Chess :public Sprite {
 private:
-	int AttackDistance = 0;  //攻击距离
-	int Health = 0;          //生命值
-	int Armor = 0;           //护甲
+	int AttackDistance;  //攻击距离
+	int Health;          //生命值
+	int Armor;           //护甲
+	float AttackSpeed;   //攻击速度
 	float x = 0.;           //位置
 	float y = 0.;
+	
+	
 public:
 	//virtual bool init();
-	static Chess* create(const char * picture_filename);
-	void scan(float dt);       //移动
+	Chess* AttackTarget = NULL;   //攻击目标
+	static Chess* createChess(string picture_name, float x, float y);
 	void set(float x, float y);
-
-	
+	void set(Point point);
+	Point getPosition();
 };

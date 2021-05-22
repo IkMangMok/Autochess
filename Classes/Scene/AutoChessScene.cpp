@@ -174,9 +174,7 @@ bool AutoChess::init()
         this->addChild(label, 1);
     }
 
-     
-   
-    
+
     return true;
 }
 
