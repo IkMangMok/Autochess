@@ -78,9 +78,11 @@ bool scene1::init()
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     
+   //auto person = Chess::createChess("test_chess_1.png", 112, 112);
     auto person = Chess::createChess("test_chess_1.png", 112, 112);
     this->addChild(person, 0);
     person->scheduleUpdate();
+    //auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
     auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
     this->addChild(person1, 0);
     person1->scheduleUpdate();
@@ -109,9 +111,9 @@ void scene1::ChessMove(Chess *chess)
     float distance = 9999999;
     if (chess->AttackTarget == NULL)    //如果已经有攻击目标则不搜寻
     {
-        for (int i = 0; i < pArray->num; i++)
+        for (int i = 0; i < (pArray->num); i++)
         {
-            auto temp = pArray->arr[i];
+            auto temp = (pArray->arr[i]);
             Point atemp = ((Chess*)temp)->getPosition();
             int distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
                 (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离

@@ -194,7 +194,9 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
-    _director->replaceScene(scene1::createScene());
+    global_data->GameStartInit(); //初始化全局数据
+
+    _director->replaceScene(scene1::createScene());  //切换场景
 }
 
 void AutoChess::menuHelp(Ref* pSender)   //帮助
