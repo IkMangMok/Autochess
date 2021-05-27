@@ -21,10 +21,10 @@ bool scene1::init()
         return false;
     }
 
- 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    /*---------------MenuItemImage* closeItem--------------*/
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
@@ -42,6 +42,7 @@ bool scene1::init()
         float y = origin.y + closeItem->getContentSize().height / 2;
         closeItem->setPosition(Vec2(x, y));
     }
+
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -71,7 +72,10 @@ bool scene1::init()
     auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
-    
+
+    /*-------------------RoundTimer test_timer---------------*/
+    test_timer->setPosition(50, 50);
+    this->addChild(test_timer);
 
     /*------------------------TMXTiledMap _tileMap---------------------*/
     auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
@@ -79,11 +83,9 @@ bool scene1::init()
     this->addChild(_tileMap);
     
    //auto person = Chess::createChess("test_chess_1.png", 112, 112);
-    auto person = Chess::createChess("test_chess_1.png", 112, 112);
     this->addChild(person, 0);
     person->scheduleUpdate();
     //auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
-    auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
     this->addChild(person1, 0);
     person1->scheduleUpdate();
   //  auto person2 = Chess::createChess("person.jpg", 1000, 200);
@@ -103,9 +105,8 @@ void scene1::scene1Back(cocos2d::Ref* pSender)
     _director->replaceScene(AutoChess::createScene());
 } 
 
-void scene1::ChessMove(Chess *chess)
+void scene1::ChessMove(Chess* chess)
 {
-    
     Point a(0, 0);
     Point chessPosition = chess->getPosition();
     float distance = 9999999;
@@ -123,24 +124,36 @@ void scene1::ChessMove(Chess *chess)
                 a = atemp;
                 chess->AttackTarget = (Chess*)temp;
             }
+
         }
     }
     else
     {
-        distance= sqrt((chess->AttackTarget->getPosition().x - chessPosition.x)
+        distance = sqrt((chess->AttackTarget->getPosition().x - chessPosition.x)
             * (chess->AttackTarget->getPosition().x - chessPosition.x) +
             (chess->AttackTarget->getPosition().y - chessPosition.y)
             * (chess->AttackTarget->getPosition().y - chessPosition.y));
     }
     /*移动，以1e-2为单位移动
     */
-    chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  
+    chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);
     chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  //将新位置传入类中
+
 }
 void scene1::update(float dt)
 {
-    for (int i = 0; i < pArray->num; i++)
+    if (test_timer->pTime > 0)
+        ;
+    else
     {
-        ChessMove((Chess*)(pArray->arr[i]));
-    } 
+        test_timer->setPosition(10000, 10000);
+
+        for (int i = 0; i < pArray->num; i++)
+        {
+            ChessMove((Chess*)(pArray->arr[i]));
+        }
+
+        ;
+    }
+
 }
