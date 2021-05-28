@@ -71,20 +71,7 @@ bool scene1::init()
     auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
-<<<<<<< Updated upstream
-    
 
-    /*------------------------TMXTiledMap _tileMap---------------------*/
-    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
-    _tileMap->setPosition(origin.x, origin.y);
-    this->addChild(_tileMap);
-    
-    auto person = Chess::createChess("test_chess_1.png", 112, 112);
-    this->addChild(person, 0);
-    person->scheduleUpdate();
-    auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
-=======
-    
 
     /*------------------------TMXTiledMap _tileMap---------------------*/
     auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
@@ -95,7 +82,7 @@ bool scene1::init()
     this->addChild(person, 0);
    
     auto person1 = TestChess::createChess("test_chess_2.png", 112, 176);
->>>>>>> Stashed changes
+
     this->addChild(person1, 0);
     
     auto person2 = Chess::createChess("test_chess_1.png", 1000, 200);
@@ -146,17 +133,6 @@ void scene1::ChessMove(Chess *chess)
     }
     /*移动，以1e-2为单位移动
     */
-<<<<<<< Updated upstream
-    chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  
-    chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  //将新位置传入类中
-}
-void scene1::update(float dt)
-{
-    for (int i = 0; i < pArray->num; i++)
-    {
-        ChessMove((Chess*)(pArray->arr[i]));
-    } 
-=======
     if (chess->AttackTarget == NULL)  //无攻击目标则结束
     {
         return;
@@ -220,7 +196,7 @@ void scene1::onMouseDown(Event* event)
                 MouseToChess = i;    //确定选取的棋子
         }
     }
->>>>>>> Stashed changes
+
 }
 
 void scene1::onMouseUp(Event* event)

@@ -22,6 +22,7 @@ public:
 private:
 	float pTime = 100;
 	cocos2d::Label* label;
+	friend class scene1;
 };
 
 #endif
