@@ -21,6 +21,18 @@ bool scene1::init()
         return false;
     }
 
+<<<<<<< Updated upstream
+=======
+    /*初始化：
+    visibleSize
+    MenuItemImage/Menu
+    Player
+    TMXTiledMap
+    RoundTimer
+    Chess
+    */
+ 
+>>>>>>> Stashed changes
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -55,7 +67,6 @@ bool scene1::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-
     /*---------------------MenuItemImage BackInScene1----------------------*/
     auto BackInScene1 = MenuItemImage::create(
         "BackToMenu.png",
@@ -79,6 +90,7 @@ bool scene1::init()
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
 
+<<<<<<< Updated upstream
     /*-------------------RoundTimer test_timer---------------*/
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
@@ -93,6 +105,35 @@ bool scene1::init()
    // this->addChild(person2, 0);
    // person2->scheduleUpdate();
     ccArrayAppendObject(pArray, person);
+=======
+
+    /*------------------------TMXTiledMap _tileMap---------------------*/
+    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+    _tileMap->setPosition(origin.x, origin.y);
+    this->addChild(_tileMap);
+
+    /*-----------------------RoundTimer* test_timer-------------------*/
+    this->addChild(test_timer, 1);
+
+    /*---------------------Player thisPlayer-------------------*/
+    auto thisPlayer = Player::createPlayer();
+    this->addChild(thisPlayer);
+
+    /*----------------------Chess* person-----------------------------*/
+    auto person = Chess::createChess("test_chess_1.png", 1120, 1120);
+    this->addChild(person, 0);
+   
+    /*---------------------Chess* person1-----------------------------*/
+    auto person1 = Chess::createChess("test_chess_2.png", 112, 176);
+    this->addChild(person1, 0);
+    
+    /*--------------------Chess* person2-----------------------------*/
+    auto person2 = Chess::createChess("test_chess_1.png", 1000, 200);
+    this->addChild(person2, 0);
+   // person2->scheduleUpdate();
+
+    ccArrayAppendObject(pArray, person);  //将棋子放入数组中
+>>>>>>> Stashed changes
     ccArrayAppendObject(pArray, person1);
  //   ccArrayAppendObject(pArray, person2);
 

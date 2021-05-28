@@ -6,10 +6,16 @@
 #include "Data/GameData.h"
 #include "Timer/RoundTimer.h"
 
+<<<<<<< Updated upstream
 extern GameData* global_data;
 
 class scene1 : public AutoChess 
 {
+=======
+
+
+class scene1 : public AutoChess {
+>>>>>>> Stashed changes
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
