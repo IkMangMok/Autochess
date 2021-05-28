@@ -27,6 +27,7 @@
 #include "HelpScene.h"
 #include "SettingScene.h"
 
+
 USING_NS_CC;
 
 Scene* AutoChess::createScene()
@@ -173,7 +174,6 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-
 
     return true;
 }

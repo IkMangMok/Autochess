@@ -24,6 +24,12 @@ bool scene1::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+
+    /*------------------------TMXTiledMap _tileMap---------------------*/
+    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+    _tileMap->setPosition(origin.x, origin.y);
+    this->addChild(_tileMap);
+
     /*---------------MenuItemImage* closeItem--------------*/
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
@@ -76,11 +82,6 @@ bool scene1::init()
     /*-------------------RoundTimer test_timer---------------*/
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
-
-    /*------------------------TMXTiledMap _tileMap---------------------*/
-    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
-    _tileMap->setPosition(origin.x, origin.y);
-    this->addChild(_tileMap);
     
    //auto person = Chess::createChess("test_chess_1.png", 112, 112);
     this->addChild(person, 0);
@@ -96,6 +97,13 @@ bool scene1::init()
  //   ccArrayAppendObject(pArray, person2);
 
     this->scheduleUpdate();  //两个棋子会互相搜索到对方 
+
+
+    /*------------------Sprite ShopFrame---------------------*/
+
+    this->addChild(ShopFrame);
+    ShopFrame->setPosition(350, 225);
+
     return true;
     
 }
@@ -139,6 +147,8 @@ void scene1::ChessMove(Chess* chess)
     chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);
     chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  //将新位置传入类中
 
+    //if (distance < 1e-2)
+        //_director->replaceScene(VictoryScene::createVictoryScene());             //for test
 }
 void scene1::update(float dt)
 {
@@ -153,7 +163,7 @@ void scene1::update(float dt)
             ChessMove((Chess*)(pArray->arr[i]));
         }
 
-        ;
+        
     }
 
 }

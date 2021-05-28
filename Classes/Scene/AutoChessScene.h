@@ -27,6 +27,7 @@
 
 #include "cocos2d.h"
 #include "Data/GameData.h"
+
 ;
 class AutoChess : public cocos2d::Scene
 {

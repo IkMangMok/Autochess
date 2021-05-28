@@ -72,11 +72,11 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    auto director = Director::getInstance();
+    auto director = Director::getInstance();              //此处为导演类指针
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("AutoChess", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("AutoChess", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));  //初始化使用designResolutionSize
 #else
         glview = GLViewImpl::create("AutoChess");
 #endif
@@ -84,13 +84,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(true);            //display FPS at bottom-left corner
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0f / 60);
+    director->setAnimationInterval(1.0f / 60);   
 
     // Set the design resolution
-    //稍作修改
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
@@ -112,8 +111,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
+    /*------------------AutoChess(:public Scene) scene ----------------------*/
     auto scene = AutoChess::createScene();
-
     // run
     director->runWithScene(scene);
     
