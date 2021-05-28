@@ -63,7 +63,13 @@ list(APPEND GAME_SOURCE
      Classes/Scene/SettingScene.cpp
      Classes/Player/Player.cpp
      Classes/Chess/Chess1.cpp
+     Classes/Chess/TestChess.cpp
      Classes/Timer/RoundTimer.cpp
+<<<<<<< Updated upstream
+=======
+     Classes/Data/GameData.cpp
+   
+>>>>>>> Stashed changes
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -73,7 +79,14 @@ list(APPEND GAME_HEADER
      Classes/Scene/SettingScene.h
      Classes/Player/Player.h
      Classes/Chess/Chess1.h
+     Classes/Chess/ChessFile.h
+     Classes/Chess/TestChess.h
      Classes/Timer/RoundTimer.h
+<<<<<<< Updated upstream
+=======
+     Classes/Data/GameData.h
+
+>>>>>>> Stashed changes
      )
 
 if(ANDROID)

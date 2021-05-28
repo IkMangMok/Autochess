@@ -20,7 +20,7 @@ public:
 	bool init(float time);
 
 private:
-	float pTime;
+	float pTime = 100;
 	cocos2d::Label* label;
 };
 
