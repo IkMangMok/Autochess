@@ -1,6 +1,4 @@
 #include"scene1.h"
-#include"AppDelegate.h"
-#include"AutoChessScene.h"
 
 USING_NS_CC;
 
@@ -72,27 +70,40 @@ bool scene1::init()
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
 
+    auto  BuyChess = MenuItemImage::create(
+        "buy.jpg", "buy.jpg", CC_CALLBACK_1(scene1::PlayerBuyChess, this));
+        
 
+    auto buychess = Menu::create(BuyChess, NULL);  //返回按钮
+    buychess->setPosition(Vec2(500, 500));
+    this->addChild(buychess, 1);
     /*------------------------TMXTiledMap _tileMap---------------------*/
     auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     this->addChild(test_timer, 1);
-    auto person = Chess::createChess("test_chess_1.png", 1120, 1120);
+ 
+   /* auto person = Chess::createChess("test_chess_1.png", Point(0,0));
     this->addChild(person, 0);
    
-    auto person1 = TestChess::createChess("test_chess_2.png", 112, 176);
+    auto person1 = TestChess::createChess("test_chess_2.png", 0, 0);
 
     this->addChild(person1, 0);
-    
-    auto person2 = Chess::createChess("test_chess_1.png", 1000, 200);
-    this->addChild(person2, 0);
+    */
+ //  auto person2 = Chess::createChess("test_chess_1.png", Point(0, 0));
+   /*this->addChild(person2, 0);
    // person2->scheduleUpdate();
     ccArrayAppendObject(pArray, person);  //将棋子放入数组中
     ccArrayAppendObject(pArray, person1);
-    ccArrayAppendObject(pArray, person2);
-
-    this->scheduleUpdate();  //两个棋子会互相搜索到对方 
+    ccArrayAppendObject(pArray, person2);*/
+  
+    
+    /*for (int i = 0; i < pArray->num; i++)
+    {
+        this->addChild(((Chess*)(pArray->arr[i])), 0);
+    }*/
+    
+    this->scheduleUpdate();  //棋子会互相搜索到对方 
     return true;
     
 }
@@ -147,9 +158,17 @@ void scene1::ChessMove(Chess *chess)
 }
 void scene1::update(float dt)
 {
-    if (test_timer->pTime > 0)
-    { 
+    if (test_timer->pTime > 0.1f)
+    {
         ChessMoveInMouse();   //移动棋子
+      
+    }
+    else if (fabs(test_timer->pTime) <= 0.1f)
+    {
+        for (int i = 0; i < pArray->num; i++)
+        {
+            ((Chess*)(pArray->arr[i]))->setTempPosition();
+        }
     }
     else
     {
@@ -159,8 +178,7 @@ void scene1::update(float dt)
         {
             ChessMove((Chess*)(pArray->arr[i]));
         }
-
-        ;
+        Win();
     }
 }
 void scene1::SceneMouseBack(cocos2d::Ref* pSender)
@@ -183,7 +201,7 @@ void scene1::onMouseDown(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
-    if ((int)e->getMouseButton() == 0)  //左键才触发
+    if ((int)e->getMouseButton() == 0&& test_timer->pTime > 0)  //左键才触发
     {
         for (int i = 0; i < pArray->num; i++)
         {
@@ -212,7 +230,7 @@ void scene1::onMouseMove(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
-    if (MouseToChess != -1)
+    if (MouseToChess != -1 && test_timer->pTime > 0)
     {
         ((Chess*)(pArray->arr[MouseToChess]))->setPosition(e->getCursorX(), e->getCursorY());
         ((Chess*)(pArray->arr[MouseToChess]))->set(e->getCursorX(), e->getCursorY());  //移动之
@@ -227,4 +245,33 @@ void scene1::onMouseScroll(Event* event)
     e->getScrollX();
     e->getScrollY();
 
+}
+
+void scene1::Win()
+{
+    int sum = 0;
+    for (int i = 0; i < pArray->num; i++)
+    {
+        sum += ((Chess*)(pArray->arr[i]))->Die();
+    }
+    if (sum == pArray->num - 1)          //由于未加入玩家系统，目前判断游戏结束的方法为只剩一个棋子，待加入玩家系统后再对其进行修改
+    {
+        for (int i = 0; i < pArray->num; i++)
+        {
+            ((Chess*)(pArray->arr[i]))->setPosition(((Chess*)(pArray->arr[i]))->getTempPosition());
+            ((Chess*)(pArray->arr[i]))->set(((Chess*)(pArray->arr[i]))->getTempPosition());   //回到备战时的位置
+        }
+        _director->replaceScene(scene1::createScene());
+    }
+    else
+        return;
+}
+
+void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
+{
+    auto temp = Chess::createChess("test_chess_1.png", Point(rand() % 1000, rand() % 1000));
+    temp->OfPlayer = player1;
+    this->addChild(temp, 2);
+    ccArrayAppendObject(pArray, temp);
+    //player1->BuyChess();
 }

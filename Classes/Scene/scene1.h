@@ -30,5 +30,10 @@ private:
 	void onMouseUp(Event* event);
 	void onMouseDown(Event* event);
 	int MouseToChess = -1;
+	friend class Chess;
 
+	void Win();  //判断打斗结束
+
+	//玩家买棋子
+	void PlayerBuyChess(cocos2d::Ref* pSender);
 };
