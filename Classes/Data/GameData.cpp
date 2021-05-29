@@ -3,7 +3,7 @@
 /*定义全局变量 global_data*/
 GameData* global_data = GameData::createGameData();
 ccArray* pArray = ccArrayNew(1000);
-
+Player* player1;
 GameData* GameData::createGameData()
 {
 	return GameData::create();
@@ -18,10 +18,10 @@ bool GameData::init()
 
 void GameData::GameStartInit()
 {
-	player_coin = 0;
+	/*player_coin = 0;
 	player_level = 1;
 	player_exe = 0;
-	player_blood = 100;
+	player_blood = 100;*/
 	game_turn = 0;
 
 }
