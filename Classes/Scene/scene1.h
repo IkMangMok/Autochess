@@ -3,18 +3,16 @@
 #include"AutoChessScene.h"
 #include"Player/Player.h"
 #include"Chess/Chess1.h"
-
 #include "Data/GameData.h"
 #include "Timer/RoundTimer.h"
 #include"Chess/TestChess.h"
-
+#include"AudioEngine.h"
 class scene1 : public AutoChess {
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 
 private:
-
 	RoundTimer* test_timer = RoundTimer::create(5);
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);

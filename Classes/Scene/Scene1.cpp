@@ -1,6 +1,11 @@
 #include"scene1.h"
+#include"AppDelegate.h"
+#include"AutoChessScene.h"
+#include "AudioEngine.h"
+#include<iostream>
 
 USING_NS_CC;
+using namespace std;
 
 Scene* scene1::createScene()
 {
@@ -11,6 +16,8 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
 }
+
+static int audioID;
 bool scene1::init()
 {
 
@@ -77,6 +84,7 @@ bool scene1::init()
     auto buychess = Menu::create(BuyChess, NULL);  //返回按钮
     buychess->setPosition(Vec2(500, 500));
     this->addChild(buychess, 1);
+
     /*------------------------TMXTiledMap _tileMap---------------------*/
     auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
     _tileMap->setPosition(origin.x, origin.y);
@@ -274,4 +282,53 @@ void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
     this->addChild(temp, 2);
     ccArrayAppendObject(pArray, temp);
     //player1->BuyChess();
+}
+
+
+void scene1::scene1Back(cocos2d::Ref* pSender)
+{
+    AudioEngine::stop(audioID);
+    _director->replaceScene(AutoChess::createScene());
+} 
+
+void scene1::ChessMove(Chess *chess)
+{
+    
+    Point a(0, 0);
+    Point chessPosition = chess->getPosition();
+    float distance = 9999999;
+    if (chess->AttackTarget == NULL)    //如果已经有攻击目标则不搜寻
+    {
+        for (int i = 0; i < pArray->num; i++)
+        {
+            auto temp = pArray->arr[i];
+            Point atemp = ((Chess*)temp)->getPosition();
+            int distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
+                (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
+            if (distanceTemp < distance && distanceTemp>0)  //确定攻击目标
+            {
+                distance = distanceTemp;
+                a = atemp;
+                chess->AttackTarget = (Chess*)temp;
+            }
+        }
+    }
+    else
+    {
+        distance= sqrt((chess->AttackTarget->getPosition().x - chessPosition.x)
+            * (chess->AttackTarget->getPosition().x - chessPosition.x) +
+            (chess->AttackTarget->getPosition().y - chessPosition.y)
+            * (chess->AttackTarget->getPosition().y - chessPosition.y));
+    }
+    /*移动，以1e-2为单位移动
+    */
+    chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  
+    chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  //将新位置传入类中
+}
+void scene1::update(float dt)
+{
+    for (int i = 0; i < pArray->num; i++)
+    {
+        ChessMove((Chess*)(pArray->arr[i]));
+    } 
 }
