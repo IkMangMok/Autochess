@@ -116,10 +116,6 @@ bool scene1::init()
     
 }
 
-void scene1::scene1Back(cocos2d::Ref* pSender)
-{
-    _director->replaceScene(AutoChess::createScene());
-} 
 
 void scene1::ChessMove(Chess *chess)
 {
@@ -291,44 +287,4 @@ void scene1::scene1Back(cocos2d::Ref* pSender)
     _director->replaceScene(AutoChess::createScene());
 } 
 
-void scene1::ChessMove(Chess *chess)
-{
-    
-    Point a(0, 0);
-    Point chessPosition = chess->getPosition();
-    float distance = 9999999;
-    if (chess->AttackTarget == NULL)    //如果已经有攻击目标则不搜寻
-    {
-        for (int i = 0; i < pArray->num; i++)
-        {
-            auto temp = pArray->arr[i];
-            Point atemp = ((Chess*)temp)->getPosition();
-            int distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
-                (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
-            if (distanceTemp < distance && distanceTemp>0)  //确定攻击目标
-            {
-                distance = distanceTemp;
-                a = atemp;
-                chess->AttackTarget = (Chess*)temp;
-            }
-        }
-    }
-    else
-    {
-        distance= sqrt((chess->AttackTarget->getPosition().x - chessPosition.x)
-            * (chess->AttackTarget->getPosition().x - chessPosition.x) +
-            (chess->AttackTarget->getPosition().y - chessPosition.y)
-            * (chess->AttackTarget->getPosition().y - chessPosition.y));
-    }
-    /*移动，以1e-2为单位移动
-    */
-    chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  
-    chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) * 1e-2);  //将新位置传入类中
-}
-void scene1::update(float dt)
-{
-    for (int i = 0; i < pArray->num; i++)
-    {
-        ChessMove((Chess*)(pArray->arr[i]));
-    } 
-}
+
