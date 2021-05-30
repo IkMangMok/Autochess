@@ -2,9 +2,10 @@
 #include<iostream>
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
-
+#include"AudioEngine.h"
 using namespace std;
 USING_NS_CC;
+static int audioID;
 
 Scene* SettingScene::createScene()
 {
@@ -65,11 +66,15 @@ bool SettingScene::init()
         this->addChild(label, 1);
     }
 
+    audioID = AudioEngine::play2d("init_music.mp3", true, 1.0f);
+
     return true;
 
 }
 
 void SettingScene::settingBack(cocos2d::Ref* pSender)
 {
+
+    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 }
