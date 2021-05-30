@@ -9,6 +9,7 @@ using namespace std;
 USING_NS_CC;
 static int audioID;
 
+
 Scene* HelpScene::createScene()
 {
     return HelpScene::create();
@@ -53,7 +54,7 @@ bool HelpScene::init()
 
 
     /*-------------------Lable Help---------------*/
-    auto label = Label::createWithTTF("Help", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Help", "fonts/Marker Felt.ttf", 48);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -73,13 +74,16 @@ bool HelpScene::init()
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
 
-    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
+    auto sprite1 = Sprite::create("help_bg.jpg");
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
+
+
     return true;
 
 }
 
 void HelpScene::helpBack(cocos2d::Ref* pSender)
 {
-    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 }

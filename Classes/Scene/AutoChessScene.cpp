@@ -27,6 +27,7 @@
 #include "HelpScene.h"
 #include "SettingScene.h"
 
+
 USING_NS_CC;
 static int audioID;
 Scene* AutoChess::createScene()
@@ -173,7 +174,12 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
+
+    auto sprite1 = Sprite::create("startbg.png");
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
+    //audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
+
     return true;
 }
 
@@ -181,7 +187,9 @@ bool AutoChess::init()
 void AutoChess::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
-    AudioEngine::end();
+
+    //AudioEngine::end();
+
     Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
@@ -194,18 +202,20 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
-    AudioEngine::stop(audioID);
+    global_data->GameStartInit(); //初始化全局数据
+
     _director->replaceScene(scene1::createScene());
+
 }
 
 void AutoChess::menuHelp(Ref* pSender)   //帮助
 {
-    AudioEngine::stop(audioID);
+
     _director->replaceScene(HelpScene::createScene());
 }
 void AutoChess::menuSetting(Ref* pSender)   //帮助
 {
-    AudioEngine::stop(audioID);
+
     _director->replaceScene(SettingScene::createScene());
 }
 
