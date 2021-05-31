@@ -115,7 +115,32 @@ bool scene1::init()
         nameLabel->setPosition(Vec2(origin.x+ nameLabel->getContentSize().width+40,origin.y + visibleSize.height - nameLabel->getContentSize().height));
         this->addChild(nameLabel, 1);
     }
-    
+    auto bloodFrame = Sprite::create("BloodFrame.png");   //创建进度框
+    bloodFrame->setPosition(Point(230, visibleSize.height - 60)); //设置框的位置
+    this->addChild(bloodFrame);            //加到默认图层里面去
+    ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.png"));//创建一个进程条
+    Blood->setBarChangeRate(Point(1, 0));//设置进程条的变化速率
+    Blood->setType(ProgressTimer::Type::BAR);//设置进程条的类型
+    Blood->setMidpoint(Point(0, 1));//设置进度的运动方向
+    Blood->setPosition(Point(230, visibleSize.height - 60));
+
+    float lifespan = 50.0f;//后续根据伤害来改
+
+    Blood->setPercentage(lifespan);//设置初始值为0
+    this->addChild(Blood);
+
+    int length = (int)lifespan;
+    string life = to_string(length);
+    auto lifeLabel = Label::createWithTTF(life, "fonts/Marker Felt.ttf", 20);
+    if (lifeLabel == nullptr)
+    {
+        problemLoading("'fonts/Marker Felt.ttf'");
+    }
+    else
+    {
+        lifeLabel->setPosition(Point(230, visibleSize.height - 85));
+        this->addChild(lifeLabel, 1);
+    }
    
 
 
