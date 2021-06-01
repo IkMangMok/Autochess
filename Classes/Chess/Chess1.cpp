@@ -1,6 +1,7 @@
 #include"Chess1.h"
 #include<string>
 #include"cocos2d.h"
+<<<<<<< HEAD
 #include"AppDelegate.h"
 using namespace cocos2d;
 using namespace std;
@@ -11,13 +12,28 @@ Chess* Chess::createChess(string picture_name, Point point = Point(0, 0))
 
 	auto chess = new  Chess();
 	chess->set(point);
+=======
+using namespace cocos2d;
+using namespace std;
+USING_NS_CC;
+#define schedule_selector(_SELECTOR) static_cast(&_SELECTOR)
+Chess* Chess::createChess(string picture_name, float x1 = 0., float y1 = 0.)
+{
+
+	auto chess = new  Chess();
+	chess->set(x1, y1);
+>>>>>>> lx
 
 	auto temp = Sprite::create(picture_name);
 
 	chess->addChild(temp);
 	chess->setPosition(chess->x, chess->y);
+<<<<<<< HEAD
 	chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / chess->AttackSpeed);
    // chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Move), 1.f / 60);
+=======
+	chess->scheduleUpdate();
+>>>>>>> lx
 	chess->autorelease();
 	return chess;
 	
@@ -40,6 +56,7 @@ Point Chess::getPosition()
 	return Point(x, y);
 }
 
+<<<<<<< HEAD
 void Chess::Attack(float dt)
 {
   //  if (test_timer->pTime <= 0)
@@ -129,3 +146,5 @@ Point Chess::getTempPosition()
 {
     return Point(xtemp, ytemp);
 }
+=======
+>>>>>>> lx
