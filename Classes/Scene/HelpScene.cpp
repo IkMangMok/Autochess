@@ -3,9 +3,12 @@
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
 #include "Timer/RoundTimer.h"
+#include"AudioEngine.h"
 
 using namespace std;
 USING_NS_CC;
+static int audioID;
+
 
 Scene* HelpScene::createScene()
 {
@@ -40,8 +43,8 @@ bool HelpScene::init()
     }
     else
     {
-        float x = origin.x + visibleSize.width;
-        float y = origin.y + BackInHelp->getContentSize().height + visibleSize.height;
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + BackInHelp->getContentSize().height / 2 + visibleSize.height / 2;
         BackInHelp->setPosition(Vec2(x, y));
     }
 
@@ -70,7 +73,7 @@ bool HelpScene::init()
     RoundTimer* test_timer = RoundTimer::create(300);
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
-
+    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
 
     return true;
 
@@ -78,5 +81,7 @@ bool HelpScene::init()
 
 void HelpScene::helpBack(cocos2d::Ref* pSender)
 {
+
+    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 }

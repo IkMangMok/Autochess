@@ -26,12 +26,12 @@
 #define __AutoChess_SCENE_H__
 
 #include "cocos2d.h"
+#include "Data/GameData.h"
 ;
 class AutoChess : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-
     virtual bool init();
     
     // a selector callback
@@ -41,8 +41,7 @@ public:
     void menuGameStart(cocos2d::Ref* pSender);
     void menuHelp(cocos2d::Ref* pSender);
     void menuSetting(cocos2d::Ref* pSender);
-//>>>>>>> Stashed changes
-//>>>>>>> hjr
+
     // implement the "static create()" method manually
     CREATE_FUNC(AutoChess);
 };
