@@ -124,7 +124,7 @@ bool scene1::init()
     Blood->setMidpoint(Point(0, 1));//设置进度的运动方向
     Blood->setPosition(Point(230, visibleSize.height - 60));
 
-    float lifespan = 50.0f;//后续根据伤害来改
+    float lifespan = 75.0f;//后续根据伤害来改
 
     Blood->setPercentage(lifespan);//设置初始值为0
     this->addChild(Blood);
