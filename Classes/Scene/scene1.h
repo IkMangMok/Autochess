@@ -17,6 +17,7 @@ private:
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);
 
+	void chessStore();
 	void update(float dt);
 	CREATE_FUNC(scene1);
 	
