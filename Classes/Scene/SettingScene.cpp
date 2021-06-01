@@ -2,16 +2,10 @@
 #include<iostream>
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
-<<<<<<< HEAD
 #include"AudioEngine.h"
 using namespace std;
 USING_NS_CC;
 static int audioID;
-=======
-
-using namespace std;
-USING_NS_CC;
->>>>>>> lx
 
 Scene* SettingScene::createScene()
 {
@@ -38,7 +32,7 @@ bool SettingScene::init()
         "BackToMenu.png",
         CC_CALLBACK_1(SettingScene::settingBack, this));
 
-    if (BackInSetting == nullptr ||
+   if (BackInSetting == nullptr ||
         BackInSetting ->getContentSize().width <= 0 ||
         BackInSetting ->getContentSize().height <= 0)
     {
@@ -48,16 +42,28 @@ bool SettingScene::init()
     {
         float x = origin.x + visibleSize.width / 2;
         float y = origin.y + BackInSetting->getContentSize().height / 2 + visibleSize.height / 2;
-        BackInSetting->setPosition(Vec2(x, y));
+        BackInSetting->setPosition(Vec2(x, y+100));
     }
 
-    auto back_in_setting = Menu::create(BackInSetting, NULL);
+
+    auto back_in_setting = Menu::create(BackInSetting,NULL);
     back_in_setting->setPosition(Vec2::ZERO);
     this->addChild(back_in_setting, 1);
 
+    /*--------------------Music Switch--------------*/
+    auto soundoff = MenuItemImage::create("music_off.png", "music_off.png", CC_CALLBACK_1(SettingScene::MusicEnd, this));
+    auto SoundOff = Menu::create(soundoff, NULL);
+    SoundOff->setPosition(800, 300);
+    this->addChild(SoundOff, 1);
+
+    auto soundon = MenuItemImage::create("music_on.png", "music_on.png", CC_CALLBACK_1(SettingScene::MusicOn, this));
+    auto SoundOn = Menu::create(soundon, NULL);
+    SoundOff->setPosition(800, 300);
+    this->addChild(SoundOn, 1);
+
 
     /*-------------------Lable Help---------------*/
-    auto label = Label::createWithTTF("Setting", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Setting", "fonts/Marker Felt.ttf", 48);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -72,23 +78,25 @@ bool SettingScene::init()
         this->addChild(label, 1);
     }
 
-<<<<<<< HEAD
-    audioID = AudioEngine::play2d("init_music.mp3", true, 1.0f);
+    auto sprite1 = Sprite::create("help_bg.jpg");
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
 
-=======
->>>>>>> lx
+
+
     return true;
 
 }
 
 void SettingScene::settingBack(cocos2d::Ref* pSender)
 {
-<<<<<<< HEAD
-
-    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 }
-=======
-    _director->replaceScene(AutoChess::createScene());
+void SettingScene::MusicEnd(cocos2d::Ref* pSender)
+{
+    AudioEngine::pauseAll();
 }
->>>>>>> lx
+void SettingScene::MusicOn(cocos2d::Ref* pSender)
+{
+    AudioEngine::resumeAll();
+}

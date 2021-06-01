@@ -20,15 +20,10 @@ public:
 	bool init(float time);
 
 private:
-<<<<<<< HEAD
 	float pTime = 100;
 	cocos2d::Label* label;
 	friend class scene1;
 	friend class Chess;
-=======
-	float pTime;
-	cocos2d::Label* label;
->>>>>>> lx
 };
 
 #endif
