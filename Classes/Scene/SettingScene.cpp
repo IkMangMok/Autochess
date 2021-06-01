@@ -78,11 +78,29 @@ bool SettingScene::init()
         this->addChild(label, 1);
     }
 
+<<<<<<< Updated upstream
     auto sprite1 = Sprite::create("help_bg.jpg");
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
 
 
+=======
+    /*--------------------Music Switch-------------*/
+    auto sound_on = MenuItemImage::create("music_on.png", "music_on.png", CC_CALLBACK_1(SettingScene::musicOn, this));
+    auto SoundOn = Menu::create(sound_on, NULL);
+    SoundOn->setPosition(800, 400);
+    this->addChild(SoundOn, 1);
+
+    auto sound_off = MenuItemImage::create("music_off.png", "music_off.png", CC_CALLBACK_1(SettingScene::musicOff, this));
+    auto SoundOff = Menu::create(sound_off, NULL);
+    SoundOff->setPosition(800, 300);
+    this->addChild(SoundOff, 1);
+
+
+    auto sprite_bg = Sprite::create("help_bg.jpg");
+    sprite_bg->setPosition(800, 460);
+    this->addChild(sprite_bg);
+>>>>>>> Stashed changes
 
     return true;
 
@@ -92,6 +110,7 @@ void SettingScene::settingBack(cocos2d::Ref* pSender)
 {
     _director->replaceScene(AutoChess::createScene());
 }
+<<<<<<< Updated upstream
 void SettingScene::MusicEnd(cocos2d::Ref* pSender)
 {
     AudioEngine::pauseAll();
@@ -99,4 +118,15 @@ void SettingScene::MusicEnd(cocos2d::Ref* pSender)
 void SettingScene::MusicOn(cocos2d::Ref* pSender)
 {
     AudioEngine::resumeAll();
+=======
+
+void SettingScene::musicOn(cocos2d::Ref* pSender)
+{
+    AudioEngine::resumeAll();
+}
+
+void SettingScene::musicOff(cocos2d::Ref* pSender)
+{
+    AudioEngine::pauseAll();
+>>>>>>> Stashed changes
 }
