@@ -22,10 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 //ÉÔ×÷ÐÞ¸Ä//
+
 // 2021/5/14 21:11 Bill Han ²âÊÔ git desktop 
-// wuwuwuwuawuuwuwuwuuw
+// sefdksdnkdsfnkdsfnkdsnfks 
 #include "AppDelegate.h"
 #include "Scene/AutoChessScene.h"
+#include "AudioEngine.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -36,7 +38,7 @@ using namespace cocos2d::experimental;
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
+static cocos2d::Size designResolutionSize = cocos2d::Size(1600, 900);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
@@ -75,9 +77,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("zizouqi", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("AutoChess", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
-        glview = GLViewImpl::create("zizouqi");
+        glview = GLViewImpl::create("AutoChess");
 #endif
         director->setOpenGLView(glview);
     }
@@ -113,9 +115,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = AutoChess::createScene();
 
+    static int audioID;
+    audioID = AudioEngine::play2d("background music.MP3", true, 1.0f);
     // run
     director->runWithScene(scene);
-
+    
     return true;
 }
 
