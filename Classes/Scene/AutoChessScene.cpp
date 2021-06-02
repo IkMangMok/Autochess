@@ -174,17 +174,11 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-<<<<<<< Updated upstream
 
     auto sprite1 = Sprite::create("startbg.png");
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
     //audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
-=======
-    auto sprite_bg = Sprite::create("startbg.png");
-    sprite_bg->setPosition(800, 460);
-    this->addChild(sprite_bg);
->>>>>>> Stashed changes
 
     return true;
 }
@@ -194,11 +188,8 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
 
-<<<<<<< Updated upstream
     //AudioEngine::end();
 
-=======
->>>>>>> Stashed changes
     Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
@@ -213,10 +204,6 @@ void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
     global_data->GameStartInit(); //初始化全局数据
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     _director->replaceScene(scene1::createScene());
 
 }
@@ -224,10 +211,6 @@ void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 void AutoChess::menuHelp(Ref* pSender)   //帮助
 {
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     _director->replaceScene(HelpScene::createScene());
 }
 void AutoChess::menuSetting(Ref* pSender)   //帮助
