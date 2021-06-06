@@ -2,7 +2,7 @@
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
 #include "AudioEngine.h"
-#include<iostream>
+#include"time.h"
 
 USING_NS_CC;
 using namespace std;
@@ -16,8 +16,6 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
 }
-
-static int audioID;
 bool scene1::init()
 {
 
@@ -70,23 +68,23 @@ bool scene1::init()
     {
         float x = origin.x + visibleSize.width / 2;
         float y = origin.y + 50;// +BackInScene1->getContentSize().height / 2 + visibleSize.height / 2;
-        BackInScene1->setPosition(Vec2(x, y));
+        BackInScene1->setPosition(100,200);
     }
 
     auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
     back_in_scene1->setPosition(Vec2::ZERO);
     this->addChild(back_in_scene1, 1);
 
-    auto  BuyChess = MenuItemImage::create(
+    /*auto  BuyChess = MenuItemImage::create(
         "buy.jpg", "buy.jpg", CC_CALLBACK_1(scene1::PlayerBuyChess, this));
         
 
     auto buychess = Menu::create(BuyChess, NULL);  //返回按钮
     buychess->setPosition(Vec2(500, 500));
-    this->addChild(buychess, 1);
+    this->addChild(buychess, 1);*/
 
     /*------------------------TMXTiledMap _tileMap---------------------*/
-    auto _tileMap = TMXTiledMap::create("playmap1.tmx");              // my first tiled map
+    auto _tileMap = TMXTiledMap::create("playmap2.tmx");              // my first tiled map
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     this->addChild(test_timer, 1);
@@ -110,7 +108,11 @@ bool scene1::init()
     {
         this->addChild(((Chess*)(pArray->arr[i])), 0);
     }*/
+
+    srand(time(NULL));
     
+    openChessStore();
+
     this->scheduleUpdate();  //棋子会互相搜索到对方 
     return true;
     
@@ -285,5 +287,134 @@ void scene1::scene1Back(cocos2d::Ref* pSender)
 {
     _director->replaceScene(AutoChess::createScene());
 } 
+
+void scene1::openChessStore()
+{
+    auto open = MenuItemImage::create("Back_test.png", "Back_test.png", CC_CALLBACK_1(scene1::chessStore, this));
+    auto Open = Menu::create(open, NULL);
+    Open->setPosition(1530,850);
+    this->addChild(Open, 1);
+}
+
+void scene1::closeChessStore()
+{
+    auto close = MenuItemImage::create("close_store.png", "close_store.png", CC_CALLBACK_1(scene1::closeLayer, this));
+    auto Close = Menu::create(close, NULL);
+    s_layer->addChild(Close, 1);
+    Close->setPosition(155, 490);
+}
+
+void scene1::closeLayer(cocos2d::Ref* pSender)
+{
+    s_layer->setVisible(false);
+}
+
+//野怪从哪里出来？野怪要做吗,僵尸？
+//棋子商店的购买以及数据的传输，Used数组出现在手牌区就可以了应该
+
+void scene1::storeChess(int i)
+{
+    auto sprite1 = Sprite::create(Used[i].address);
+    s_layer->addChild(sprite1);
+    sprite1->setPosition(40, 430-120*i);
+
+    auto label1 = Label::createWithTTF(chessValue[Used[i].money - 1], "fonts/Marker Felt.ttf", 24);
+    label1->setPosition(130, 430-120*i);
+    s_layer->addChild(label1);
+
+}
+
+void scene1::buy1(cocos2d::Ref* pSender)
+{
+    x = x + 90;
+    auto sprite = Sprite::create(Used[0].address);
+    this->addChild(sprite);
+    sprite->setPosition(x, 90);
+}
+
+void scene1::buy2(cocos2d::Ref* pSender)
+{
+    x = x + 90;
+    auto sprite = Sprite::create(Used[1].address);
+    this->addChild(sprite);
+    sprite->setPosition(x, 90);
+}
+
+void scene1::buy3(cocos2d::Ref* pSender)
+{
+    x = x + 90;
+    auto sprite = Sprite::create(Used[2].address);
+    this->addChild(sprite);
+    sprite->setPosition(x, 90);
+}
+
+void scene1::buy4(cocos2d::Ref* pSender)
+{
+    x = x + 90;
+    auto sprite = Sprite::create(Used[3].address);
+    this->addChild(sprite);
+    sprite->setPosition(x, 90);//x的坐标是一个很严重的需要更改的问题
+}
+
+void scene1::chessStore(cocos2d::Ref* pSender)
+{
+    static int x,y,width,height;
+    x = 1420;
+    y = 200;
+    width = 180;
+    height = 500;
+    s_layer = LayerColor::create(Color4B::WHITE);
+    s_layer->setPosition(x, y);
+    s_layer->changeHeight(height);
+    s_layer->changeWidth(width);
+    this->addChild(s_layer, 1);
+
+    /*-------------------set background----------------------*/
+    auto sprite = Sprite::create("store_bg.png");
+    sprite->setPosition(80, 250);
+    s_layer->addChild(sprite);
+
+    /*-------------------set label-------------------------*/
+    auto label = Label::createWithTTF("STORE", "fonts/Marker Felt.ttf", 24);
+    label->setPosition(80, 490);
+    s_layer->addChild(label);
+
+    for (int i = 0; i <= 3; i++)
+    {
+        int deter = 0;
+        deter = rand() % 8;
+        Used[i].address = chess_store[deter].address;
+        Used[i].money = chess_store[deter].money;
+    }
+
+    /*--------------------set chess---------------------------*/
+    storeChess(i1);
+    auto buy1= MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(scene1::buy1, this));
+    auto Buy1= Menu::create(buy1, NULL);
+    s_layer->addChild(Buy1, 1);
+    Buy1->setPosition(125, 460 - 120 * i1);
+
+    storeChess(i2);
+    auto buy2 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(scene1::buy2, this));
+    auto Buy2 = Menu::create(buy2, NULL);
+    s_layer->addChild(Buy2, 1);
+    Buy2->setPosition(125, 460 - 120 * i2);
+
+    storeChess(i3);
+    auto buy3 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(scene1::buy3, this));
+    auto Buy3 = Menu::create(buy3, NULL);
+    s_layer->addChild(Buy3, 1);
+    Buy3->setPosition(125, 460 - 120 * i3);
+
+    storeChess(i4);
+    auto buy4 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(scene1::buy4, this));
+    auto Buy4 = Menu::create(buy4, NULL);
+    s_layer->addChild(Buy4, 1);
+    Buy4->setPosition(125, 460 - 120 * i4);
+
+    /*----------------------close store-----------------*/
+    closeChessStore();
+}
+
 
 
