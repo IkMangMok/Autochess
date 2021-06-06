@@ -10,6 +10,9 @@ public:
     virtual bool init();
 
     void settingBack(cocos2d::Ref* pSender);
+    void musicOn(cocos2d::Ref* pSender);
+    void musicOff(cocos2d::Ref* pSender);
+
     // implement the "static create()" method manually
     CREATE_FUNC(SettingScene);
 };

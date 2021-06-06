@@ -27,6 +27,7 @@
 // sefdksdnkdsfnkdsfnkdsnfks 
 #include "AppDelegate.h"
 #include "Scene/AutoChessScene.h"
+#include"AudioEngine.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -113,6 +114,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = AutoChess::createScene();
+
+    static int audioID;
+    audioID = AudioEngine::play2d("background music.mp3", true, 1.0f);
 
     // run
     director->runWithScene(scene);

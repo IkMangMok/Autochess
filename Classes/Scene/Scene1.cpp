@@ -16,8 +16,6 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
 }
-
-static int audioID;
 bool scene1::init()
 {
 
@@ -90,15 +88,15 @@ bool scene1::init()
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     this->addChild(test_timer, 1);
- 
+    
     /*------------------------Blood---------------------*/
 
     string picture = "duck.jpg";
-    auto icon = Sprite::create(picture);   //头像
-    icon->setPosition(Point(icon->getContentSize().width - 20, origin.y + visibleSize.height - icon->getContentSize().height)); //设置位置
-    this->addChild(icon);            //加到默认图层里面去
+    auto icon = Sprite::create(picture);   //或许可以改头像？ 
+    icon->setPosition(Point(icon->getContentSize().width-20, origin.y + visibleSize.height - icon->getContentSize().height)); //????λ??
+    this->addChild(icon);    
 
-    string name = "player";//后续添加“起名字”功能，让玩家自己输入名字
+    string name = "player";//后续可以改名字？ 
     auto nameLabel = Label::createWithTTF(name, "fonts/Marker Felt.ttf", 24);
     if (nameLabel == nullptr)
     {
@@ -106,21 +104,22 @@ bool scene1::init()
     }
     else
     {
+        nameLabel->setPosition(Vec2(origin.x+ nameLabel->getContentSize().width+40,origin.y + visibleSize.height - nameLabel->getContentSize().height));
         nameLabel->setPosition(Vec2(origin.x + nameLabel->getContentSize().width + 40, origin.y + visibleSize.height - nameLabel->getContentSize().height));
         this->addChild(nameLabel, 1);
     }
-    auto bloodFrame = Sprite::create("BloodFrame.jpg");   //创建进度框
-    bloodFrame->setPosition(Point(230, visibleSize.height - 60)); //设置框的位置
-    this->addChild(bloodFrame);            //加到默认图层里面去
-    ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));//创建一个进程条
-    Blood->setBarChangeRate(Point(1, 0));//设置进程条的变化速率
-    Blood->setType(ProgressTimer::Type::BAR);//设置进程条的类型
-    Blood->setMidpoint(Point(0, 1));//设置进度的运动方向
+    auto bloodFrame = Sprite::create("BloodFrame.jpg");   
+    bloodFrame->setPosition(Point(230, visibleSize.height - 60)); 
+    this->addChild(bloodFrame);            
+    ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+    Blood->setBarChangeRate(Point(1, 0));
+    Blood->setType(ProgressTimer::Type::BAR);
+    Blood->setMidpoint(Point(0, 1));
     Blood->setPosition(Point(230, visibleSize.height - 60));
 
-    float lifespan = 75.0f;//后续根据伤害来改
+    float lifespan = 75.0f;
 
-    Blood->setPercentage(lifespan);//设置初始值为0
+    Blood->setPercentage(lifespan);
     this->addChild(Blood);
 
     int length = (int)lifespan;
@@ -135,7 +134,7 @@ bool scene1::init()
         lifeLabel->setPosition(Point(230, visibleSize.height - 85));
         this->addChild(lifeLabel, 1);
     }
-
+ 
    /* auto person = Chess::createChess("test_chess_1.png", Point(0,0));
     this->addChild(person, 0);
    
@@ -155,7 +154,8 @@ bool scene1::init()
     {
         this->addChild(((Chess*)(pArray->arr[i])), 0);
     }*/
-    
+    chessStore();
+
     this->scheduleUpdate();  //棋子会互相搜索到对方 
     return true;
     
@@ -328,8 +328,25 @@ void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
 
 void scene1::scene1Back(cocos2d::Ref* pSender)
 {
-    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 } 
+
+void scene1::chessStore()
+{
+    int x,y,width,height;
+    x = 1200;
+    y = 200;
+    width = 380;
+    height = 500;
+    auto s_layer = LayerColor::create(Color4B::WHITE);
+    s_layer->setPosition(x, y);
+    s_layer->changeHeight(height);
+    s_layer->changeWidth(width);
+    this->addChild(s_layer, 1);
+
+    auto sprite1 = Sprite::create("store_bg.png");
+    sprite1->setPosition(190, 240);
+    s_layer->addChild(sprite1);
+}
 
 
