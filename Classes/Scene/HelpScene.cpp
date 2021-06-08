@@ -7,7 +7,6 @@
 
 using namespace std;
 USING_NS_CC;
-static int audioID;
 
 
 Scene* HelpScene::createScene()
@@ -74,10 +73,10 @@ bool HelpScene::init()
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
 
-    auto sprite1 = Sprite::create("help_bg.jpg");
-    sprite1->setPosition(800, 460);
-    this->addChild(sprite1);
 
+    auto sprite_bg = Sprite::create("help_bg.jpg");
+    sprite_bg->setPosition(800, 460);
+    this->addChild(sprite_bg);
 
     return true;
 
@@ -85,5 +84,6 @@ bool HelpScene::init()
 
 void HelpScene::helpBack(cocos2d::Ref* pSender)
 {
+
     _director->replaceScene(AutoChess::createScene());
 }
