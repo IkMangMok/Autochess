@@ -3,6 +3,7 @@
 #include"AutoChessScene.h"
 #include "AudioEngine.h"
 #include"time.h"
+#include"2d\CCAnimation.h"
 
 USING_NS_CC;
 using namespace std;
@@ -68,7 +69,7 @@ bool scene1::init()
     {
         float x = origin.x + visibleSize.width / 2;
         float y = origin.y + 50;// +BackInScene1->getContentSize().height / 2 + visibleSize.height / 2;
-        BackInScene1->setPosition(100,200);
+        BackInScene1->setPosition(100,100);
     }
 
     auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
@@ -306,11 +307,26 @@ void scene1::closeChessStore()
 
 void scene1::closeLayer(cocos2d::Ref* pSender)
 {
-    s_layer->setVisible(false);
+    this->removeChild(s_layer, true);
 }
 
 //野怪从哪里出来？野怪要做吗,僵尸？
 //棋子商店的购买以及数据的传输，Used数组出现在手牌区就可以了应该
+
+int scene1::ifCanBuy(int x)
+{
+    if (x > 1070)
+    {
+        auto label = Label::createWithTTF("Prepare Zone is Full!", "fonts/Marker Felt.ttf", 36);
+        this->addChild(label);
+        label->setTextColor(Color4B::WHITE);
+        label->setPosition(800, 400);
+        auto move = FadeOut::create(2.0f);
+        label->runAction(move);
+        return 0;
+    }
+    return 1;
+}
 
 void scene1::storeChess(int i)
 {
@@ -324,36 +340,63 @@ void scene1::storeChess(int i)
 
 }
 
-void scene1::buy1(cocos2d::Ref* pSender)
+void scene1::cover(int x, int y)
 {
-    x = x + 90;
-    auto sprite = Sprite::create(Used[0].address);
-    this->addChild(sprite);
-    sprite->setPosition(x, 90);
+    auto cover = Sprite::create("cover_bg.png");
+    s_layer->addChild(cover);
+    cover->setPosition(x, y);
+}
+
+void scene1::buy1(cocos2d::Ref* pSender)//以后要考虑金币不足无法购买棋子的情况
+{
+    if (ifCanBuy(x) && (Used[0].buy == false))
+    {
+        x = x + 85;
+        Used[0].buy = true;
+        auto sprite = Sprite::create(Used[0].address);
+        this->addChild(sprite);
+        sprite->setPosition(x, 90);
+        cover(40,430);
+    }
 }
 
 void scene1::buy2(cocos2d::Ref* pSender)
 {
-    x = x + 90;
-    auto sprite = Sprite::create(Used[1].address);
-    this->addChild(sprite);
-    sprite->setPosition(x, 90);
+    if (ifCanBuy(x) && (Used[1].buy == false))
+    {
+        x = x + 85;
+        Used[1].buy = true;
+        auto sprite = Sprite::create(Used[1].address);
+        this->addChild(sprite);
+        sprite->setPosition(x, 90);
+        cover(40, 310);
+    }
 }
 
 void scene1::buy3(cocos2d::Ref* pSender)
 {
-    x = x + 90;
-    auto sprite = Sprite::create(Used[2].address);
-    this->addChild(sprite);
-    sprite->setPosition(x, 90);
+    if (ifCanBuy(x)&&(Used[2].buy==false))
+    {
+        x = x + 85;
+        Used[2].buy = true;
+        auto sprite = Sprite::create(Used[2].address);
+        this->addChild(sprite);
+        sprite->setPosition(x, 90);
+        cover(40, 190);
+    }
 }
 
 void scene1::buy4(cocos2d::Ref* pSender)
 {
-    x = x + 90;
-    auto sprite = Sprite::create(Used[3].address);
-    this->addChild(sprite);
-    sprite->setPosition(x, 90);//x的坐标是一个很严重的需要更改的问题
+    if (ifCanBuy(x)&&(Used[3].buy == false))
+    {
+        x = x + 85;
+        Used[3].buy = true;
+        auto sprite = Sprite::create(Used[3].address);
+        this->addChild(sprite);
+        sprite->setPosition(x, 90);
+        cover(40, 70);
+    }//x的坐标是一个很严重的需要更改的问题
 }
 
 void scene1::chessStore(cocos2d::Ref* pSender)
@@ -382,7 +425,7 @@ void scene1::chessStore(cocos2d::Ref* pSender)
     for (int i = 0; i <= 3; i++)
     {
         int deter = 0;
-        deter = rand() % 8;
+        deter = rand() % 9;
         Used[i].address = chess_store[deter].address;
         Used[i].money = chess_store[deter].money;
     }
@@ -412,8 +455,18 @@ void scene1::chessStore(cocos2d::Ref* pSender)
     s_layer->addChild(Buy4, 1);
     Buy4->setPosition(125, 460 - 120 * i4);
 
+    //再重新开一个layer前要把Used数组里面的buy了的数据给传出去到备战区去！！！
+    //不然下一次Used被刷新了就没数据了
+    //手牌区也需要一个数组 用于存棋子info并升级
+
     /*----------------------close store-----------------*/
     closeChessStore();
+
+    /*-----------------------reset buy status-----------*/
+    for (int i = 0; i <= 3; i++)
+    {
+        Used[i].buy = false;
+    }
 }
 
 

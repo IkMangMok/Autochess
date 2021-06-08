@@ -19,12 +19,13 @@ private:
 
 	chessInfo Used[4];
 	int i1=0,i2=1,i3=2,i4=3;
-	int x=470;
+	int x=475;
 	//实在不知道怎么传参 自闭中
 
+	int ifCanBuy(int x);
+	void cover(int x, int y);
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);
-
 	void chessStore(cocos2d::Ref* pSender);
 	void openChessStore();
 	void closeChessStore();
