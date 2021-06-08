@@ -22,28 +22,23 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __AutoChess_SCENE_H__
-#define __AutoChess_SCENE_H__
+#ifndef __HELLOWORLD_SCENE_H__
+#define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-#include "Data/GameData.h"
-;
-class AutoChess : public cocos2d::Scene
+
+class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
+
     virtual bool init();
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-  
-
-    void menuGameStart(cocos2d::Ref* pSender);
-    void menuHelp(cocos2d::Ref* pSender);
-    void menuSetting(cocos2d::Ref* pSender);
-
+    
     // implement the "static create()" method manually
-    CREATE_FUNC(AutoChess);
+    CREATE_FUNC(HelloWorld);
 };
 
-#endif // __AutoChess_SCENE_H__
+#endif // __HELLOWORLD_SCENE_H__

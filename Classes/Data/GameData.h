@@ -1,19 +1,21 @@
 #pragma once
 #include "cocos2d.h"
+#include"Player/Player.h"
+
 USING_NS_CC;
 
-class GameData: Scene
+class GameData
 {
 public:
-	static GameData* createGameData();
-	CREATE_FUNC(GameData);
-	virtual bool init();
+	//static GameData* createGameData();
+	//CREATE_FUNC(GameData);
+	//virtual bool init();
 	/* 获取当前游戏数据的函数 */
 	/* functions to obtain the game data */
-	int GetPlayerCoin() { return player_coin; }
+	/*int GetPlayerCoin() { return player_coin; }
 	int GetPlayerLevel() { return player_level; }
 	int GetPlayerExe() { return player_exe; }
-	int GetPlayerBlood() { return player_blood; }
+	int GetPlayerBlood() { return player_blood; }*/
 	int GetGameTurn() { return game_turn; }
 
     //记录棋子的数组
@@ -25,16 +27,17 @@ public:
 	/* 当前局内全局信息 */
 	/* global data */
 
-	int player_coin;
+	
+	/*int player_coin;
 	int player_level;
 	int player_exe;
-	int player_blood;
-	int game_turn;
+	int player_blood;*/
+	int game_turn = 0;
 
 	/* 修改当前游戏数据的函数 */
-	void ChangePlayerCoin(int benefit) { player_coin += benefit; }
+	/*void ChangePlayerCoin(int benefit) { player_coin += benefit; }
 	void ChangePlayerExe(int benefit) { player_exe += benefit; }   //后续可以把level的改变逻辑放进这个函数
-	void ChangePlayerBlood(int hurt) { player_blood -= hurt; }     //注意伤害是正数
+	void ChangePlayerBlood(int hurt) { player_blood -= hurt; }  */   //注意伤害是正数
 	void ChangeGameTurn() { game_turn++; }
 
 	friend class AutoChess;
@@ -42,5 +45,6 @@ public:
 };
 
 /*外部声明全局变量 global_data*/
-extern GameData* global_data;
+extern GameData global_data;
 extern ccArray* pArray;
+extern Player* player1;
