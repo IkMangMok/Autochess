@@ -1,10 +1,9 @@
 #include"player.h"
 
-void Player::Hurted(int blood)
+Player* Player::createPlayer()
 {
-	HealthValue -= blood;
+	auto player = Player::create();
+	player->retain();
+	return player;
 }
-void Player::BuyChess()
-{
-	
-}
+

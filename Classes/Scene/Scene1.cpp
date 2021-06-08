@@ -1,12 +1,27 @@
-#include"scene1.h"
+/*#include"scene1.h"
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
 #include "AudioEngine.h"
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 #include<iostream>
 
 USING_NS_CC;
 using namespace std;
 
+scene1::scene1()
+{
+
+    Chesspile->retain();
+    player1->retain();
+    this->addChild(Chesspile, 1);
+}
+scene1::~scene1()
+{
+   
+}
 Scene* scene1::createScene()
 {
     return scene1::create();
@@ -20,13 +35,6 @@ static void problemLoading(const char* filename)
 static int audioID;
 bool scene1::init()
 {
-
-    if (!Scene::init())
-    {
-        return false;
-    }
-
- 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -54,7 +62,7 @@ bool scene1::init()
     this->addChild(menu, 1);
 
 
-    /*---------------------MenuItemImage BackInScene1----------------------*/
+
     auto BackInScene1 = MenuItemImage::create(
         "BackToMenu.png",
         "BackToMenu.png",
@@ -71,6 +79,7 @@ bool scene1::init()
         float x = origin.x + visibleSize.width / 2;
         float y = origin.y + 50;// +BackInScene1->getContentSize().height / 2 + visibleSize.height / 2;
         BackInScene1->setPosition(Vec2(x, y));
+<<<<<<< Updated upstream
     }
 
     auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
@@ -78,39 +87,54 @@ bool scene1::init()
     this->addChild(back_in_scene1, 1);
 
     auto  BuyChess = MenuItemImage::create(
+=======
+        auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
+        back_in_scene1->setPosition(origin.x + visibleSize.width / 2 - BackInScene1->getContentSize().width,
+            origin.y + visibleSize.height - BackInScene1->getContentSize().height);
+        this->addChild(back_in_scene1, 1);
+    }
+  /*  auto  BuyChess = MenuItemImage::create(
+>>>>>>> Stashed changes
         "buy.jpg", "buy.jpg", CC_CALLBACK_1(scene1::PlayerBuyChess, this));
-        
+    auto buychess = Menu::create(BuyChess, NULL);  //买棋子的按钮
+    buychess->setPosition(Vec2::ZERO);
+    buychess->setScale(0.5);
+    this->addChild(buychess, 1);*//*
+    auto tempsprite = Sprite::create("buy.jpg");
+    auto tempsprite1 = Sprite::create("buy.jpg");
+    auto tempsprite2= Sprite::create("buy.jpg");
+    auto tempsprite3 = Sprite::create("buy.jpg");
+    auto BuyChess = ControlSwitch::create(tempsprite, tempsprite1, tempsprite2, tempsprite3);
+    this->addChild(BuyChess, 1);
+    BuyChess->setPosition(visibleSize.width, 0);
+    BuyChess->addTargetWithActionForControlEvents(this, cccontrol_selector(scene1::PlayerBuyChess), Control::EventType::VALUE_CHANGED);
 
+<<<<<<< Updated upstream
     auto buychess = Menu::create(BuyChess, NULL);  //返回按钮
     buychess->setPosition(Vec2(500, 500));
     this->addChild(buychess, 1);
 
     /*------------------------TMXTiledMap _tileMap---------------------*/
     auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+=======
+
+    auto _tileMap = TMXTiledMap::create("playmap2.tmx");              // my first tiled map
+>>>>>>> Stashed changes
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     this->addChild(test_timer, 1);
- 
-   /* auto person = Chess::createChess("test_chess_1.png", Point(0,0));
-    this->addChild(person, 0);
-   
-    auto person1 = TestChess::createChess("test_chess_2.png", 0, 0);
-
-    this->addChild(person1, 0);
-    */
- //  auto person2 = Chess::createChess("test_chess_1.png", Point(0, 0));
-   /*this->addChild(person2, 0);
-   // person2->scheduleUpdate();
-    ccArrayAppendObject(pArray, person);  //将棋子放入数组中
-    ccArrayAppendObject(pArray, person1);
-    ccArrayAppendObject(pArray, person2);*/
+    this->addChild(player1, 1);
   
+<<<<<<< Updated upstream
     
     /*for (int i = 0; i < pArray->num; i++)
     {
         this->addChild(((Chess*)(pArray->arr[i])), 0);
     }*/
     
+=======
+    audioID = AudioEngine::play2d("background music.MP3", true, 1.0f);
+>>>>>>> Stashed changes
     this->scheduleUpdate();  //棋子会互相搜索到对方 
     return true;
     
@@ -146,8 +170,8 @@ void scene1::ChessMove(Chess *chess)
             (chess->AttackTarget->getPosition().y - chessPosition.y)
             * (chess->AttackTarget->getPosition().y - chessPosition.y));
     }
-    /*移动，以1e-2为单位移动
-    */
+    //移动，以1e-2为单位移动
+    
     if (chess->AttackTarget == NULL)  //无攻击目标则结束
     {
         return;
@@ -162,6 +186,7 @@ void scene1::ChessMove(Chess *chess)
 }
 void scene1::update(float dt)
 {
+   
     if (test_timer->pTime > 0.1f)
     {
         ChessMoveInMouse();   //移动棋子
@@ -265,12 +290,14 @@ void scene1::Win()
             ((Chess*)(pArray->arr[i]))->setPosition(((Chess*)(pArray->arr[i]))->getTempPosition());
             ((Chess*)(pArray->arr[i]))->set(((Chess*)(pArray->arr[i]))->getTempPosition());   //回到备战时的位置
         }
+        AudioEngine::stop(audioID);
         _director->replaceScene(scene1::createScene());
     }
     else
         return;
 }
 
+<<<<<<< Updated upstream
 void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
 {
     auto temp = Chess::createChess("test_chess_1.png", Point(rand() % 1000, rand() % 1000));
@@ -278,6 +305,23 @@ void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
     this->addChild(temp, 2);
     ccArrayAppendObject(pArray, temp);
     //player1->BuyChess();
+=======
+void scene1::PlayerBuyChess(cocos2d::Ref* pSender, Control::EventType controlEvent)
+{
+   
+    ControlSwitch* controlSwitch = (ControlSwitch*)pSender;
+
+    if (controlSwitch->isOn())
+    {
+        Chesspile->setPosition(10000, 10000);
+    }
+    else
+    {
+        Chesspile->setPosition(0, 0);
+        Chesspile->ToSellDistrict();
+    }
+
+>>>>>>> Stashed changes
 }
 
 
@@ -286,5 +330,9 @@ void scene1::scene1Back(cocos2d::Ref* pSender)
     AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 } 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
+*/

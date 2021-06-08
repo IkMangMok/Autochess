@@ -1,2 +1,3 @@
 #pragma once
-#include"TestChess.h"
+#include"Chess.h"
+#include"PeaShooter.h"
