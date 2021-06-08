@@ -57,28 +57,52 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
+
      Classes/Scene/AutoChessScene.cpp
      Classes/Scene/Scene1.cpp
+     Classes/Scene/GameScene.cpp
      Classes/Scene/HelpScene.cpp
      Classes/Scene/SettingScene.cpp
+
      Classes/Player/Player.cpp
-     Classes/Chess/Chess1.cpp
-     Classes/Chess/TestChess.cpp
+
+     Classes/Map/MapLayer.cpp
+
+     Classes/Sprite/GameSprite.cpp
+
+     Classes/Chess/Chess.cpp
+     Classes/Chess/PeaShooter.cpp
+
      Classes/Timer/RoundTimer.cpp
+
      Classes/Data/GameData.cpp
+
+     Classes/ChessPile/ChessPile.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
+
      Classes/Scene/AutoChessScene.h
      Classes/Scene/Scene1.h
+     Classes/Scene/GameScene.h
      Classes/Scene/HelpScene.h
      Classes/Scene/SettingScene.h
+
      Classes/Player/Player.h
-     Classes/Chess/Chess1.h
+
+     Classes/Map/MapLayer.h
+
+     Classes/Sprite/GameSprite.h
+
+     Classes/Chess/Chess.h
      Classes/Chess/ChessFile.h
-     Classes/Chess/TestChess.h
+     Classes/Chess/PeaShooter.h
+
      Classes/Timer/RoundTimer.h
+
      Classes/Data/GameData.h
+
+     Classes/ChessPile/ChessPile.h
      )
 
 if(ANDROID)

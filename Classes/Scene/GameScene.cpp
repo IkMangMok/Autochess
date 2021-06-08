@@ -198,34 +198,54 @@ void GameScene::onMouseUp(Event* event)
         if (MouseToChess >= 0 && MouseToChess < 20)
         {
             auto temp = ((Chess*)(FightArray->arr[MouseToChess]));
-            if (MapIntReturn(temp->getPosition()).y != 0 && MapIntReturn(temp->getPosition()).y != 9)   //若不在备战席
+            if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y]==1)   //拒绝重合
             {
+                temp->setPosition(MapJudge(temp->getTempPosition()));
+                temp->set(MapJudge(temp->getTempPosition()));
+            }
+            else if (MapIntReturn(temp->getPosition()).y != 0 && MapIntReturn(temp->getPosition()).y != 9)   //若不在备战席
+            {
+                
                 Point temppoint = MapJudge(temp->getPosition());
                 temp->setPosition(MapJudge(temp->getPosition()));
                 temp->set(MapJudge(temp->getPosition()));
-              
+                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
+                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
             }
             else    //若在备战席，则将其放入
             {
                 temp->setPosition(MapJudge(temp->getPosition()));
+                temp->set(MapJudge(temp->getPosition()));
+                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
+                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
                 player1data.Chessnumber++;
                 ccArrayAppendObject(player1data.PlayerArray, temp);
                 ccArrayRemoveObject(FightArray, temp);
-              
+                
             }
         }
         else if (MouseToChess >= 20)
         {
             auto temp = ((Chess*)(player1data.PlayerArray->arr[MouseToChess - 20]));
-            if (MapIntReturn(temp->getPosition()).y == 0 || MapIntReturn(temp->getPosition()).y == 9)  //若在备战席
+            if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] == 1)   //拒绝重合
+            {
+                temp->setPosition(MapJudge(temp->getTempPosition()));
+                temp->set(MapJudge(temp->getTempPosition()));
+            }
+            else if (MapIntReturn(temp->getPosition()).y == 0 || MapIntReturn(temp->getPosition()).y == 9)  //若在备战席
             {
                 Point temppoint = MapJudge(temp->getPosition());
                 temp->setPosition(MapJudge(temp->getPosition()));
                 temp->set(MapJudge(temp->getPosition()));
+                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
+                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
             }
             else        //若进入战斗区
             {
                 temp->setPosition(MapJudge(temp->getPosition()));
+                temp->set(MapJudge(temp->getPosition()));
+                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
+                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
                 player1data.Chessnumber--;
                 ccArrayAppendObject(FightArray, temp);
                 ccArrayRemoveObject(player1data.PlayerArray, temp);
