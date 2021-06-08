@@ -30,8 +30,8 @@ protected:
 	int Damage = 50;     //攻击力
 
 
-	int xtemp = x;      //进入战斗时的位置(地图位置)
-	int ytemp = y;
+	float xtemp = x;      //进入战斗时的位置(地图位置)
+	float ytemp = y;
 
 	float x = 0.f;                //真实位置
 	float y = 0.f;

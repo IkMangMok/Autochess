@@ -19,7 +19,7 @@ public:
 	~scene1();
 	
 private:
-	RoundTimer* test_timer = RoundTimer::create(5);
+	RoundTimer* test_timer = RoundTimer::create(500);
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);
 	

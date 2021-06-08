@@ -111,11 +111,11 @@ void GameScene::update(float dt)
         {
             if (ChessExist[i][0] == 0)
             {
-                gamesprite->addChild(((Chess*)(player1data.PlayerArray->arr[player1data.Chessnumber - 1])));
-                ((Chess*)(player1data.PlayerArray->arr[player1data.Chessnumber - 1]))->
+                gamesprite->addChild(((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1])));
+                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->
                     setPosition(mapPosition[i][0].x,
                         mapPosition[i][0].y);
-                ((Chess*)(player1data.PlayerArray->arr[i]))->
+                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->
                     set(mapPosition[i][0].x,
                         mapPosition[i][0].y);
                 player1data.HaveNewChess = 0;
@@ -127,7 +127,8 @@ void GameScene::update(float dt)
         if (flag)
         {
             ccArrayRemoveObject(player1data.PlayerArray,
-                ((Chess*)(player1data.PlayerArray->arr[player1data.Chessnumber - 1])));   //添加失败
+                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1])));   //添加失败
+            player1data.HaveNewChess = 0;
         }
     }
     ChessMoveInMouse();
@@ -198,7 +199,7 @@ void GameScene::onMouseUp(Event* event)
         if (MouseToChess >= 0 && MouseToChess < 20)
         {
             auto temp = ((Chess*)(FightArray->arr[MouseToChess]));
-            if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y]==1)   //拒绝重合
+            if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] == 1)   //拒绝重合
             {
                 temp->setPosition(MapJudge(temp->getTempPosition()));
                 temp->set(MapJudge(temp->getTempPosition()));
@@ -240,7 +241,7 @@ void GameScene::onMouseUp(Event* event)
                 ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
                 ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
             }
-            else        //若进入战斗区
+            else if(test_timer->pTime > 1e-6)        //若进入战斗区
             {
                 temp->setPosition(MapJudge(temp->getPosition()));
                 temp->set(MapJudge(temp->getPosition()));

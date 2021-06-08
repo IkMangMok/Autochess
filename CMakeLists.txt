@@ -76,6 +76,7 @@ list(APPEND GAME_SOURCE
      Classes/Timer/RoundTimer.cpp
 
      Classes/Data/GameData.cpp
+     Classes/Data/PlayerData.cpp
 
      Classes/ChessPile/ChessPile.cpp
      )
@@ -101,6 +102,7 @@ list(APPEND GAME_HEADER
      Classes/Timer/RoundTimer.h
 
      Classes/Data/GameData.h
+     Classes/Data/PlayerData.h
 
      Classes/ChessPile/ChessPile.h
      )

@@ -32,7 +32,7 @@ public:
 	~GameScene();
 
 private:
-	RoundTimer* test_timer = RoundTimer::create(50);
+	RoundTimer* test_timer = RoundTimer::create(10);
 
 	void update(float dt);
 	CREATE_FUNC(GameScene);
