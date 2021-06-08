@@ -7,15 +7,35 @@
 #include "Timer/RoundTimer.h"
 #include"Chess/TestChess.h"
 #include"AudioEngine.h"
+
 class scene1 : public AutoChess {
 public:
 	static cocos2d::Scene* createScene();
+	cocos2d::LayerColor* s_layer;
 	virtual bool init();
 
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);
+
+	chessInfo Used[4];
+	int i1=0,i2=1,i3=2,i4=3;
+	int x=475;
+	//实在不知道怎么传参 自闭中
+
+	int ifCanBuy(int x);
+	void cover(int x, int y);
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);
+	void chessStore(cocos2d::Ref* pSender);
+	void openChessStore();
+	void closeChessStore();
+	void storeChess(int i);
+	void closeLayer(cocos2d::Ref* pSender);
+	void buy1(cocos2d::Ref* pSender);
+	void buy2(cocos2d::Ref* pSender);
+	void buy3(cocos2d::Ref* pSender);
+	void buy4(cocos2d::Ref* pSender);
+
 
 	void update(float dt);
 	CREATE_FUNC(scene1);
