@@ -6,18 +6,20 @@ USING_NS_CC;
 
 PeaShooter::PeaShooter()
 {
-	 AttackDistance = 500;  
+	 AttackDistance = 450;  
 	 Health = 600;          
+	 HealthLimit = Health;
 	 Damage = 80;
+	 Armor = 10;
 	 AttackSpeed = 1.0f;
+	 CoinsNeeded = 2;
 }
-PeaShooter* PeaShooter::createChess(string picture_name, float x1 = 0., float y1 = 0.)
+PeaShooter* PeaShooter::createChess()
 {
 
 	auto peaShooter = PeaShooter::create();
-	peaShooter->set(x1, y1);
 
-	auto temp = Sprite::create(picture_name);
+	auto temp = Sprite::create("pealauncher.png");
 	peaShooter->width = temp->getContentSize().width;
 	peaShooter->height = temp->getContentSize().height;
 	peaShooter->addChild(temp);

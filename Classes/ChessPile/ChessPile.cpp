@@ -7,28 +7,74 @@ ChessPile::ChessPile()
 ChessPile* ChessPile::createChessPile()
 {
 	auto temp = ChessPile::create();
+    
 	temp->retain();
 	return temp;
 }
+
+
+
+Chess* ChessPile::ChessCreate(int i)   //生成不同的棋子
+{
+    switch (i)
+    {
+        case walnut:
+            return WalNut::createChess();
+            break;
+        case pealauncher:
+            return PeaShooter::createChess();
+            break;
+        case mushroom:
+            return MushRoom::createChess();
+            break;
+        case sunflower:
+            return SunFlower::createChess();
+            break;
+        case cactus:
+            return Cactus::createChess();
+            break;
+        case cherrybomb:
+            return CherryBomb::createChess();
+            break;
+        case cornshooter:
+            return CornShooter::createChess();
+            break;
+        case cabbagepult:
+            return CabbagePult::createChess();
+            break;
+    }
+}
+
 bool ChessPile::init()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	/*auto tempsprite = Sprite::create("buy.jpg");
-	auto tempsprite1 = Sprite::create("buy.jpg");
-	auto tempsprite2 = Sprite::create("buy.jpg");
-	auto tempsprite3 = Sprite::create("buy.jpg");
-	auto BuyChess = ControlSwitch::create(tempsprite, tempsprite1, tempsprite2, tempsprite3);
-	this->addChild(BuyChess, 1);
-	BuyChess->setPosition(visibleSize.width, 0);
-	BuyChess->addTargetWithActionForControlEvents(this, cccontrol_selector(ChessPile::PlayerBuyChess), Control::EventType::VALUE_CHANGED);*/
     srand(time(NULL));
     openChessStore();
 	
 	return true;
 }
-
+bool ChessPile::ifCanBuy()
+{
+    int sum = 0;
+    for (int i = 0; i < 8; i++)
+    {
+        sum += ChessExist[i][0];
+    }
+    if (sum == 8)
+    {
+        auto label = Label::createWithTTF("Prepare Zone is Full!", "fonts/Marker Felt.ttf", 36);
+        this->addChild(label);
+        label->setTextColor(Color4B::WHITE);
+        label->setPosition(800, 400);
+        auto move = FadeOut::create(2.0f);
+        label->runAction(move);
+        return 0;
+    }
+    else
+        return 1;
+}
 void ChessPile::openChessStore()
 {
     auto open = MenuItemImage::create("Back_test.png", "Back_test.png", CC_CALLBACK_1(ChessPile::chessStore, this));
@@ -52,7 +98,7 @@ void ChessPile::closeLayer(cocos2d::Ref* pSender)
 
  void ChessPile::storeChess(int i)
 {
-    auto sprite1 = Sprite::create(Used[i].address);
+    auto sprite1 = Sprite::create(Used[i].picture_name);
     s_layer->addChild(sprite1);
     sprite1->setPosition(40, 430 - 120 * i);
 
@@ -61,41 +107,64 @@ void ChessPile::closeLayer(cocos2d::Ref* pSender)
     s_layer->addChild(label1);
 
 }
+ void ChessPile::cover(float x, float y)
+ {
+     auto cover = Sprite::create("cover_bg.png");   //resources 未更新
+     s_layer->addChild(cover);
+     cover->setPosition(x, y);
+ }
 
-void ChessPile::buy1(cocos2d::Ref* pSender)
+void ChessPile::buy1(cocos2d::Ref* pSender)         //金币问题在此layer中解决
 {
    // x = x + 90;
-    auto sprite = Chess::createChess(Used[0].address);
-    ccArrayAppendObject(player1data.PlayerArray, sprite);  //放入GameSprite类中addChild
-    player1data.HaveNewChess = 1;
-    player1data.Chessnumber++;
+    if (Used[0].buy == false && ifCanBuy())
+    {
+        auto sprite = ChessCreate(Used[0].address);
+
+        Used[0].buy = true;                                     //备战区满载后应禁止点击此按钮(已实现)
+        ccArrayAppendObject(player1data.PlayerArray, sprite);  //放入GameSprite类中addChild
+        player1data.HaveNewChess = 1;           //GameSprite类中的update函数实时监测该变量的值，当其为1时则执行addChild操作
+        cover(40, 430);
+    }
 }
 
 void ChessPile::buy2(cocos2d::Ref* pSender)
 {
   //  x = x + 90;
-    auto sprite = Chess::createChess(Used[1].address);
-    ccArrayAppendObject(player1data.PlayerArray, sprite);
-    player1data.HaveNewChess = 1;
-    player1data.Chessnumber++;
+    if (Used[1].buy == false && ifCanBuy())
+    {
+        auto sprite = ChessCreate(Used[1].address);
+        Used[1].buy = true;
+        ccArrayAppendObject(player1data.PlayerArray, sprite);
+        player1data.HaveNewChess = 1;
+        cover(40, 310);
+    }
 }
 
 void ChessPile::buy3(cocos2d::Ref* pSender)
 {
    // x = x + 90;
-    auto sprite = Chess::createChess(Used[2].address);
-    ccArrayAppendObject(player1data.PlayerArray, sprite);
-    player1data.HaveNewChess = 1;
-    player1data.Chessnumber++;
+    if (Used[2].buy == false && ifCanBuy())
+    {
+        auto sprite = ChessCreate(Used[2].address);
+        Used[2].buy = true;
+        ccArrayAppendObject(player1data.PlayerArray, sprite);
+        player1data.HaveNewChess = 1;
+        cover(40, 190);
+    }
 }
 
 void ChessPile::buy4(cocos2d::Ref* pSender)
 {
    // x = x + 90;
-    auto sprite = Chess::createChess(Used[3].address);
-    ccArrayAppendObject(player1data.PlayerArray, sprite);  
-    player1data.HaveNewChess = 1;
-    player1data.Chessnumber++;
+    if (Used[3].buy == false && ifCanBuy())
+    {
+        auto sprite = ChessCreate(Used[3].address);
+        Used[3].buy = true;
+        ccArrayAppendObject(player1data.PlayerArray, sprite);
+        player1data.HaveNewChess = 1;
+        cover(40, 70);
+    }
 }
 
 void ChessPile::chessStore(cocos2d::Ref* pSender)
@@ -124,9 +193,10 @@ void ChessPile::chessStore(cocos2d::Ref* pSender)
     for (int i = 0; i <= 3; i++)
     {
         int deter = 0;
-        deter = rand() % 8;
+        deter = rand() % 8;             //随机概率(后期可随玩家等级而变更)
         Used[i].address = chess_store[deter].address;
         Used[i].money = chess_store[deter].money;
+        Used[i].picture_name = chess_store[deter].picture_name;
     }
 
     /*--------------------set chess---------------------------*/
@@ -156,4 +226,10 @@ void ChessPile::chessStore(cocos2d::Ref* pSender)
 
     /*----------------------close store-----------------*/
     closeChessStore();
+
+    /*-----------------------reset buy status-----------*/
+    for (int i = 0; i <= 3; i++)
+    {
+        Used[i].buy = false;
+    }
 }

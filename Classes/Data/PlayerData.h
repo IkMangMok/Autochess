@@ -13,7 +13,6 @@ private:
 	ccArray* equipment = ccArrayNew(100);   //装备
 	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
 	bool HaveNewChess = 0;
-	int Chessnumber = 0;
 public:
 	void Hurted(int blood){ HealthValue -= blood;}
 	void BuyChess();

@@ -7,25 +7,30 @@
 using namespace cocos2d;
 using namespace std;
 
-enum class ChessType
+enum ChessType
 {
 	None = -1,
-	PeaShooter,         /* 豌豆射手 */
-	WallNut,            /* 坚果墙 */
-	CabbagePult,        /* 卷心菜投手 */
-	Garlic,             /* 大蒜 */
-	FirePeaShooter,     /* 火焰豌豆射手 */
-	AcidLemonShooter,   /* 强酸柠檬射手 */
-	Citron              /* 离子缘 */
+	walnut,         
+	pealauncher,           
+	mushroom,       
+	sunflower,            
+	cactus,
+	cherrybomb,
+	cornshooter,
+	cabbagepult
 	//...
 };
+
 class Chess :public Sprite {
 protected:
 
 	int AttackDistance = 100;  //攻击距离
 	int HealthLimit = 500;     //生命上限
 	int Health = 500;          //生命值
+	int Mana = 0;          //法力值
+	int ManaLimit = 100;   //法力上限
 	int Armor = 0;        //护甲
+	int MagicResistance = 0;   //魔法抗性
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力
 
@@ -58,6 +63,8 @@ public:
 	Point getPosition();
 	Point getTempPosition(){return Point(xtemp, ytemp);}   //获得进入战斗时的位置
 
+	int getCoinsNeeded() { return CoinsNeeded; }
+
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(int Damage);  //受伤
 
@@ -66,7 +73,7 @@ public:
 	int GetAttackDistance();        //获得攻击距离
 
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
-	
+	virtual void Skill() {};          //技能
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);
 	friend class scene1;

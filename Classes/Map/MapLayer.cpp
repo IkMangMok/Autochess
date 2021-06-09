@@ -18,3 +18,5 @@ bool MapLayer::init()
 
     return true;
 }
+_map mapPosition[8][10];
+bool ChessExist[8][10] = {};

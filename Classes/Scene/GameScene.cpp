@@ -7,9 +7,6 @@ USING_NS_CC;
 using namespace std;
  
 
-_map mapPosition[8][10];
-bool ChessExist[8][10] = {};
-
 void Mapinit()
 {
     for (int i = 0; i < 8; i++)
@@ -118,14 +115,16 @@ void GameScene::update(float dt)
                 ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->
                     set(mapPosition[i][0].x,
                         mapPosition[i][0].y);
+                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->setTempPosition();
                 player1data.HaveNewChess = 0;
+                player1data.Gold -= ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->getCoinsNeeded();
                 ChessExist[i][0] = 1;        //添加成功
                 flag = 0;
                 break;
             }
         }
         if (flag)
-        {
+        {                      
             ccArrayRemoveObject(player1data.PlayerArray,
                 ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1])));   //添加失败
             player1data.HaveNewChess = 0;
@@ -137,7 +136,13 @@ void GameScene::update(float dt)
         gamesprite->scheduleUpdate();
     }
 }
-
+void GameScene::SoldChess(Chess* temp, int i, ccArray* Array)
+{
+    ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
+    gamesprite->removeChild(temp);       //卖出
+    ccArrayRemoveObject(Array, temp);
+    player1data.Gold += temp->getCoinsNeeded();
+}
 void GameScene::ChessMoveInMouse()
 {
     auto MouseListener = EventListenerMouse::create();
@@ -153,39 +158,50 @@ void GameScene::onMouseDown(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
-    if ((int)e->getMouseButton() == 0)  //左键才触发
+  
+    for (int i = 0; i < FightArray->num; i++)
     {
-        for (int i = 0; i < FightArray->num; i++)
+        float distance = sqrt((e->getCursorX() -
+            ((Chess*)(FightArray->arr[i]))->getPosition().x)
+            * (e->getCursorX() - ((Chess*)(FightArray->arr[i]))->getPosition().x) +
+            (e->getCursorY() - ((Chess*)(FightArray->arr[i]))->getPosition().y)
+            * (e->getCursorY() - ((Chess*)(FightArray->arr[i]))->getPosition().y));
+        if (distance < 50)
         {
-            float distance = sqrt((e->getCursorX() -
-                ((Chess*)(FightArray->arr[i]))->getPosition().x)
-                * (e->getCursorX() - ((Chess*)(FightArray->arr[i]))->getPosition().x) +
-                (e->getCursorY() - ((Chess*)(FightArray->arr[i]))->getPosition().y)
-                * (e->getCursorY() - ((Chess*)(FightArray->arr[i]))->getPosition().y));
-            if (distance < 50)
-            {
+            if ((int)e->getMouseButton() == 0)
                 MouseToChess = i;    //确定选取的棋子
-                ((Chess*)(FightArray->arr[i]))->setTempPosition();  //记录原始位置
-            }
-        }
-        if (MouseToChess == -1)    //在战斗数组中未找到棋子
-        {
-            for (int i = 0; i < player1data.PlayerArray->num; i++)
+            else if ((int)e->getMouseButton() == 1)
             {
-                float distance = sqrt((e->getCursorX() -
-                    ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x)
-                    * (e->getCursorX() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x) +
-                    (e->getCursorY() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y)
-                    * (e->getCursorY() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y));
-                if (distance < 50)
-                {
-                    MouseToChess = i + 20;    //确定选取的棋子
-                    ((Chess*)(player1data.PlayerArray->arr[i]))->setTempPosition();   //记录原始位置
-                }
+                auto temp = ((Chess*)(FightArray->arr[i]));
+                SoldChess(temp, i, FightArray);
+                return;
             }
+            ((Chess*)(FightArray->arr[i]))->setTempPosition();  //记录原始位置
+            return;
         }
     }
-
+  
+    for (int i = 0; i < player1data.PlayerArray->num; i++)
+    {
+        float distance = sqrt((e->getCursorX() -
+            ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x)
+            * (e->getCursorX() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x) +
+            (e->getCursorY() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y)
+            * (e->getCursorY() - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y));
+        if (distance < 50)
+        {
+            if ((int)e->getMouseButton() == 0)
+                MouseToChess = i + FightNumber;    //确定选取的棋子
+            else if ((int)e->getMouseButton() == 1)
+            {
+                auto temp = ((Chess*)(player1data.PlayerArray->arr[i]));
+                SoldChess(temp, i, player1data.PlayerArray);
+                return;
+            }
+            ((Chess*)(player1data.PlayerArray->arr[i]))->setTempPosition();   //记录原始位置
+            return;
+        }
+    }   
 }
 
 void GameScene::onMouseUp(Event* event)
@@ -196,7 +212,7 @@ void GameScene::onMouseUp(Event* event)
     if ((int)e->getMouseButton() == 0)
     {
         
-        if (MouseToChess >= 0 && MouseToChess < 20)
+        if (MouseToChess >= 0 && MouseToChess < FightNumber)
         {
             auto temp = ((Chess*)(FightArray->arr[MouseToChess]));
             if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] == 1)   //拒绝重合
@@ -219,15 +235,15 @@ void GameScene::onMouseUp(Event* event)
                 temp->set(MapJudge(temp->getPosition()));
                 ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
                 ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
-                player1data.Chessnumber++;
+              
                 ccArrayAppendObject(player1data.PlayerArray, temp);
                 ccArrayRemoveObject(FightArray, temp);
                 
             }
         }
-        else if (MouseToChess >= 20)
+        else if (MouseToChess >= FightNumber)
         {
-            auto temp = ((Chess*)(player1data.PlayerArray->arr[MouseToChess - 20]));
+            auto temp = ((Chess*)(player1data.PlayerArray->arr[MouseToChess - FightNumber]));
             if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] == 1)   //拒绝重合
             {
                 temp->setPosition(MapJudge(temp->getTempPosition()));
@@ -247,12 +263,17 @@ void GameScene::onMouseUp(Event* event)
                 temp->set(MapJudge(temp->getPosition()));
                 ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
                 ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
-                player1data.Chessnumber--;
+              
                 ccArrayAppendObject(FightArray, temp);
                 ccArrayRemoveObject(player1data.PlayerArray, temp);
                
                 //player1data.HaveNewChess = 1;
                 
+            }
+            else                            //其他不可控情况
+            {
+                temp->setPosition(MapJudge(temp->getTempPosition()));
+                temp->set(MapJudge(temp->getTempPosition()));
             }
         }
         MouseToChess = -1;                   //取消选取
@@ -266,12 +287,12 @@ void GameScene::onMouseMove(Event* event)
     EventMouse* e = (EventMouse*)event;
     if (MouseToChess != -1)
     {
-        if (test_timer->pTime < -1e-6 && MouseToChess < 20)
+        if (test_timer->pTime < -1e-6 && MouseToChess < FightNumber)
         {
             MouseToChess = -1;
             return;
         }
-        else if (MouseToChess < 20)             //小于20为战斗区，大于20为备战区
+        else if (MouseToChess < FightNumber)             //小于FightNumber为战斗区，大于FightNumber为备战区
         {
             auto temp = (Chess*)(FightArray->arr[MouseToChess]);
             
@@ -287,9 +308,9 @@ void GameScene::onMouseMove(Event* event)
                 MouseToChess = -1;                        //回到原位，取消选取
             }
         }
-        else if (MouseToChess >= 20)
+        else if (MouseToChess >= FightNumber)
         {
-            auto temp = (Chess*)(player1data.PlayerArray->arr[MouseToChess - 20]);
+            auto temp = (Chess*)(player1data.PlayerArray->arr[MouseToChess - FightNumber]);
             if (MapJudge(temp->getPosition()) != Point(-1, -1))
             {
                 temp->setPosition(e->getCursorX(), e->getCursorY());

@@ -3,9 +3,8 @@
 
 class PeaShooter :public Chess {
 
-
 public:
 	PeaShooter();
-	static PeaShooter* createChess(string picture_name, float x, float y);
+	static PeaShooter* createChess();
 	CREATE_FUNC(PeaShooter);
 };
