@@ -37,7 +37,11 @@ private:
 	Point MapJudge(Point point);
 	IntMap MapIntReturn(Point point);
 	int MouseToChess = -1;
-	void SoldChess(Chess* temp, int i, ccArray* Array);
+
+	bool FindMouseTarget(ccArray* Array, EventMouse* e);
+	void SoldChess(Chess* temp, ccArray* Array);
+	
+
 	friend class Chess;
 	friend class GameSprite;
 
@@ -48,4 +52,5 @@ private:
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	int turn = 0;
+	friend class GameSprite;
 };

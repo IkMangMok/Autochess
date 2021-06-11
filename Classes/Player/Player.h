@@ -11,6 +11,6 @@ private:
 	
 public:
 	static Player* createPlayer();
-	
+	virtual bool init();
 	CREATE_FUNC(Player);
 };

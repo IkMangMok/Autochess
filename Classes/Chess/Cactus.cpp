@@ -2,6 +2,7 @@
 
 Cactus::Cactus()        
 {
+	type = cactus;
 	AttackDistance = 750;
 	Health = 700;
 	HealthLimit = Health;

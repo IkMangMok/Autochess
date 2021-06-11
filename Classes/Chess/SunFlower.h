@@ -8,3 +8,10 @@ public:
 	CREATE_FUNC(SunFlower);
 	
 };
+
+class upgrade_SunFlower :public SunFlower {
+public:
+	upgrade_SunFlower();
+	static upgrade_SunFlower* createChess();
+	CREATE_FUNC(upgrade_SunFlower);
+};

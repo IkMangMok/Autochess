@@ -2,11 +2,11 @@
 #include"Chess/ChessFile.h"
 #include"Data/GameData.h"
 #include"Data/PlayerData.h"
-#include"Map/MapLayer.h"
+
 #include "cocos-ext.h"              //包含cocos-ext.h头文件
 using namespace cocos2d::extension;
 
-#define ChessNumber 10
+
 
 struct chessInfo
 {

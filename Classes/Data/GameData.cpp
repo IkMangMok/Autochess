@@ -28,5 +28,5 @@ void GameData::GameStartInit()
 
 ccArray* FightArray = ccArrayNew(100);    //打斗中的棋子数组
 ccArray* ComputerArray = ccArrayNew(100); //电脑棋子数组
-int chesspile[10];          //牌堆
+int chesspile[ChessNumber];          //牌堆
 bool HaveNewFightChess = 0;

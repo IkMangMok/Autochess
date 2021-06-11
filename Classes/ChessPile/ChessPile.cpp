@@ -20,6 +20,7 @@ Chess* ChessPile::ChessCreate(int i)   //生成不同的棋子
     {
         case walnut:
             return WalNut::createChess();
+            player1data.chessnumber[walnut]++;
             break;
         case pealauncher:
             return PeaShooter::createChess();

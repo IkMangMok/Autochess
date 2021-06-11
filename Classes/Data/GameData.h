@@ -1,10 +1,11 @@
 #pragma once
 #include "cocos2d.h"
-
+#include "Map/MapLayer.h"
 USING_NS_CC;
 
 
 //地图：64*36
+#define ChessNumber 20
 
 class GameData: Scene
 {
@@ -51,5 +52,5 @@ extern GameData* global_data;
 extern ccArray* FightArray;    //打斗中的棋子数组
 extern ccArray* PlayerArray;   //玩家备战区的棋子数组
 extern ccArray* ComputerArray; //电脑棋子数组
-extern int chesspile[10];
+extern int chesspile[ChessNumber];
 extern bool HaveNewFightChess;

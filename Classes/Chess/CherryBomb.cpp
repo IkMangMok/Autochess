@@ -2,6 +2,7 @@
 
 CherryBomb::CherryBomb()        //初步设想：通过技能可以群体回血或获得金币/经验
 {
+	type = cherrybomb;
 	AttackDistance = 375;
 	Health = 700;
 	HealthLimit = Health;

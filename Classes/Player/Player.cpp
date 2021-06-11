@@ -7,3 +7,7 @@ Player* Player::createPlayer()
 	return player;
 }
 
+bool Player::init()
+{
+	return true;
+}

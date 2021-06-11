@@ -8,8 +8,35 @@ GameSprite* GameSprite::createGameSprite()
 }
 bool GameSprite::init()
 {
+    for (int i = 0; i < player1data.PlayerArray->num; i++)
+    {
+        auto temp = ((Chess*)player1data.PlayerArray->arr[i]);
+        temp->setPosition(temp->getTempPosition());
+        temp->set(temp->getTempPosition());
+        this->addChild(temp);
+    }
+    for (int i = 0; i < FightArray->num; i++)
+    {
+        auto temp = ((Chess*)FightArray->arr[i]);
+        temp->setPosition(temp->getTempPosition());
+        temp->set(temp->getTempPosition());
+        this->addChild(temp);
+    }
 
     return true;
+}
+IntMap GameSprite::MapIntReturn(Point point)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (sqrt((point.x - mapPosition[i][j].x) * (point.x - mapPosition[i][j].x)    //遍历地图，判断是否在格子内
+                + (point.y - mapPosition[i][j].y) * (point.y - mapPosition[i][j].y)) < 37.5 * sqrt(2))
+                return IntMap(i, j);    //返回离散型坐标
+        }
+    }
+    return IntMap(-1, -1);
 }
 void GameSprite::ChessMove(Chess* chess)
 {
@@ -57,11 +84,77 @@ void GameSprite::ChessMove(Chess* chess)
 
 void GameSprite::update(float dt)
 {
-   
     for (int i = 0; i < FightArray->num; i++)
     {
         ChessMove((Chess*)(FightArray->arr[i]));
     }
 }
 
+void GameSprite::upgrade(float dt)
+{
+    Chess* temp[3] = { NULL,NULL,NULL };
+    ccArray* tempArray[3] = {};
+    int s = 0;  //三个待升级棋子
+    for (int i = 0; i < ChessNumber; i++)
+    {
+        if (player1data.chessnumber[i] >= 3)
+        {
+            for (int j = 0; j < player1data.PlayerArray->num; j++)
+            {
+                if (((Chess*)(player1data.PlayerArray->arr[j]))->getType() == i)
+                {
+                    temp[s] = ((Chess*)(player1data.PlayerArray->arr[j]));
+                    tempArray[s] = player1data.PlayerArray;
+                    s++;
+                    if (s == 3)
+                        break;
+
+                }
+            }
+            if (temp[0] == NULL || temp[1] == NULL || temp[2] == NULL)   //若在备战区没寻满三个，则进入战斗区找
+            {
+                for (int j = 0; j < FightArray->num; j++)
+                {
+                    if (((Chess*)(FightArray->arr[j]))->getType() == i)
+                    {
+                        temp[s] = ((Chess*)(FightArray->arr[j]));
+                        tempArray[s] = FightArray;
+                        s++;
+                        if (s == 3)
+                            break;
+
+                    }
+                }
+            }
+            if (temp[0] != NULL && temp[1] != NULL && temp[2] != NULL)
+            {
+                auto upgrade_chess = upgradeChessCreate(i);
+                for (int i = 0; i < 3; i++)
+                {
+                    ChessExist[MapIntReturn(temp[i]->getTempPosition()).x][MapIntReturn(temp[i]->getTempPosition()).y] = 0;
+                    this->removeChild(temp[i]);
+                    ccArrayRemoveObject(tempArray[i], temp[i]);
+                }
+                player1data.chessnumber[i] -= 3;
+                ccArrayAppendObject(player1data.PlayerArray, upgrade_chess);            
+                player1data.HaveNewChess = 1;
+                return;
+            }
+            
+        }
+        
+    }
+}
+Chess* GameSprite::upgradeChessCreate(int type)
+{
+    switch (type + 8)
+    {
+        case upgrade_sunflower:
+            return upgrade_SunFlower::createChess();
+            break;
+        default:
+            break;
+    }
+
+}
 

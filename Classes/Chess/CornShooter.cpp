@@ -2,6 +2,7 @@
 
 CornShooter::CornShooter()       
 {
+	type = cornshooter;
 	AttackDistance = 225;
 	Health = 600;
 	HealthLimit = Health;

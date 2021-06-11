@@ -2,6 +2,7 @@
 
 WalNut::WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 {
+	type = walnut;
 	AttackDistance = 75;
 	Health = 1200;
 	HealthLimit = Health;

@@ -6,14 +6,15 @@ USING_NS_CC;
 
 PeaShooter::PeaShooter()
 {
-	 AttackDistance = 450;  
-	 Health = 600;          
-	 HealthLimit = Health;
-	 Damage = 80;
-	 Armor = 10;
-	 AttackSpeed = 1.0f;
-	 CoinsNeeded = 2;
-}
+	type = pealauncher;
+	AttackDistance = 450;
+	Health = 600;
+	HealthLimit = Health;
+	Damage = 80;
+	Armor = 10;
+	AttackSpeed = 1.0f;
+	CoinsNeeded = 2;
+};
 PeaShooter* PeaShooter::createChess()
 {
 

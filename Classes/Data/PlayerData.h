@@ -1,5 +1,6 @@
 #pragma once
 #include"cocos2d.h"
+#include"GameData.h"
 USING_NS_CC;
 
 
@@ -16,7 +17,7 @@ private:
 public:
 	void Hurted(int blood){ HealthValue -= blood;}
 	void BuyChess();
-	
+	int chessnumber[ChessNumber];
 	//CREATE_FUNC(PlayerData);
 	friend class GameSprite;
 	friend class ChessPile;

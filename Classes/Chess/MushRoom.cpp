@@ -2,6 +2,7 @@
 
 MushRoom::MushRoom()
 {
+	type = mushroom;
 	AttackDistance = 225;
 	Health = 400;
 	HealthLimit = Health;
