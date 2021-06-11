@@ -52,15 +52,6 @@ public:
 	virtual void Hurted(int Damage);  //受伤
 	bool Die();                     //判断是否死亡及死亡操作
 	int GetAttackDistance();        //获得攻击距离
-
-	/*用于装备修改属性*/
-	void ChangeAttackDistance(int value) { AttackDistance += value; }
-	void ChangeHealthLimit(int value) { HealthLimit += value; }
-	void ChangeHealth(int value) { Health += value; }
-	void ChangeArmor(int value) { Armor += value; }
-	void ChangeAttackSpeed(float value) { AttackSpeed += value; }
-	void ChangeDamage(int value) { Damage += value; }
-
 	void Move(float dt);
 	
 private:

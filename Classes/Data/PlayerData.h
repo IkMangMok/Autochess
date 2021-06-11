@@ -1,33 +1,45 @@
 #pragma once
-#include "cocos2d.h"
-#include "Equipment/Gun.h"
-#include "Equipment/Knife.h"
-
-
+#include"cocos2d.h"
 USING_NS_CC;
 
-struct PackageSlot {
-	int x;
-	int y;
-	bool is_occupied;   // 0 -- not occupied; 1 -- occupied
-	int is_equiped;   // -1 -- not occupied yet; 0 -- not equipped ; 1 -- equipped
-};
-
-class PlayerData
+struct PackageSlot
 {
-public:
-	//PlayerData();
-	//~PlayerData();
+	//int x;
+	//int y;
+	bool is_occupied;//占用状态
+	int is_equiped;//装备状态
+};
+class PlayerData {
 private:
-	ccArray* UnequipedEquipment = ccArrayNew(1200);       //未装备数组
+	int LifeLimit = 100;   //生命值上限
+	int HealthValue = LifeLimit; //生命值
+	int Grade = 1; //玩家等级
+	int ExperienceValue = 0;   //经验值
+	int Gold = 5;  //金币
+	ccArray* equipment = ccArrayNew(100);   //装备
+	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
+	bool HaveNewChess = 0;
+
+
+	/*装备系统相关数据*/
+	ccArray* UnequipedEquipment = ccArrayNew(1200);
 	int occupied_slot = 0;
-	bool package_is_opened = 0;
+	bool is_package_opened = 0;
+	PackageSlot packageSlot[3][4] = {};
+	Point slotPoint[12] = {};
 
-	PackageSlot packageSlot[3][4] = {};                   //二维数组存放12个插槽的int坐标 
-	Point slotPoint[12] = {};                       //储存12个插槽的Point类坐标
 
+
+public:
+	void Hurted(int blood){ HealthValue -= blood;}
+	void BuyChess();
+	
+	//CREATE_FUNC(PlayerData);
+	friend class GameSprite;
+	friend class ChessPile;
+	friend class GameScene;
 	friend class Package;
-	friend class scene1;
 };
 
-extern PlayerData player_data1;
+extern PlayerData player1data;
+extern PlayerData player2data;

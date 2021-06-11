@@ -23,10 +23,10 @@
  ****************************************************************************/
 
 #include "AutoChessScene.h"
-#include"scene1.h"
+#include "scene1.h"
 #include "HelpScene.h"
 #include "SettingScene.h"
-
+#include "GameScene.h"
 
 USING_NS_CC;
 static int audioID;
@@ -198,11 +198,10 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
-    global_data.GameStartInit(); //初始化全局数据
-
+    global_data->GameStartInit(); //初始化全局数据
     AudioEngine::stop(audioID);
 
-    _director->replaceScene(scene1::createScene());
+    _director->replaceScene(GameScene::createScene());
 
 }
 

@@ -3,20 +3,20 @@
 Gun* Gun::createGun()
 {
 	auto gun = Gun::create();
+
+	/*图像初始化*/
 	gun->initWithFile("Gun.png");
+	/*种类*/
+	gun->type = GUN;
+	/*属性加成设定值*/
+	gun->addAttackDistance = 100; //攻击距离
+	gun->addHealthLimit = 200;    //生命上限
+	gun->addHealth = 200;         //当前生命值
+	gun->addArmor = 0;            //护甲
+	gun->addAttackSpeed = 0.3f; //攻速
+	gun->addDamage = 50;          //攻击力
+
 	gun->retain();
-	gun->type = 1;
 	return gun;
-
 }
 
-/*对棋子进行加成*/
-void Gun::EquipToChess(Chess* Owner)
-{
-	Owner->ChangeAttackDistance(addAttackDistance);
-	Owner->ChangeHealthLimit(addHealthLimit);
-	Owner->ChangeHealth(addHealth);
-	Owner->ChangeArmor(addArmor);
-	Owner->ChangeAttackSpeed(addAttackSpeed);
-	Owner->ChangeDamage(addDamage);
-}

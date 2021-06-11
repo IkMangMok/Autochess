@@ -1,15 +1,17 @@
 #pragma once
 #include "cocos2d.h"
-#include"Player/Player.h"
 
 USING_NS_CC;
 
-class GameData
+
+//地图：64*36
+
+class GameData: Scene
 {
 public:
-	//static GameData* createGameData();
-	//CREATE_FUNC(GameData);
-	//virtual bool init();
+	static GameData* createGameData();
+	CREATE_FUNC(GameData);
+	virtual bool init();
 	/* 获取当前游戏数据的函数 */
 	/* functions to obtain the game data */
 	/*int GetPlayerCoin() { return player_coin; }
@@ -32,7 +34,7 @@ public:
 	int player_level;
 	int player_exe;
 	int player_blood;*/
-	int game_turn = 0;
+	int game_turn;
 
 	/* 修改当前游戏数据的函数 */
 	/*void ChangePlayerCoin(int benefit) { player_coin += benefit; }
@@ -40,11 +42,14 @@ public:
 	void ChangePlayerBlood(int hurt) { player_blood -= hurt; }  */   //注意伤害是正数
 	void ChangeGameTurn() { game_turn++; }
 
-	friend class AutoChess;
-	friend class scene1;
 };
 
 /*外部声明全局变量 global_data*/
-extern GameData global_data;
-extern ccArray* pArray;
-extern Player* player1;
+extern GameData* global_data;
+
+
+extern ccArray* FightArray;    //打斗中的棋子数组
+extern ccArray* PlayerArray;   //玩家备战区的棋子数组
+extern ccArray* ComputerArray; //电脑棋子数组
+extern int chesspile[10];
+extern bool HaveNewFightChess;

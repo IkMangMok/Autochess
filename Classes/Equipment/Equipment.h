@@ -1,37 +1,43 @@
 #pragma once
+
+#define GUN 1
+#define KNIFE 2
+
 #include "cocos2d.h"
-#include "Chess/Chess1.h"
+#include "Chess/Chess.h"
 
 USING_NS_CC;
 
 enum class EquipmentType
 {
 	None,
-	Gun,          /* 枪 */
-	Knife         /* 刀 */
-	           
-	//...
+	Gun,
+	Knife
 };
-class Equipment :public Sprite
+
+class Equipment:public Sprite 
 {
 protected:
 
+	int type;//装备类型
 
-	float x_in_package = 0;       //进入战斗时的位置
-	float y_in_package = 0;
-
-	bool equiped_or_not = 0;      //是否装备
-
-	int type ;
+	/*属性加成设定值*/
+	int addAttackDistance ; //攻击距离
+	int addHealthLimit ;    //生命上限
+	int addHealth ;         //当前生命值
+	int addArmor ;            //护甲
+	float addAttackSpeed ; //攻速
+	int addDamage ;          //攻击力
 
 public:
-	virtual void EquipToChess(Chess* Owner) = 0;    //对棋子进行加成(a pure virtual func)
 
+	/*对棋子进行装备加成*/
+	virtual void EquipToChess(Chess* Owner);  
 private:
 	Chess* OwnerChess = NULL;
-	float SearchDistance = 30;
+	float SearchDistance = 30;         //在地图中对装备目标搜索的距离（could be better）
 
-	friend class scene1;
+	friend class GameScene;
 	friend class Package;
 };
 

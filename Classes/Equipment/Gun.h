@@ -3,23 +3,18 @@
 #include "Equipment.h"
 
 USING_NS_CC;
-
-class Gun :public Equipment
+class Gun:public Equipment
 {
 protected:
-	int addAttackDistance = 20;  //攻击距离
-	int addHealthLimit = 0;     //生命上限
-	int addHealth = 0;          //生命值
-	int addArmor = 0;        //护甲
-	float addAttackSpeed = 0.1f;  //攻击速度
-	int addDamage = 5;     //攻击力
+
+
 public:
+
+	/*创建相关函数*/
 	CREATE_FUNC(Gun);
 	static Gun* createGun();
 
-	virtual void EquipToChess(Chess* owner);    //加成（装备）
-
-
-private:
-
+	/*对棋子进行装备加成*/
+	//virtual void EquipToChess(Chess* Owner);
 };
+

@@ -26,8 +26,9 @@
 #define __AutoChess_SCENE_H__
 
 #include "cocos2d.h"
-#include "Data/GameData.h"
-;
+
+USING_NS_CC;
+
 class AutoChess : public cocos2d::Scene
 {
 public:

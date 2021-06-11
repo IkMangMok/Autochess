@@ -1,3 +1,4 @@
-#include "PlayerData.h"
+#include"PlayerData.h"
 
-PlayerData player_data1;
+PlayerData player1data;
+PlayerData player2data;

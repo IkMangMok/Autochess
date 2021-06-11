@@ -1,4 +1,4 @@
-#include"scene1.h"
+/*#include"scene1.h"
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
 #include "AudioEngine.h"
@@ -8,6 +8,17 @@
 USING_NS_CC;
 using namespace std;
 
+scene1::scene1()
+{
+
+    Chesspile->retain();
+    player1->retain();
+    this->addChild(Chesspile, 1);
+}
+scene1::~scene1()
+{
+   
+}
 Scene* scene1::createScene()
 {
     return scene1::create();
@@ -21,26 +32,8 @@ static void problemLoading(const char* filename)
 static int audioID;
 bool scene1::init()
 {
-
-    if (!Scene::init())
-    {
-        return false;
-    }
-
-    
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    /*更新并且显示回合数*/
-    global_data.ChangeGameTurn();
-    auto turn_label = Label::createWithTTF("TURN ", "fonts/Marker Felt.ttf", 24);
-    turn_label->setPosition(200, 800);
-    this->addChild(turn_label);
-    char* mTurn = new char[8];
-    sprintf(mTurn, "Turn %02d", global_data.game_turn);
-    turn_label->setString(mTurn);
-
-    
 
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
@@ -66,7 +59,7 @@ bool scene1::init()
     this->addChild(menu, 1);
 
 
-    /*---------------------MenuItemImage BackInScene1----------------------*/
+
     auto BackInScene1 = MenuItemImage::create(
         "BackToMenu.png",
         "BackToMenu.png",
@@ -83,85 +76,35 @@ bool scene1::init()
         float x = origin.x + visibleSize.width / 2;
         float y = origin.y + 50;// +BackInScene1->getContentSize().height / 2 + visibleSize.height / 2;
         BackInScene1->setPosition(Vec2(x, y));
+        auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
+        back_in_scene1->setPosition(origin.x + visibleSize.width / 2 - BackInScene1->getContentSize().width,
+            origin.y + visibleSize.height - BackInScene1->getContentSize().height);
+        this->addChild(back_in_scene1, 1);
     }
-
-    auto back_in_scene1 = Menu::create(BackInScene1, NULL);  //返回按钮
-    back_in_scene1->setPosition(Vec2::ZERO);
-    this->addChild(back_in_scene1, 1);
-
-    auto  BuyChess = MenuItemImage::create(
+  /*  auto  BuyChess = MenuItemImage::create(
         "buy.jpg", "buy.jpg", CC_CALLBACK_1(scene1::PlayerBuyChess, this));
-        
+    auto buychess = Menu::create(BuyChess, NULL);  //买棋子的按钮
+    buychess->setPosition(Vec2::ZERO);
+    buychess->setScale(0.5);
+    this->addChild(buychess, 1);*//*
+    auto tempsprite = Sprite::create("buy.jpg");
+    auto tempsprite1 = Sprite::create("buy.jpg");
+    auto tempsprite2= Sprite::create("buy.jpg");
+    auto tempsprite3 = Sprite::create("buy.jpg");
+    auto BuyChess = ControlSwitch::create(tempsprite, tempsprite1, tempsprite2, tempsprite3);
+    this->addChild(BuyChess, 1);
+    BuyChess->setPosition(visibleSize.width, 0);
+    BuyChess->addTargetWithActionForControlEvents(this, cccontrol_selector(scene1::PlayerBuyChess), Control::EventType::VALUE_CHANGED);
 
-    auto buychess = Menu::create(BuyChess, NULL);  //返回按钮
-    buychess->setPosition(Vec2(500, 500));
-    this->addChild(buychess, 1);
 
-    /*----------------------Button OpenPackage---------------
-    auto OpenPackage = MenuItemImage::create(
-        "PackageButton.png",
-        "PackageButton.png",
-        CC_CALLBACK_1(scene1::openPackage, this));
-
-    if (OpenPackage == nullptr ||
-        OpenPackage->getContentSize().width <= 0 ||
-        OpenPackage->getContentSize().height <= 0)
-    {
-        problemLoading("'PackageButton.png' and 'PackageButton.png'");
-    }
-    else
-    {
-        float x = 1000;
-        float y = 50;// +BackInScene1->getContentSize().height / 2 + visibleSize.height / 2;
-        OpenPackage->setPosition(Vec2(x, y));
-    }
-
-    auto open_package = Menu::create(OpenPackage, NULL);  //返回按钮
-    open_package->setPosition(Vec2::ZERO);
-    this->addChild(open_package, 1);-*/
-
-    /*------------------------TMXTiledMap _tileMap---------------------*/
-    auto _tileMap = TMXTiledMap::create("test_map1.tmx");              // my first tiled map
+    auto _tileMap = TMXTiledMap::create("playmap2.tmx");              // my first tiled map
     _tileMap->setPosition(origin.x, origin.y);
     this->addChild(_tileMap);
     this->addChild(test_timer, 1);
-
-    /*------------------------Package* package------------------------*/
-    package->setPosition(0, 0);
-    if(player_data1.occupied_slot<12)
-        package->ObtainEquipment(global_data.game_turn);
-    this->addChild(package);
-
-    if (player_data1.package_is_opened == 1)
-    {
-
-        (package->package_image)->setPosition(1298, 397);   //显示背包框架
-
-        package->ShowEquipment();                                 //显示背包中的装备
-    }
-
-   /* auto person = Chess::createChess("test_chess_1.png", Point(0,0));
-    this->addChild(person, 0);
-   
-    auto person1 = TestChess::createChess("test_chess_2.png", 0, 0);
-
-    this->addChild(person1, 0);
-    */
- //  auto person2 = Chess::createChess("test_chess_1.png", Point(0, 0));
-   /*this->addChild(person2, 0);
-   // person2->scheduleUpdate();
-    ccArrayAppendObject(pArray, person);  //将棋子放入数组中
-    ccArrayAppendObject(pArray, person1);
-    ccArrayAppendObject(pArray, person2);*/
+    this->addChild(player1, 1);
   
-    
-    /*for (int i = 0; i < pArray->num; i++)
-    {
-        this->addChild(((Chess*)(pArray->arr[i])), 0);
-    }*/
-    
+    audioID = AudioEngine::play2d("background music.MP3", true, 1.0f);
     this->scheduleUpdate();  //棋子会互相搜索到对方 
-
     return true;
     
 }
@@ -196,8 +139,8 @@ void scene1::ChessMove(Chess *chess)
             (chess->AttackTarget->getPosition().y - chessPosition.y)
             * (chess->AttackTarget->getPosition().y - chessPosition.y));
     }
-    /*移动，以1e-2为单位移动
-    */
+    //移动，以1e-2为单位移动
+    
     if (chess->AttackTarget == NULL)  //无攻击目标则结束
     {
         return;
@@ -212,13 +155,11 @@ void scene1::ChessMove(Chess *chess)
 }
 void scene1::update(float dt)
 {
-    //if (package_shown == 1)
-      //  package->ShowEquipment();       //展示背包
-
+   
     if (test_timer->pTime > 0.1f)
     {
         ChessMoveInMouse();   //移动棋子
-        
+      
     }
     else if (fabs(test_timer->pTime) <= 0.1f)
     {
@@ -247,121 +188,46 @@ void scene1::ChessMoveInMouse()
 {
     auto MouseListener = EventListenerMouse::create();
     MouseListener = EventListenerMouse::create();
-    MouseListener->onMouseDown = CC_CALLBACK_1(scene1::onMouseDown, this);
     MouseListener->onMouseMove = CC_CALLBACK_1(scene1::onMouseMove, this);
     MouseListener->onMouseUp = CC_CALLBACK_1(scene1::onMouseUp, this);
+    MouseListener->onMouseDown = CC_CALLBACK_1(scene1::onMouseDown, this);
     MouseListener->onMouseScroll = CC_CALLBACK_1(scene1::onMouseScroll, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener, this);
 }
 
-/*当按下鼠标*/
 void scene1::onMouseDown(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
     if ((int)e->getMouseButton() == 0&& test_timer->pTime > 0)  //左键才触发
     {
-        /*鼠标已经选中的标志*/
-        int Obj_is_Selected = 0;
-
-        /*判断是否选中装备（范围20）*/
-        if (!Obj_is_Selected)
+        for (int i = 0; i < pArray->num; i++)
         {
-            for (int i = 0; i < player_data1.UnequipedEquipment->num; i++)
-            {
-                float dx = (e->getCursorX() - ((Equipment*)(player_data1.UnequipedEquipment->arr[i]))->getPosition().x);
-                float dy = (e->getCursorY() - ((Equipment*)(player_data1.UnequipedEquipment->arr[i]))->getPosition().y);
-                float distance = sqrt(dx * dx + dy * dy);
-                if (distance < 20)
-                {
-                    MouseSelectedEquip = i;  //确定选中的装备
-                    Obj_is_Selected = 1;
-                }
-            }
-        }
-  
-        /*判断是否选中棋子（范围20）*/
-        if (!Obj_is_Selected)
-        {
-            for (int i = 0; i < pArray->num; i++)
-            {
-                float distance = sqrt((e->getCursorX() -
-                    ((Chess*)(pArray->arr[i]))->getPosition().x)
-                    * (e->getCursorX() - ((Chess*)(pArray->arr[i]))->getPosition().x) +
-                    (e->getCursorY() - ((Chess*)(pArray->arr[i]))->getPosition().y)
-                    * (e->getCursorY() - ((Chess*)(pArray->arr[i]))->getPosition().y));
-                if (distance < 20)
-                    MouseToChess = i;    //确定选取的棋子
-            }
+            float distance = sqrt((e->getCursorX() -
+                ((Chess*)(pArray->arr[i]))->getPosition().x)
+                * (e->getCursorX() - ((Chess*)(pArray->arr[i]))->getPosition().x) +
+                (e->getCursorY() - ((Chess*)(pArray->arr[i]))->getPosition().y)
+                * (e->getCursorY() - ((Chess*)(pArray->arr[i]))->getPosition().y));
+            if (distance < 20)
+                MouseToChess = i;    //确定选取的棋子
         }
     }
 
 }
 
-/*当松开鼠标*/
 void scene1::onMouseUp(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
 
     if ((int)e->getMouseButton() == 0)
-    {
-        if (MouseToChess != -1)
-            MouseToChess = -1;                   //取消选取
-    
-        if (MouseSelectedEquip != -1)
-        {
-            if (EquipSearchChess(e->getCursorX(), e->getCursorY(), MouseSelectedEquip))           //若找到目标棋子，（在EquipSearchChess中）完成加成
-            {
-                ((Equipment*)(player_data1.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(10000, 10000);
-                ccArrayRemoveObjectAtIndex(player_data1.UnequipedEquipment, MouseSelectedEquip);                                  //从Array中移除装备
-                player_data1.occupied_slot--;
-            }
-            else              //未找到目标位置，返回背包
-            {
-                ((Equipment*)(player_data1.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(player_data1.slotPoint[MouseSelectedEquip]);//没找到加成的棋子，回到背包
-            }
-            
-            MouseSelectedEquip = -1;
-        }
-        
-    }
-
-}
-
-/*装备找棋子*/
-bool scene1::EquipSearchChess(const float EquipX, const float EquipY, const int EquipIndex)
-{
-    for (int i = 0; i < pArray->num; i++)
-    {
-        float dx = EquipX - ((Chess*)(pArray->arr[i]))->getPosition().x;
-        float dy = EquipY - ((Chess*)(pArray->arr[i]))->getPosition().y;
-        float distance = sqrt(dx * dx + dy * dy);
-        if (distance < 20)
-        {
-            switch (((Equipment*)player_data1.UnequipedEquipment->arr[i])->type)
-            {
-                case GUN:
-                    ((Gun*)player_data1.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(pArray->arr[i]));
-                    break;
-                case KNIFE:
-                    ((Knife*)player_data1.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(pArray->arr[i]));
-                    break;
-            }
-            return true;
-        }
-    }
-    return false;
+        MouseToChess = -1;                   //取消选取
 }
 
 void scene1::onMouseMove(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
-    if (MouseSelectedEquip != -1 && test_timer->pTime > 0)
-    {
-        ((Equipment*)(player_data1.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(e->getCursorX(), e->getCursorY());//移动它
-    }
     if (MouseToChess != -1 && test_timer->pTime > 0)
     {
         ((Chess*)(pArray->arr[MouseToChess]))->setPosition(e->getCursorX(), e->getCursorY());
@@ -393,21 +259,28 @@ void scene1::Win()
             ((Chess*)(pArray->arr[i]))->setPosition(((Chess*)(pArray->arr[i]))->getTempPosition());
             ((Chess*)(pArray->arr[i]))->set(((Chess*)(pArray->arr[i]))->getTempPosition());   //回到备战时的位置
         }
-
-        package->removeAllChildren();//移除装备
+        AudioEngine::stop(audioID);
         _director->replaceScene(scene1::createScene());
     }
     else
         return;
 }
 
-void scene1::PlayerBuyChess(cocos2d::Ref* pSender)
+void scene1::PlayerBuyChess(cocos2d::Ref* pSender, Control::EventType controlEvent)
 {
-    auto temp = Chess::createChess("test_chess_1.png", Point(rand() % 1000, rand() % 1000));
-    temp->OfPlayer = player1;
-    this->addChild(temp, 2);
-    ccArrayAppendObject(pArray, temp);
-    //player1->BuyChess();
+   
+    ControlSwitch* controlSwitch = (ControlSwitch*)pSender;
+
+    if (controlSwitch->isOn())
+    {
+        Chesspile->setPosition(10000, 10000);
+    }
+    else
+    {
+        Chesspile->setPosition(0, 0);
+        Chesspile->ToSellDistrict();
+    }
+
 }
 
 
@@ -417,31 +290,4 @@ void scene1::scene1Back(cocos2d::Ref* pSender)
     _director->replaceScene(AutoChess::createScene());
 } 
 
-/*打开装备背包
-void scene1::openPackage(cocos2d::Ref* pSender)
-{
-    //AudioEngine::stop(audioID);
-    package->setPosition(1298, 397);
-    package_shown = 1;
-}*/
-
-/*获取装备
-void scene1::ObtainEquipment()
-{
-    if (global_data.game_turn % 5 == 0)
-    {
-        Gun* tmp = Gun::createGun();
-        this->addChild(tmp);
-        tmp->initWithFile("Gun.png");
-        tmp->setPosition(10000, 10000);
-        ccArrayAppendObject(player_data1.UnequipedEquipment, tmp);
-        player_data1.occupied_slot++;
-    }
-}
-void scene1::ShowEquipment()
-{
-    for (int i = 0; i < (player_data1.occupied_slot); i++)
-    {
-        ((Gun*)(player_data1.UnequipedEquipment->arr[i]))->setPosition(player_data1.slotPoint[i]);
-    }
-}*/
+*/
