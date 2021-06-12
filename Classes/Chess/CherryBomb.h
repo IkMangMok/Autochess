@@ -7,3 +7,10 @@ public:
 	static CherryBomb* createChess();
 	CREATE_FUNC(CherryBomb);
 };
+
+class upgrade_CherryBomb :public CherryBomb {
+public:
+	upgrade_CherryBomb();
+	static upgrade_CherryBomb* createChess();
+	CREATE_FUNC(upgrade_CherryBomb);
+};

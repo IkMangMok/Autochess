@@ -12,14 +12,21 @@ enum ChessType
 	None = -1,
 	sunflower,
 	cactus,
-	walnut,         
-	pealauncher,           
-	mushroom,       
+	walnut,
+	pealauncher,
+	mushroom,
 	cherrybomb,
 	cornshooter,
 	cabbagepult,
 	//升级后的植物
-	upgrade_sunflower
+	upgrade_sunflower,
+	upgrade_cactus,
+	upgrade_walnut,
+	upgrade_pealauncher,
+	upgrade_mushroom, 
+	upgrade_cherrybomb,
+	upgrade_cornshooter, 
+
 };
 
 class Chess :public Sprite {
@@ -49,6 +56,7 @@ protected:
 
 	int OfPlayer = 0;     //所属玩家
 	int CoinsNeeded = 0;    //所需金币
+	int SoldCoins = CoinsNeeded; //卖掉所获金币
 	int star = 1;        //星级
 	ccArray* equipment = ccArrayNew(100);   //装备
 	
@@ -67,6 +75,7 @@ public:
 	Point getTempPosition(){return Point(xtemp, ytemp);}   //获得进入战斗时的位置
 	int getType() { return type; }                       //获得类型
 	int getCoinsNeeded() { return CoinsNeeded; }
+	int getSoldCoins() { return SoldCoins; }
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
 	void setPlayer(int player) { OfPlayer = player; }
 	virtual void Attack(float dt);    //攻击

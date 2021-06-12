@@ -72,7 +72,7 @@ GameScene* GameScene::createScene()
 
 GameScene::GameScene()
 {
-
+    Coins->retain();
 }
 GameScene::~GameScene()
 {
@@ -94,9 +94,48 @@ bool GameScene::init()
 
     this->addChild(Chesspile, 4);  //牌堆层
    
+    Coins->setPosition(380, 390);   //临时记录
+    this->addChild(Coins);
+
 	this->scheduleUpdate();
 	return true;
 
+}
+
+void GameScene::addChess(PlayerData &playerdata)
+{
+    if (playerdata.HaveNewChess)                  //若有新棋子加入
+    {
+        bool flag = 1;
+        auto temp = ((Chess*)(playerdata.PlayerArray->arr[playerdata.PlayerArray->num - 1]));
+        for (int i = 0; i < 8; i++)
+        {
+
+            if (ChessExist[i][0] == 0)
+            {
+                playerdata.Gold -= temp->getCoinsNeeded();
+                gamesprite->addChild(temp);
+                temp->setPosition(mapPosition[i][0].x, mapPosition[i][0].y);
+                temp->set(mapPosition[i][0].x, mapPosition[i][0].y);
+                temp->setTempPosition();
+                playerdata.HaveNewChess = 0;
+                //temp->setPlayer(0);
+                temp->setPlayer(rand() % 2);//抽奖
+                playerdata.chessnumber[temp->getType()]++;     //记录其棋子升级信息
+                ChessExist[i][0] = 1;        //添加成功
+                flag = 0;
+                playerdata.HaveNewChess = 0;        //防止莫名其妙的BUG
+                flag = 0;
+                break;
+            }
+        }
+        if (flag)
+        {
+            ccArrayRemoveObject(playerdata.PlayerArray, temp);   //添加失败
+            playerdata.HaveNewChess = 0;
+            
+        }
+    }
 }
 /***************************************
 功能：
@@ -106,42 +145,12 @@ bool GameScene::init()
 *************************************/
 void GameScene::update(float dt)
 {
-    //gamesprite->upgrade(dt);             //监测是否可升级
-    if (player1data.HaveNewChess)                  //若有新棋子加入
-    {
-        bool flag = 1;
-        for (int i = 0; i < 8; i++)
-        {
-            if (ChessExist[i][0] == 0)
-            {
-                
-                gamesprite->addChild(((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1])));
-                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->
-                    setPosition(mapPosition[i][0].x,
-                        mapPosition[i][0].y);
-                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->
-                    set(mapPosition[i][0].x,
-                        mapPosition[i][0].y);
-                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->setTempPosition();
-                player1data.HaveNewChess = 0;
-                //((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->setPlayer(0);
-                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->setPlayer(rand() % 2);//抽奖
-                player1data.Gold -= ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->getCoinsNeeded();
-                player1data.chessnumber
-                    [((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1]))->getType()]++;     //记录其棋子升级信息
-                ChessExist[i][0] = 1;        //添加成功
-                flag = 0;
-                player1data.HaveNewChess = 0;        //防止莫名其妙的BUG
-                break;
-            }
-        }
-        if (flag)
-        {                      
-            ccArrayRemoveObject(player1data.PlayerArray,
-                ((Chess*)(player1data.PlayerArray->arr[player1data.PlayerArray->num - 1])));   //添加失败
-            player1data.HaveNewChess = 0;
-        }
-    }
+    if (test_timer->pTime > 1e-6)
+        gamesprite->upgrade(dt);             //监测是否可升级
+    addChess(player1data);
+    addChess(player2data);
+    Coins->setString(to_string(player1data.Gold));  //临时记录
+    
     ChessMoveInMouse();
     if (test_timer->pTime < -1e-6)
     {
@@ -185,6 +194,8 @@ void GameScene::Win()
        
        // AudioEngine::stop(audioID);
         gamesprite->unscheduleUpdate();
+        player1data.recover();
+        Sleep(300);
         _director->replaceScene(GameScene::createScene());
     }
     else
@@ -362,9 +373,9 @@ void GameScene::onMouseScroll(Event* event)
 void GameScene::SoldChess(Chess* temp, ccArray* Array)        //整合函数
 {
     ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
+    player1data.Gold += temp->getSoldCoins();
     gamesprite->removeChild(temp);       //卖出
     ccArrayRemoveObject(Array, temp);
-    player1data.Gold += temp->getCoinsNeeded();
 }
 
 bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)       //应修复：卖出正在打架的棋子

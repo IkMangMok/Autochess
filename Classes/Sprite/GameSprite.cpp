@@ -152,6 +152,24 @@ Chess* GameSprite::upgradeChessCreate(int type)
         case upgrade_sunflower:
             return upgrade_SunFlower::createChess();
             break;
+        case upgrade_cactus:
+            return upgrade_Cactus::createChess();
+            break;
+        case upgrade_cherrybomb:
+            return upgrade_CherryBomb::createChess();
+            break;
+        case upgrade_cornshooter:
+            return upgrade_CornShooter::createChess();
+            break;
+        case upgrade_walnut:
+            return upgrade_WalNut::createChess();
+            break;
+        case upgrade_mushroom:
+            return upgrade_MushRoom::createChess();
+            break;
+        case upgrade_pealauncher:
+            return upgrade_PeaShooter::createChess();
+            break;
         default:
             break;
     }

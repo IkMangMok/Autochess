@@ -10,6 +10,8 @@ SunFlower::SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 	Armor = 5;
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 1;
+	SoldCoins = 1;
+	star = 1;
 }
 
 SunFlower* SunFlower::createChess()
@@ -33,7 +35,9 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 	Damage = 80;
 	Armor = 5;
 	AttackSpeed = 0.8f;
-	CoinsNeeded = 3;
+	CoinsNeeded = 0;
+	SoldCoins = 3;
+	star = 2;
 }
 
 upgrade_SunFlower* upgrade_SunFlower::createChess()

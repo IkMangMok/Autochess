@@ -41,6 +41,7 @@ private:
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
 	void SoldChess(Chess* temp, ccArray* Array);
 	
+	void GameScene::addChess(PlayerData &playerdata);
 
 	friend class Chess;
 	friend class GameSprite;
@@ -52,5 +53,8 @@ private:
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	int turn = 0;
+
+	Label* Coins = Label::createWithTTF(to_string(player1data.Gold), "fonts/Marker Felt.ttf", 24);  //ÁÙÊ±¼ÇÂ¼
+	
 	friend class GameSprite;
 };

@@ -8,21 +8,15 @@ using namespace cocos2d::extension;
 
 
 
-struct chessInfo
-{
-	int address = 0;
-	string picture_name = "";
-	int money = 0;
-	bool buy = false;
-};
+
 
 class ChessPile : public Layer {
 private:
-	chessInfo Used[4];
-	int i1 = 0, i2 = 1, i3 = 2, i4 = 3;    //记录坐标
+
+	int i1 = 0, i2 = 1, i3 = 2, i4 = 3, i5 = 4;    //记录坐标
 	int x = 470;
 	
-	const chessInfo chess_store[8] =
+	const chessInfo chess_store[OriginalChess] =
 	{ {walnut,"walnut.png",1} ,{pealauncher,"pealauncher.png",2},{mushroom,"mushroom.png",2}
 		,{sunflower,"sunflower.png",1},{cactus,"cactus.png",3 },{cherrybomb,"cherrybomb.png",3},
 		{cornshooter,"cornshooter.png",2},{cabbagepult,"cabbagepult.png",2} };      //初步的棋子商店，后续可加上卡池功能
@@ -52,5 +46,5 @@ public:
 	void buy2(cocos2d::Ref* pSender);
 	void buy3(cocos2d::Ref* pSender);
 	void buy4(cocos2d::Ref* pSender);
-	bool ifCanBuy();
+	bool ifCanBuy(int m);
 };

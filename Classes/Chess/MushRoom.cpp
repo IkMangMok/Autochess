@@ -10,6 +10,8 @@ MushRoom::MushRoom()
 	Armor = 15;
 	AttackSpeed = 1.1f;
 	CoinsNeeded = 2;
+	SoldCoins = 2;
+	star = 1;
 }
 
 MushRoom* MushRoom::createChess()
@@ -17,10 +19,32 @@ MushRoom* MushRoom::createChess()
 	auto mushroom = MushRoom::create();
 
 	auto temp = Sprite::create("mushroom.png");
-	mushroom->width = temp->getContentSize().width;
-	mushroom->height = temp->getContentSize().height;
 	mushroom->addChild(temp);
-	mushroom->setPosition(mushroom->x, mushroom->y);
+	mushroom->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / mushroom->AttackSpeed);
+	mushroom->autorelease();
+	return mushroom;
+}
+
+upgrade_MushRoom::upgrade_MushRoom()
+{
+	type = upgrade_mushroom;
+	AttackDistance = 225;
+	Health = 700;
+	HealthLimit = Health;
+	Damage = 120;
+	Armor = 15;
+	AttackSpeed = 1.1f;
+	CoinsNeeded = 2;
+	SoldCoins = 2;
+	star = 1;
+}
+
+upgrade_MushRoom* upgrade_MushRoom::createChess()
+{
+	auto mushroom = upgrade_MushRoom::create();
+
+	auto temp = Sprite::create("upgrade_mushroom.png");
+	mushroom->addChild(temp);
 	mushroom->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / mushroom->AttackSpeed);
 	mushroom->autorelease();
 	return mushroom;

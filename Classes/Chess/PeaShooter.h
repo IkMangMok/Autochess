@@ -8,3 +8,11 @@ public:
 	static PeaShooter* createChess();
 	CREATE_FUNC(PeaShooter);
 };
+
+class upgrade_PeaShooter :public PeaShooter {
+
+public:
+	upgrade_PeaShooter();
+	static upgrade_PeaShooter* createChess();
+	CREATE_FUNC(upgrade_PeaShooter);
+};

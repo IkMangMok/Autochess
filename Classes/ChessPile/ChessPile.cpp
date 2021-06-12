@@ -56,9 +56,19 @@ bool ChessPile::init()
 	
 	return true;
 }
-bool ChessPile::ifCanBuy()
+bool ChessPile::ifCanBuy(int m)
 {
     int sum = 0;
+    if (Used[m].money > player1data.Gold)
+    {
+        auto label = Label::createWithTTF("Not enough money!", "fonts/Marker Felt.ttf", 36);
+        this->addChild(label);
+        label->setTextColor(Color4B::WHITE);
+        label->setPosition(800, 400);
+        auto move = FadeOut::create(2.0f);
+        label->runAction(move);
+        return 0;
+    }
     for (int i = 0; i < 8; i++)
     {
         sum += ChessExist[i][0];
@@ -110,7 +120,7 @@ void ChessPile::closeLayer(cocos2d::Ref* pSender)
 }
  void ChessPile::cover(float x, float y)
  {
-     auto cover = Sprite::create("cover_bg.png");   //resources 未更新
+     auto cover = Sprite::create("cover_bg.png");   
      s_layer->addChild(cover);
      cover->setPosition(x, y);
  }
@@ -118,7 +128,8 @@ void ChessPile::closeLayer(cocos2d::Ref* pSender)
 void ChessPile::buy1(cocos2d::Ref* pSender)         //金币问题在此layer中解决
 {
    // x = x + 90;
-    if (Used[0].buy == false && ifCanBuy())
+    
+    if (Used[0].buy == false && ifCanBuy(0))
     {
         auto sprite = ChessCreate(Used[0].address);
 
@@ -132,7 +143,7 @@ void ChessPile::buy1(cocos2d::Ref* pSender)         //金币问题在此layer中
 void ChessPile::buy2(cocos2d::Ref* pSender)
 {
   //  x = x + 90;
-    if (Used[1].buy == false && ifCanBuy())
+    if (Used[1].buy == false && ifCanBuy(1))
     {
         auto sprite = ChessCreate(Used[1].address);
         Used[1].buy = true;
@@ -145,7 +156,7 @@ void ChessPile::buy2(cocos2d::Ref* pSender)
 void ChessPile::buy3(cocos2d::Ref* pSender)
 {
    // x = x + 90;
-    if (Used[2].buy == false && ifCanBuy())
+    if (Used[2].buy == false && ifCanBuy(2))
     {
         auto sprite = ChessCreate(Used[2].address);
         Used[2].buy = true;
@@ -158,7 +169,7 @@ void ChessPile::buy3(cocos2d::Ref* pSender)
 void ChessPile::buy4(cocos2d::Ref* pSender)
 {
    // x = x + 90;
-    if (Used[3].buy == false && ifCanBuy())
+    if (Used[3].buy == false && ifCanBuy(3))
     {
         auto sprite = ChessCreate(Used[3].address);
         Used[3].buy = true;
@@ -167,6 +178,7 @@ void ChessPile::buy4(cocos2d::Ref* pSender)
         cover(40, 70);
     }
 }
+
 
 void ChessPile::chessStore(cocos2d::Ref* pSender)
 {
@@ -191,13 +203,29 @@ void ChessPile::chessStore(cocos2d::Ref* pSender)
     label->setPosition(80, 490);
     s_layer->addChild(label);
 
-    for (int i = 0; i <= 3; i++)
+    for (int i = 0; i < 5; i++)
     {
         int deter = 0;
-        deter = rand() % 8;             //随机概率(后期可随玩家等级而变更)
-        Used[i].address = chess_store[deter].address;
-        Used[i].money = chess_store[deter].money;
-        Used[i].picture_name = chess_store[deter].picture_name;
+        deter = rand() % 100 + 1;
+        for (int j = 0; j < 5; j++)
+        {
+            if (deter > PB[5][j])          //暂时按照6级的概率
+                deter -= PB[5][j];
+            else
+            {
+                int temp = 0;
+                while (1)
+                {
+                    temp = rand() % OriginalChess;
+                    if (chess_store[temp].money == j + 1)
+                        break;
+                }
+                Used[i].address = chess_store[temp].address;
+                Used[i].money = chess_store[temp].money;
+                Used[i].picture_name = chess_store[temp].picture_name;
+                break;
+            }
+        }
     }
 
     /*--------------------set chess---------------------------*/
@@ -225,11 +253,13 @@ void ChessPile::chessStore(cocos2d::Ref* pSender)
     s_layer->addChild(Buy4, 1);
     Buy4->setPosition(125, 460 - 120 * i4);
 
+ 
+
     /*----------------------close store-----------------*/
     closeChessStore();
 
     /*-----------------------reset buy status-----------*/
-    for (int i = 0; i <= 3; i++)
+    for (int i = 0; i <= 4; i++)
     {
         Used[i].buy = false;
     }

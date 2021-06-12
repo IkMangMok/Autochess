@@ -17,6 +17,7 @@ private:
 public:
 	void Hurted(int blood){ HealthValue -= blood;}
 	void BuyChess();
+	void recover();
 	int chessnumber[ChessNumber];
 	//CREATE_FUNC(PlayerData);
 	friend class GameSprite;

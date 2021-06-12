@@ -9,6 +9,7 @@ CabbagePult::CabbagePult()
 	Armor = 20;
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 2;
+	SoldCoins = 2;
 }
 
 CabbagePult* CabbagePult::createChess()
