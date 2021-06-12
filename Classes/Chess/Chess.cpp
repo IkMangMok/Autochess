@@ -66,6 +66,7 @@ bool Chess::Die()
 	{
 		setPosition(Point(10000, 10000));
 		set(10000, 10000);
+		is_alive = 0;
 		return 1;
 	}
 	else

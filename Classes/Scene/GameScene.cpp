@@ -149,7 +149,8 @@ void GameScene::update(float dt)
             player1data.HaveNewChess = 0;
         }
     }
-    ChessMoveInMouse();
+    if (test_timer->pTime > 0.1f)
+        ChessMoveInMouse();
     if (test_timer->pTime < -1e-6)
     {
         gamesprite->scheduleUpdate();
@@ -328,6 +329,7 @@ void GameScene::onMouseUp(Event* event)
                 ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
               
                 ccArrayAppendObject(FightArray, temp);
+                temp->is_alive = 1;
                 ccArrayRemoveObject(player1data.PlayerArray, temp);
                
                 //player1data.HaveNewChess = 1;

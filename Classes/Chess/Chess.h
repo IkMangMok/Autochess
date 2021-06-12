@@ -67,7 +67,7 @@ public:
 
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(int Damage);  //受伤
-
+	bool is_alive = 0;         //是否在（battlefield）上存活
 	bool Die();                     //判断是否死亡及死亡操作
 
 	int GetAttackDistance();        //获得攻击距离
