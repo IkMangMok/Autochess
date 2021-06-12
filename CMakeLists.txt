@@ -91,6 +91,8 @@ list(APPEND GAME_SOURCE
      Classes/Equipment/Gun.cpp
      Classes/Equipment/Knife.cpp
      Classes/Equipment/Package.cpp
+
+     Classes/AI_Player/AI_Player.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -129,6 +131,8 @@ list(APPEND GAME_HEADER
      Classes/Equipment/Gun.h
      Classes/Equipment/Knife.h
      Classes/Equipment/Package.h
+
+     Classes/AI_Player/AI_Player.h
      )
 
 if(ANDROID)
