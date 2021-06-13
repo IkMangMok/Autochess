@@ -47,6 +47,10 @@ private:
 	friend class GameSprite;
 
 	void Win();  //ÅÐ¶Ï´ò¶·½áÊø
+	void WinRetain(ccArray* Array);
+
+	void ToFightArray(PlayerData& playerdata);
+	void ToPlayerArray(PlayerData& playerdata);
 
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer();

@@ -26,7 +26,11 @@ enum ChessType
 	upgrade_mushroom, 
 	upgrade_cherrybomb,
 	upgrade_cornshooter, 
+<<<<<<< Updated upstream
 
+=======
+	upgrade_cabbagepult
+>>>>>>> Stashed changes
 };
 
 class Chess :public Sprite {
@@ -40,6 +44,7 @@ protected:
 	int ManaLimit = 100;   //法力上限
 	int Armor = 0;        //护甲
 	int MagicResistance = 0;   //魔法抗性
+	float Magic = 1.0f;          //法术强度
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力
 
@@ -87,10 +92,23 @@ public:
 
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 	virtual void Skill() {};          //技能
+<<<<<<< Updated upstream
 	virtual void recover() {
 		Mana = ManaOrigin; Health = HealthLimit; AttackTarget = (Chess*)NULL;
 	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / this->AttackSpeed);
 	};
+=======
+	virtual void recover();
+	Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
+	
+	
+	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+	void update(float dt) ;
+
+	
+
+	
+>>>>>>> Stashed changes
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);
 	friend class scene1;

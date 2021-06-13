@@ -1,11 +1,12 @@
 #pragma once
 #include"Chess.h"
-
+#include"Data/GameData.h"
 class SunFlower :public Chess {
 public:
 	SunFlower();
 	static SunFlower* createChess();
 	CREATE_FUNC(SunFlower);
+	void Skill();
 	
 };
 

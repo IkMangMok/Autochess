@@ -21,7 +21,12 @@ PeaShooter* PeaShooter::createChess()
 {
 
 	auto peaShooter = PeaShooter::create();
-
+	peaShooter->Blood->setBarChangeRate(Point(1, 0));
+	peaShooter->Blood->setType(ProgressTimer::Type::BAR);
+	peaShooter->Blood->setMidpoint(Point(0, 1));
+	peaShooter->Blood->setScaleX(0.22);
+	peaShooter->scheduleUpdate();
+	peaShooter->addChild(peaShooter->Blood, 2);
 	auto temp = Sprite::create("pealauncher.png");
 	peaShooter->addChild(temp);
 	peaShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / peaShooter->AttackSpeed);
@@ -47,7 +52,16 @@ upgrade_PeaShooter* upgrade_PeaShooter::createChess()
 {
 
 	auto peaShooter = upgrade_PeaShooter::create();
+<<<<<<< Updated upstream
 
+=======
+	peaShooter->Blood->setBarChangeRate(Point(1, 0));
+	peaShooter->Blood->setType(ProgressTimer::Type::BAR);
+	peaShooter->Blood->setMidpoint(Point(0, 1));
+	peaShooter->Blood->setScaleX(0.22);
+	peaShooter->scheduleUpdate();
+	peaShooter->addChild(peaShooter->Blood, 2);
+>>>>>>> Stashed changes
 	auto temp = Sprite::create("upgrade_pealauncher.png");
 	peaShooter->addChild(temp);
 	peaShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / peaShooter->AttackSpeed);
