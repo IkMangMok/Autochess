@@ -96,7 +96,6 @@ bool GameScene::init()
    
     Coins->setPosition(380, 390);   //临时记录
     this->addChild(Coins);
-
 	this->scheduleUpdate();
 	return true;
 
@@ -172,23 +171,29 @@ void GameScene::WinRetain(ccArray* Array)
     }
 }
 /*判断战斗是否结束*/
-void GameScene::Win()           
+void GameScene::JudgeWin(PlayerData& playerdata, int sum[])
 {
-    int sum[2] = {};
-    for (int i = 0; i < FightArray->num; i++)
+    for (int i = 0; i < playerdata.FightArray->num; i++)
     {
-        auto temp = ((Chess*)(FightArray->arr[i]));
+        auto temp = ((Chess*)(playerdata.FightArray->arr[i]));
         if (!(temp->Die()))                   //记录战斗双方棋子个数
         {
             sum[temp->getPlayer()]++;
         }
     }
+}
+void GameScene::Win()           
+{
+    int sum[2] = {};
+    JudgeWin(player1data, sum);
+    JudgeWin(player2data, sum);
     if (sum[1] == 0 || sum[0] == 0)          //有一方的棋子个数为0
     {
         //player2data.Hurted(3);
         WinRetain(player1data.PlayerArray);
         WinRetain(player2data.PlayerArray);
-        WinRetain(FightArray);
+        WinRetain(player1data.FightArray);
+        WinRetain(player2data.FightArray);
        
        // AudioEngine::stop(audioID);
         gamesprite->unscheduleUpdate();
@@ -225,7 +230,7 @@ void GameScene::onMouseDown(Event* event)
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
 
-    if (FindMouseTarget(FightArray, e) == 1)         //在战斗区寻找目标
+    if (FindMouseTarget(player1data.FightArray, e) == 1)       //在战斗区寻找目标
        FindMouseTarget(player1data.PlayerArray, e);  //寻找不到则在备战区寻找
 }
 void GameScene::ToPlayerArray(Chess* chess, PlayerData& playerdata)
@@ -237,7 +242,7 @@ void GameScene::ToPlayerArray(Chess* chess, PlayerData& playerdata)
     ChessExist[MapIntReturn(chess->getTempPosition()).x][MapIntReturn(chess->getTempPosition()).y] = 0;
     chess->setTempPosition();
     ccArrayAppendObject(playerdata.PlayerArray, chess);
-    ccArrayRemoveObject(FightArray, chess);
+    ccArrayRemoveObject(player1data.FightArray, chess);
 }
 void GameScene::ToFightArray(Chess* chess, PlayerData& playerdata)
 {
@@ -247,7 +252,7 @@ void GameScene::ToFightArray(Chess* chess, PlayerData& playerdata)
     ChessExist[MapIntReturn(chess->getPosition()).x][MapIntReturn(chess->getPosition()).y] = 1;
     ChessExist[MapIntReturn(chess->getTempPosition()).x][MapIntReturn(chess->getTempPosition()).y] = 0;
     chess->setTempPosition();
-    ccArrayAppendObject(FightArray, chess);
+    ccArrayAppendObject(player1data.FightArray, chess);
     ccArrayRemoveObject(playerdata.PlayerArray, chess);
 }
 void GameScene::onMouseUp(Event* event)
@@ -260,7 +265,7 @@ void GameScene::onMouseUp(Event* event)
         
         if (MouseToChess >= 0 && MouseToChess < FightNumber)
         {
-            auto temp = ((Chess*)(FightArray->arr[MouseToChess]));
+            auto temp = ((Chess*)(player1data.FightArray->arr[MouseToChess]));
             if (ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] == 1)   //拒绝重合
             {
                 temp->setPosition(MapJudge(temp->getTempPosition()));
@@ -328,7 +333,7 @@ void GameScene::onMouseMove(Event* event)
         }
         else if (MouseToChess < FightNumber)             //小于FightNumber为战斗区，大于FightNumber为备战区
         {
-            auto temp = (Chess*)(FightArray->arr[MouseToChess]);
+            auto temp = (Chess*)(player1data.FightArray->arr[MouseToChess]);
             
             if (MapJudge(temp->getPosition()) != Point(-1, -1))
             {

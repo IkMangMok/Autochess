@@ -9,7 +9,7 @@ SunFlower::SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 	Mana = 0;
 	ManaLimit = 50;
 	Magic = 1.0f;
-	Damage = 50;
+	Damage = 60;
 	Armor = 5;
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 1;
@@ -35,13 +35,28 @@ SunFlower* SunFlower::createChess()
 }
 void SunFlower::Skill()
 {
-	for (int i = 0; i < FightArray->num; i++)
+	if (OfPlayer == 0)
 	{
-		auto temp = ((Chess*)(FightArray->arr[i]));
-		if (temp->getPlayer() == OfPlayer&&!temp->Die())
+		for (int i = 0; i < player1data.FightArray->num; i++)
 		{
-			temp->Hurted(-(50 + 50 * star) * Magic);
-			Mana = 0;
+			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
+				if (temp->getPlayer() == OfPlayer && !temp->Die())
+				{
+					temp->Hurted(-(50 + 50 * star) * Magic);
+						Mana = 0;
+				}
+		}
+	}
+	if (OfPlayer == 1)
+	{
+		for (int i = 0; i < player2data.FightArray->num; i++)
+		{
+			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
+			if (temp->getPlayer() == OfPlayer && !temp->Die())
+			{
+				temp->Hurted(-(50 + 50 * star) * Magic);
+				Mana = 0;
+			}
 		}
 	}
 }
@@ -54,7 +69,7 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 	Mana = 0;
 	ManaLimit = 50;
 	Magic = 1.0f;
-	Damage = 80;
+	Damage = 90;
 	Armor = 5;
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 0;

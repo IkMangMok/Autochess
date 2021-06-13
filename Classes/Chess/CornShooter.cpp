@@ -6,7 +6,7 @@ CornShooter::CornShooter()
 	AttackDistance = 225;
 	Health = 600;
 	HealthLimit = Health;
-	Damage = 90;
+	Damage = 100;
 	Armor = 20;
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 2;
@@ -35,7 +35,7 @@ upgrade_CornShooter::upgrade_CornShooter()
 	AttackDistance = 225;
 	Health = 900;
 	HealthLimit = Health;
-	Damage = 120;
+	Damage = 140;
 	Armor = 20;
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 0;

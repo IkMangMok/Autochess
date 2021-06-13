@@ -63,9 +63,15 @@ void Chess::Attack(float dt)
 
 void Chess::Hurted(int Damage)
 {
-	Health = min(HealthLimit, Health - Damage);
 	if (Damage > 0)
+	{
+		Health = Health - Damage * (1.0f - Armor / (Armor + 100)) * HurtRate;    //ÊÜÉË
 		Mana = min(Mana + Damage / 10, ManaLimit);
+	}
+	else
+	{
+		Health = min(HealthLimit, Health - Damage);      //»ØÑª
+	}
 }
 
 bool Chess::Die()

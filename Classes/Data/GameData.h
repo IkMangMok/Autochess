@@ -56,8 +56,7 @@ struct chessInfo
 extern GameData* global_data;
 
 
-extern ccArray* FightArray;    //打斗中的棋子数组
-extern ccArray* PlayerArray;   //玩家备战区的棋子数组
+
 extern ccArray* ComputerArray; //电脑棋子数组
 extern int chesspile[ChessNumber];
 extern const int PB[9][5];

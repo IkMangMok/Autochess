@@ -32,18 +32,18 @@ enum ChessType
 class Chess :public Sprite {
 protected:
 
-	int AttackDistance = 100;  //攻击距离
-	int HealthLimit = 500;     //生命上限
-	int Health = 500;          //生命值
-	int Mana = 0;          //法力值
-	int ManaOrigin = 0;      //初始法力值
-	int ManaLimit = 100;   //法力上限
-	int Armor = 0;        //护甲
-	int MagicResistance = 0;   //魔法抗性
+	float AttackDistance = 100;  //攻击距离
+	float HealthLimit = 500;     //生命上限
+	float Health = 500;          //生命值
+	float Mana = 0;          //法力值
+	float ManaOrigin = 0;      //初始法力值
+	float ManaLimit = 100;   //法力上限
+	float Armor = 0;        //护甲
+	float MagicResistance = 0;   //魔法抗性
 	float Magic = 1.0f;          //法术强度
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力
-
+	float HurtRate = 1;   //伤害比率
 	int type = None;        //种类
 
 	float xtemp = x;      //进入战斗时的位置(地图位置)

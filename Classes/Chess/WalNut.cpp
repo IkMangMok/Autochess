@@ -6,13 +6,37 @@ WalNut::WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 	AttackDistance = 80;
 	Health = 1200;
 	HealthLimit = Health;
-	Damage = 30;
+	Mana = 0;
+	ManaLimit = 80;
+	Damage = 38;
 	Armor = 50;
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 1;
 	star = 1;
 }
-
+void WalNut::Skill()
+{
+	SkillTime->pTime = 5.0f;
+	HurtRate = 0.8 - (0.1 * star);
+	Mana = 0;
+	SkillTime->scheduleUpdate();
+}
+void WalNut::update(float dt)
+{
+	Blood->setPosition(Vec2(0, 40));
+	Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
+	Blood->setTag(Health);
+	if (Mana == ManaLimit)           //释放技能
+	{
+		Skill();
+		flag = 1;
+	}
+	if (SkillTime->pTime < -1e-6 && flag)
+	{
+		HurtRate = 1.0f;
+		flag = 0;
+	}
+}
 WalNut* WalNut::createChess()
 {
 	auto walnut = WalNut::create();
@@ -35,7 +59,9 @@ upgrade_WalNut::upgrade_WalNut()        //初步设想：通过技能可以群体回血或获得金
 	AttackDistance = 80;
 	Health = 2000;
 	HealthLimit = Health;
-	Damage = 50;
+	Mana = 0;
+	ManaLimit = 80;
+	Damage = 60;
 	Armor = 50;
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 0;

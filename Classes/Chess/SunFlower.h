@@ -1,6 +1,7 @@
 #pragma once
 #include"Chess.h"
 #include"Data/GameData.h"
+#include"Data/PlayerData.h"
 class SunFlower :public Chess {
 public:
 	SunFlower();

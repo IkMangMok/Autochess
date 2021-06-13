@@ -47,10 +47,11 @@ private:
 	friend class GameSprite;
 
 	void Win();  //ÅÐ¶Ï´ò¶·½áÊø
+	void JudgeWin(PlayerData& playerdata, int sum[]);
 	void WinRetain(ccArray* Array);
 
-	void ToFightArray(PlayerData& playerdata);
-	void ToPlayerArray(PlayerData& playerdata);
+	void ToFightArray(Chess* chess, PlayerData& playerdata);
+	void ToPlayerArray(Chess* chess, PlayerData& playerdata);
 
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer();

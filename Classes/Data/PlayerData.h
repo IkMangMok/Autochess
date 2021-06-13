@@ -12,12 +12,14 @@ private:
 	int ExperienceValue = 0;   //经验值
 	int Gold = 500;  //金币
 	ccArray* equipment = ccArrayNew(100);   //装备
-	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
+	
 	bool HaveNewChess = 0;
 public:
 	void Hurted(int blood){ HealthValue -= blood;}
-	void BuyChess();
+
 	void recover();
+	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
+	ccArray* FightArray = ccArrayNew(100);    //玩家战斗区的棋子数组
 	int chessnumber[ChessNumber] = {};
 	//CREATE_FUNC(PlayerData);
 	friend class GameSprite;

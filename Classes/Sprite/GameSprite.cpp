@@ -6,22 +6,22 @@ GameSprite* GameSprite::createGameSprite()
 	temp->retain();
 	return temp;
 }
+void GameSprite::PlayerArrayInit(ccArray* Array)
+{
+    for (int i = 0; i < Array->num; i++)
+    {
+        auto temp = ((Chess*)Array->arr[i]);
+        temp->setPosition(temp->getTempPosition());
+        temp->set(temp->getTempPosition());
+        this->addChild(temp);
+    }
+}
 bool GameSprite::init()
 {
-    for (int i = 0; i < player1data.PlayerArray->num; i++)
-    {
-        auto temp = ((Chess*)player1data.PlayerArray->arr[i]);
-        temp->setPosition(temp->getTempPosition());
-        temp->set(temp->getTempPosition());
-        this->addChild(temp);
-    }
-    for (int i = 0; i < FightArray->num; i++)
-    {
-        auto temp = ((Chess*)FightArray->arr[i]);
-        temp->setPosition(temp->getTempPosition());
-        temp->set(temp->getTempPosition());
-        this->addChild(temp);
-    }
+    PlayerArrayInit(player1data.PlayerArray);
+    PlayerArrayInit(player2data.PlayerArray);
+    PlayerArrayInit(player1data.FightArray);
+    PlayerArrayInit(player2data.FightArray);
 
     return true;
 }
@@ -38,7 +38,8 @@ IntMap GameSprite::MapIntReturn(Point point)
     }
     return IntMap(-1, -1);
 }
-void GameSprite::ChessMove(Chess* chess)
+
+void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata)
 {
     
     Point a(0, 0);
@@ -46,9 +47,9 @@ void GameSprite::ChessMove(Chess* chess)
     float distance = 9999999;
     if (chess->AttackTarget == NULL || chess->AttackTarget->Die())    //如果已经有攻击目标则不搜寻
     {
-        for (int i = 0; i < FightArray->num; i++)
+        for (int i = 0; i < playerdata.FightArray->num; i++)
         {
-            auto temp = FightArray->arr[i];
+            auto temp = playerdata.FightArray->arr[i];
             Point atemp = ((Chess*)temp)->getPosition();
             float distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
                 (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
@@ -84,9 +85,13 @@ void GameSprite::ChessMove(Chess* chess)
 
 void GameSprite::update(float dt)
 {
-    for (int i = 0; i < FightArray->num; i++)
+    for (int i = 0; i < player1data.FightArray->num; i++)
     {
-        ChessMove((Chess*)(FightArray->arr[i]));
+        ChessMove((Chess*)(player1data.FightArray->arr[i]), player1data);
+    }
+    for (int i = 0; i < player2data.FightArray->num; i++)
+    {
+        ChessMove((Chess*)(player2data.FightArray->arr[i]), player2data);
     }
 }
 
@@ -113,12 +118,12 @@ void GameSprite::upgrade(float dt)
             }
             if (temp[0] == NULL || temp[1] == NULL || temp[2] == NULL)   //若在备战区没寻满三个，则进入战斗区找
             {
-                for (int j = 0; j < FightArray->num; j++)
+                for (int j = 0; j < player1data.FightArray->num; j++)
                 {
-                    if (((Chess*)(FightArray->arr[j]))->getType() == i)
+                    if (((Chess*)(player1data.FightArray->arr[j]))->getType() == i)
                     {
-                        temp[s] = ((Chess*)(FightArray->arr[j]));
-                        tempArray[s] = FightArray;
+                        temp[s] = ((Chess*)(player1data.FightArray->arr[j]));
+                        tempArray[s] = player1data.FightArray;
                         s++;
                         if (s == 3)
                             break;

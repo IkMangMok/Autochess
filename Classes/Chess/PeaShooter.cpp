@@ -10,7 +10,7 @@ PeaShooter::PeaShooter()
 	AttackDistance = 450;
 	Health = 600;
 	HealthLimit = Health;
-	Damage = 80;
+	Damage = 100;
 	Armor = 10;
 	AttackSpeed = 1.0f;
 	CoinsNeeded = 2;
@@ -41,7 +41,7 @@ upgrade_PeaShooter::upgrade_PeaShooter()
 	AttackDistance = 450;
 	Health = 900;
 	HealthLimit = Health;
-	Damage = 120;
+	Damage = 150;
 	Armor = 10;
 	AttackSpeed = 1.0f;
 	CoinsNeeded = 0;

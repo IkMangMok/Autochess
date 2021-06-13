@@ -6,7 +6,7 @@ MushRoom::MushRoom()
 	AttackDistance = 225;
 	Health = 400;
 	HealthLimit = Health;
-	Damage = 100;
+	Damage = 120;
 	Armor = 15;
 	AttackSpeed = 1.1f;
 	CoinsNeeded = 2;
@@ -36,7 +36,7 @@ upgrade_MushRoom::upgrade_MushRoom()
 	AttackDistance = 225;
 	Health = 700;
 	HealthLimit = Health;
-	Damage = 120;
+	Damage = 150;
 	Armor = 15;
 	AttackSpeed = 1.1f;
 	CoinsNeeded = 2;

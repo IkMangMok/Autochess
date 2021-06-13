@@ -6,7 +6,7 @@ CherryBomb::CherryBomb()
 	AttackDistance = 375;
 	Health = 700;
 	HealthLimit = Health;
-	Damage = 125;
+	Damage = 140;
 	Armor = 10;
 	AttackSpeed = 0.9f;
 	CoinsNeeded = 3;
@@ -36,7 +36,7 @@ upgrade_CherryBomb::upgrade_CherryBomb()
 	AttackDistance = 375;
 	Health = 1200;
 	HealthLimit = Health;
-	Damage = 150;
+	Damage = 180;
 	Armor = 10;
 	AttackSpeed = 0.9f;
 	CoinsNeeded = 0;

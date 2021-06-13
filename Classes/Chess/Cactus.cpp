@@ -6,7 +6,7 @@ Cactus::Cactus()
 	AttackDistance = 750;
 	Health = 400;
 	HealthLimit = Health;
-	Damage = 50;
+	Damage = 70;
 	Armor = 20;
 	AttackSpeed = 1.2f;
 	CoinsNeeded = 3;
@@ -38,7 +38,7 @@ upgrade_Cactus::upgrade_Cactus()
 	AttackDistance = 750;
 	Health = 700;
 	HealthLimit = Health;
-	Damage = 80;
+	Damage = 100;
 	Armor = 20;
 	AttackSpeed = 1.2f;
 	CoinsNeeded = 0;
