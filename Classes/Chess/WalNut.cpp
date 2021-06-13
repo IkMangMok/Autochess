@@ -46,16 +46,12 @@ upgrade_WalNut::upgrade_WalNut()        //初步设想：通过技能可以群体回血或获得金
 upgrade_WalNut* upgrade_WalNut::createChess()
 {
 	auto walnut = upgrade_WalNut::create();
-<<<<<<< Updated upstream
-
-=======
 	walnut->Blood->setBarChangeRate(Point(1, 0));
 	walnut->Blood->setType(ProgressTimer::Type::BAR);
 	walnut->Blood->setMidpoint(Point(0, 1));
 	walnut->Blood->setScaleX(0.22);
 	walnut->scheduleUpdate();
 	walnut->addChild(walnut->Blood, 2);
->>>>>>> Stashed changes
 	auto temp = Sprite::create("upgrade_walnut.png");
 	walnut->addChild(temp);
 	walnut->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / walnut->AttackSpeed);

@@ -160,11 +160,6 @@ void GameScene::update(float dt)
     }
 }
 
-<<<<<<< Updated upstream
-/*判断战斗是否结束*/
-void GameScene::Win()           
-{
-=======
 void GameScene::WinRetain(ccArray* Array)
 {
     for (int i = 0; i < Array->num; i++)
@@ -179,7 +174,6 @@ void GameScene::WinRetain(ccArray* Array)
 /*判断战斗是否结束*/
 void GameScene::Win()           
 {
->>>>>>> Stashed changes
     int sum[2] = {};
     for (int i = 0; i < FightArray->num; i++)
     {
@@ -192,36 +186,14 @@ void GameScene::Win()
     if (sum[1] == 0 || sum[0] == 0)          //有一方的棋子个数为0
     {
         //player2data.Hurted(3);
-<<<<<<< Updated upstream
-        for (int i = 0; i < player1data.PlayerArray->num; i++)      
-        {
-            auto temp = ((Chess*)player1data.PlayerArray->arr[i]);
-          
-            temp->retain();                    //保存
-            temp->removeFromParent();          //gamesprite将被重新创建，因此先将其remove
-            temp->recover();                  //恢复原样
-        }
-        for (int i = 0; i < FightArray->num; i++)
-        {
-            auto temp = ((Chess*)FightArray->arr[i]);
-          
-            temp->retain();
-            temp->removeFromParent();
-            temp->recover();
-        }
-=======
         WinRetain(player1data.PlayerArray);
         WinRetain(player2data.PlayerArray);
         WinRetain(FightArray);
->>>>>>> Stashed changes
        
        // AudioEngine::stop(audioID);
         gamesprite->unscheduleUpdate();
         player1data.recover();
-<<<<<<< Updated upstream
-=======
         player2data.recover();
->>>>>>> Stashed changes
         Sleep(300);
         _director->replaceScene(GameScene::createScene());
     }
@@ -255,8 +227,6 @@ void GameScene::onMouseDown(Event* event)
 
     if (FindMouseTarget(FightArray, e) == 1)         //在战斗区寻找目标
        FindMouseTarget(player1data.PlayerArray, e);  //寻找不到则在备战区寻找
-<<<<<<< Updated upstream
-=======
 }
 void GameScene::ToPlayerArray(Chess* chess, PlayerData& playerdata)
 {
@@ -279,7 +249,6 @@ void GameScene::ToFightArray(Chess* chess, PlayerData& playerdata)
     chess->setTempPosition();
     ccArrayAppendObject(FightArray, chess);
     ccArrayRemoveObject(playerdata.PlayerArray, chess);
->>>>>>> Stashed changes
 }
 void GameScene::onMouseUp(Event* event)
 {
@@ -310,19 +279,7 @@ void GameScene::onMouseUp(Event* event)
             }
             else    //若在备战席，则将其放入
             {
-<<<<<<< Updated upstream
-                temp->setPosition(MapJudge(temp->getPosition()));
-                temp->set(MapJudge(temp->getPosition()));
-                
-                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
-                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
-                temp->setTempPosition();
-                ccArrayAppendObject(player1data.PlayerArray, temp);
-                ccArrayRemoveObject(FightArray, temp);
-                
-=======
                 ToPlayerArray(temp, player1data);
->>>>>>> Stashed changes
             }
         }
         else if (MouseToChess >= FightNumber)
@@ -345,22 +302,7 @@ void GameScene::onMouseUp(Event* event)
             }
             else if (test_timer->pTime > 1e-6)       //若进入战斗区
             {
-<<<<<<< Updated upstream
-                temp->setPosition(MapJudge(temp->getPosition()));
-                temp->set(MapJudge(temp->getPosition()));
-                
-                ChessExist[MapIntReturn(temp->getPosition()).x][MapIntReturn(temp->getPosition()).y] = 1;
-                ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
-                temp->setTempPosition();
-              
-                ccArrayAppendObject(FightArray, temp);
-                ccArrayRemoveObject(player1data.PlayerArray, temp);
-               
-                
-                
-=======
                 ToFightArray(temp, player1data);
->>>>>>> Stashed changes
             }
             else                            //其他不可控情况
             {
@@ -430,7 +372,6 @@ void GameScene::onMouseScroll(Event* event)
 
 
 void GameScene::SoldChess(Chess* temp, ccArray* Array)        //整合函数
-<<<<<<< Updated upstream
 {
     ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
     player1data.Gold += temp->getSoldCoins();
@@ -440,17 +381,6 @@ void GameScene::SoldChess(Chess* temp, ccArray* Array)        //整合函数
 
 bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)       //应修复：卖出正在打架的棋子
 {
-=======
-{
-    ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
-    player1data.Gold += temp->getSoldCoins();
-    gamesprite->removeChild(temp);       //卖出
-    ccArrayRemoveObject(Array, temp);
-}
-
-bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)       //应修复：卖出正在打架的棋子
-{
->>>>>>> Stashed changes
     int temp = 0;
     if (Array == player1data.PlayerArray)
         temp = FightNumber;

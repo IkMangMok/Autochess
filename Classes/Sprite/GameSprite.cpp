@@ -170,12 +170,9 @@ Chess* GameSprite::upgradeChessCreate(int type)
         case upgrade_pealauncher:
             return upgrade_PeaShooter::createChess();
             break;
-<<<<<<< Updated upstream
-=======
         case upgrade_cabbagepult:
             return upgrade_CabbagePult::createChess();
             break;
->>>>>>> Stashed changes
         default:
             break;
     }

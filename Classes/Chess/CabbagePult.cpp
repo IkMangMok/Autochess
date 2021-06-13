@@ -11,10 +11,7 @@ CabbagePult::CabbagePult()
 	AttackSpeed = 0.5f;
 	CoinsNeeded = 2;
 	SoldCoins = 2;
-<<<<<<< Updated upstream
-=======
 	star = 1;
->>>>>>> Stashed changes
 }
 
 CabbagePult* CabbagePult::createChess()
@@ -22,8 +19,6 @@ CabbagePult* CabbagePult::createChess()
 	auto CabbagePult = CabbagePult::create();
 
 	auto temp = Sprite::create("cabbagepult.png");
-<<<<<<< Updated upstream
-=======
 	CabbagePult->Blood->setBarChangeRate(Point(1, 0));
 	CabbagePult->Blood->setType(ProgressTimer::Type::BAR);
 	CabbagePult->Blood->setMidpoint(Point(0, 1));
@@ -62,7 +57,6 @@ upgrade_CabbagePult* upgrade_CabbagePult::createChess()
 	CabbagePult->Blood->setScaleX(0.22);
 	CabbagePult->addChild(CabbagePult->Blood, 2);
 	CabbagePult->scheduleUpdate();
->>>>>>> Stashed changes
 	CabbagePult->addChild(temp);
 	CabbagePult->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / CabbagePult->AttackSpeed);
 	CabbagePult->autorelease();

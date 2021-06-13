@@ -19,15 +19,12 @@ CherryBomb* CherryBomb::createChess()
 	auto cherrybomb = CherryBomb::create();
 	auto temp = Sprite::create("cherrybomb.png");
 	cherrybomb->addChild(temp);
-<<<<<<< Updated upstream
-=======
 	cherrybomb->Blood->setBarChangeRate(Point(1, 0));
 	cherrybomb->Blood->setType(ProgressTimer::Type::BAR);
 	cherrybomb->Blood->setMidpoint(Point(0, 1));
 	cherrybomb->Blood->setScaleX(0.22);
 	cherrybomb->scheduleUpdate();
 	cherrybomb->addChild(cherrybomb->Blood, 2);
->>>>>>> Stashed changes
 	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cherrybomb->AttackSpeed);
 	cherrybomb->autorelease();
 	return cherrybomb;
@@ -50,15 +47,12 @@ upgrade_CherryBomb* upgrade_CherryBomb::createChess()
 	auto cherrybomb = upgrade_CherryBomb::create();
 	auto temp = Sprite::create("cherrybomb.png");	
 	cherrybomb->addChild(temp);
-<<<<<<< Updated upstream
-=======
 	cherrybomb->Blood->setBarChangeRate(Point(1, 0));
 	cherrybomb->Blood->setType(ProgressTimer::Type::BAR);
 	cherrybomb->Blood->setMidpoint(Point(0, 1));
 	cherrybomb->Blood->setScaleX(0.22);
 	cherrybomb->scheduleUpdate();
 	cherrybomb->addChild(cherrybomb->Blood, 2);
->>>>>>> Stashed changes
 	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cherrybomb->AttackSpeed);
 	cherrybomb->autorelease();
 	return cherrybomb;

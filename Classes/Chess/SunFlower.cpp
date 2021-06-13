@@ -33,9 +33,6 @@ SunFlower* SunFlower::createChess()
 	sunflower->autorelease();
 	return sunflower;
 }
-<<<<<<< Updated upstream
-
-=======
 void SunFlower::Skill()
 {
 	for (int i = 0; i < FightArray->num; i++)
@@ -48,19 +45,15 @@ void SunFlower::Skill()
 		}
 	}
 }
->>>>>>> Stashed changes
 upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 {
 	type = upgrade_sunflower;
 	AttackDistance = 750;
 	Health = 500;
 	HealthLimit = Health;
-<<<<<<< Updated upstream
-=======
 	Mana = 0;
 	ManaLimit = 50;
 	Magic = 1.0f;
->>>>>>> Stashed changes
 	Damage = 80;
 	Armor = 5;
 	AttackSpeed = 0.8f;
@@ -72,16 +65,12 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 upgrade_SunFlower* upgrade_SunFlower::createChess()
 {
 	auto sunflower = upgrade_SunFlower::create();
-<<<<<<< Updated upstream
-
-=======
 	sunflower->Blood->setBarChangeRate(Point(1, 0));
 	sunflower->Blood->setType(ProgressTimer::Type::BAR);
 	sunflower->Blood->setMidpoint(Point(0, 1));
 	sunflower->Blood->setScaleX(0.22);
 	sunflower->scheduleUpdate();
 	sunflower->addChild(sunflower->Blood, 2);
->>>>>>> Stashed changes
 	auto temp = Sprite::create("upgrade_sunflower.png");
 	sunflower->addChild(temp);
 	sunflower->setPosition(sunflower->x, sunflower->y);
