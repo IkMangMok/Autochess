@@ -18,12 +18,14 @@ public:
 	void update(float delta);
 
 	bool init(float time);
+	float pTime = 100;
 
 private:
-	float pTime = 100;
+	
 	cocos2d::Label* label;
 	friend class GameScene;
 	friend class Chess;
+	
 };
 
 #endif

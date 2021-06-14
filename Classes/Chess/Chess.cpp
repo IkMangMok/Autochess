@@ -12,12 +12,16 @@ Chess* Chess::createChess(string picture_name)
 	auto chess = new  Chess();
 
 	auto temp = Sprite::create(picture_name);
-	chess->width = temp->getContentSize().width;
-	chess->height = temp->getContentSize().height;
+	chess->Blood->setBarChangeRate(Point(1, 0));
+	chess->Blood->setType(ProgressTimer::Type::BAR);
+	chess->Blood->setMidpoint(Point(0, 1));
+	chess->Blood->setPercentage(75);
+	chess->Blood->setContentSize(Size(75, 10));
+	chess->addChild(chess->Blood, 2);
 	chess->addChild(temp);
-	chess->setPosition(chess->x, chess->y);
+	
 	chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / chess->AttackSpeed);
-   // chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Move), 1.f / 60);
+	chess->scheduleUpdate();
 	chess->autorelease();
 	return chess;
 	
@@ -48,6 +52,8 @@ void Chess::Attack(float dt)
             if (distance < AttackDistance)                           //小于攻击距离则开始攻击
             {
                 AttackTarget->Hurted(Damage);
+				Mana += 10;
+				
                 if (AttackTarget->Die())
                     AttackTarget = NULL;
             }
@@ -57,7 +63,15 @@ void Chess::Attack(float dt)
 
 void Chess::Hurted(int Damage)
 {
-	Health -= Damage;
+	if (Damage > 0)
+	{
+		Health = Health - Damage * (1.0f - Armor / (Armor + 100)) * HurtRate;    //受伤
+		Mana = min(Mana + Damage / 10, ManaLimit);
+	}
+	else
+	{
+		Health = min(HealthLimit, Health - Damage);      //回血
+	}
 }
 
 bool Chess::Die()
@@ -66,7 +80,6 @@ bool Chess::Die()
 	{
 		setPosition(Point(10000, 10000));
 		set(10000, 10000);
-		is_alive = 0;
 		return 1;
 	}
 	else
@@ -76,4 +89,22 @@ int Chess::GetAttackDistance()
 {
 	return AttackDistance;
 }
-
+void Chess::update(float dt)
+{
+	Blood->setPosition(Vec2(0, 40));
+	Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
+	Blood->setTag(Health);
+	if (Mana == ManaLimit)           //释放技能
+	{
+		Skill();
+	}
+}
+ void Chess::recover() 
+ {
+	Mana = ManaOrigin; 
+	Health = HealthLimit;
+	AttackTarget = (Chess*)NULL;
+	Blood->setPercentage(100.f);
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / this->AttackSpeed);
+	this->scheduleUpdate();
+}

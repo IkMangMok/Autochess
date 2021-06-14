@@ -11,14 +11,13 @@ USING_NS_CC;
 class Package:public Layer
 {
 public:
-	static Package* createPackage();
 	CREATE_FUNC(Package);
+	static Package* createPackage();
 	virtual bool init();
-
 private:
-	int total_slot = 12;
-	
-	Sprite* package_image = Sprite::create("Package.png");
+	int TotalSlot = 12;
+
+	Sprite* packageImage = Sprite::create("Package.png");
 	MenuItemImage* OpenPackage = MenuItemImage::create(
 		"PackageButton.png",
 		"PackageButton.png",

@@ -10,30 +10,41 @@ using namespace std;
 enum ChessType
 {
 	None = -1,
-	walnut,         
-	pealauncher,           
-	mushroom,       
-	sunflower,            
+	sunflower,
 	cactus,
+	walnut,
+	pealauncher,
+	mushroom,
 	cherrybomb,
 	cornshooter,
-	cabbagepult
-	//...
+	cabbagepult,
+	//升级后的植物
+	upgrade_sunflower,
+	upgrade_cactus,
+	upgrade_walnut,
+	upgrade_pealauncher,
+	upgrade_mushroom, 
+	upgrade_cherrybomb,
+	upgrade_cornshooter, 
+	upgrade_cabbagepult
 };
 
 class Chess :public Sprite {
 protected:
 
-	int AttackDistance = 100;  //攻击距离
-	int HealthLimit = 500;     //生命上限
-	int Health = 500;          //生命值
-	int Mana = 0;          //法力值
-	int ManaLimit = 100;   //法力上限
-	int Armor = 0;        //护甲
-	int MagicResistance = 0;   //魔法抗性
+	float AttackDistance = 100;  //攻击距离
+	float HealthLimit = 500;     //生命上限
+	float Health = 500;          //生命值
+	float Mana = 0;          //法力值
+	float ManaOrigin = 0;      //初始法力值
+	float ManaLimit = 100;   //法力上限
+	float Armor = 0;        //护甲
+	float MagicResistance = 0;   //魔法抗性
+	float Magic = 1.0f;          //法术强度
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力
-
+	float HurtRate = 1;   //伤害比率
+	int type = None;        //种类
 
 	float xtemp = x;      //进入战斗时的位置(地图位置)
 	float ytemp = y;
@@ -46,7 +57,8 @@ protected:
 
 	int OfPlayer = 0;     //所属玩家
 	int CoinsNeeded = 0;    //所需金币
-	int star = 0;        //星级
+	int SoldCoins = CoinsNeeded; //卖掉所获金币
+	int star = 1;        //星级
 	ccArray* equipment = ccArrayNew(100);   //装备
 	
 public:
@@ -62,18 +74,26 @@ public:
 
 	Point getPosition();
 	Point getTempPosition(){return Point(xtemp, ytemp);}   //获得进入战斗时的位置
-
+	int getType() { return type; }                       //获得类型
 	int getCoinsNeeded() { return CoinsNeeded; }
-
+	int getSoldCoins() { return SoldCoins; }
+	int getPlayer() { return OfPlayer; }           //返回所属玩家
+	void setPlayer(int player) { OfPlayer = player; }
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(int Damage);  //受伤
-	bool is_alive = 0;         //是否在（battlefield）上存活
+
 	bool Die();                     //判断是否死亡及死亡操作
 
 	int GetAttackDistance();        //获得攻击距离
 
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 	virtual void Skill() {};          //技能
+	virtual void recover();
+	Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
+	
+	
+	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+	void update(float dt) ;
 
 	/*用于装备修改属性*/
 	void ChangeAttackDistance(int value) { AttackDistance += value; }

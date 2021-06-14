@@ -3,18 +3,12 @@
 #include "Equipment.h"
 
 USING_NS_CC;
-class Gun:public Equipment
+
+class Gun :public Equipment
 {
-protected:
-
-
 public:
-
-	/*创建相关函数*/
 	CREATE_FUNC(Gun);
-	static Gun* createGun();
+	static Gun* createGun();  //理论上，应该使用函数指针数组
 
-	/*对棋子进行装备加成*/
-	//virtual void EquipToChess(Chess* Owner);
 };
 

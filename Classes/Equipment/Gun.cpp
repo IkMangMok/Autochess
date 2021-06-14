@@ -8,6 +8,7 @@ Gun* Gun::createGun()
 	gun->initWithFile("Gun.png");
 	/*种类*/
 	gun->type = GUN;
+
 	/*属性加成设定值*/
 	gun->addAttackDistance = 100; //攻击距离
 	gun->addHealthLimit = 200;    //生命上限
@@ -19,4 +20,3 @@ Gun* Gun::createGun()
 	gun->retain();
 	return gun;
 }
-

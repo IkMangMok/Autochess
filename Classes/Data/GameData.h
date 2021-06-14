@@ -1,11 +1,12 @@
 #pragma once
 #include "cocos2d.h"
-
+#include "Map/MapLayer.h"
 USING_NS_CC;
 
 
 //地图：64*36
-
+#define ChessNumber 20
+#define OriginalChess 8
 class GameData: Scene
 {
 public:
@@ -34,7 +35,7 @@ public:
 	int player_level;
 	int player_exe;
 	int player_blood;*/
-	int game_turn;
+	int game_turn = 0;
 
 	/* 修改当前游戏数据的函数 */
 	/*void ChangePlayerCoin(int benefit) { player_coin += benefit; }
@@ -44,12 +45,19 @@ public:
 
 };
 
+struct chessInfo
+{
+	int address = 0;
+	std::string picture_name = "";
+	int money = 0;
+	bool buy = false;
+};
 /*外部声明全局变量 global_data*/
 extern GameData* global_data;
 
 
-extern ccArray* FightArray;    //打斗中的棋子数组
-extern ccArray* PlayerArray;   //玩家备战区的棋子数组
+
 extern ccArray* ComputerArray; //电脑棋子数组
-extern int chesspile[10];
-extern bool HaveNewFightChess;
+extern int chesspile[ChessNumber];
+extern const int PB[9][5];
+extern chessInfo Used[5];

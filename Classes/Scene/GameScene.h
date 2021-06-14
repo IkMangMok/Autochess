@@ -8,8 +8,8 @@
 #include "ChessPile/ChessPile.h"
 #include "cocos-ext.h"              //包含cocos-ext.h头文件
 #include <vector>
-
 #include "Equipment/Package.h"
+
 using namespace cocos2d::extension; //引用cocos2d::extension命名空间
 
 USING_NS_CC;
@@ -24,9 +24,7 @@ public:
 	~GameScene();
 
 private:
-
-	/*TimerSystem*/
-	RoundTimer* test_timer = RoundTimer::create(20);
+	RoundTimer* test_timer = RoundTimer::create(10);
 	void TurnInfoInit();
 
 	void update(float dt);
@@ -42,11 +40,21 @@ private:
 	Point MapJudge(Point point);
 	IntMap MapIntReturn(Point point);
 	int MouseToChess = -1;
-	void SoldChess(Chess* temp, int i, ccArray* Array);
+
+	bool FindMouseTarget(ccArray* Array, EventMouse* e);
+	void SoldChess(Chess* temp, ccArray* Array);
+	
+	void GameScene::addChess(PlayerData &playerdata);
+
 	friend class Chess;
 	friend class GameSprite;
 
 	void Win();  //判断打斗结束
+	void JudgeWin(PlayerData& playerdata, int sum[]);
+	void WinRetain(ccArray* Array);
+
+	void ToFightArray(Chess* chess, PlayerData& playerdata);
+	void ToPlayerArray(Chess* chess, PlayerData& playerdata);
 
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer();
@@ -54,8 +62,14 @@ private:
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	int turn = 0;
 
-	/*Equipment System*/
-	Package* package1 = Package::createPackage(); //1号背包
+
+
+	/*装备系统*/
+	Package* layerPackage = Package::createPackage();
 	bool EquipSearchChess(const float EquipX, const float EquipY, const int EquipIndex);
 	int MouseSelectedEquip = -1;
+
+	Label* Coins = Label::createWithTTF(to_string(player1data.Gold), "fonts/Marker Felt.ttf", 24);  //临时记录
+	
+	friend class GameSprite;
 };

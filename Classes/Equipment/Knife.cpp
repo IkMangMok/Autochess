@@ -8,6 +8,7 @@ Knife* Knife::createKnife()
 	knife->initWithFile("Knife.png");
 	/*种类*/
 	knife->type = KNIFE;
+
 	/*属性加成设定值*/
 	knife->addAttackDistance = 100; //攻击距离
 	knife->addHealthLimit = 200;    //生命上限
