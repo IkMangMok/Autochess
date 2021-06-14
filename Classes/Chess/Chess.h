@@ -78,6 +78,7 @@ public:
 	int getCoinsNeeded() { return CoinsNeeded; }
 	int getSoldCoins() { return SoldCoins; }
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
+	int getStar() { return star; }
 	void setPlayer(int player) { OfPlayer = player; }
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(int Damage);  //受伤

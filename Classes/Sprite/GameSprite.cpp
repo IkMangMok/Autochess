@@ -95,21 +95,21 @@ void GameSprite::update(float dt)
     }
 }
 
-void GameSprite::upgrade(float dt)
+void GameSprite::upgrade(PlayerData &playerdata)
 {
     Chess* temp[3] = { NULL,NULL,NULL };
     ccArray* tempArray[3] = {};
     int s = 0;  //三个待升级棋子
     for (int i = 0; i < ChessNumber; i++)
     {
-        if (player1data.chessnumber[i] >= 3)
+        if (playerdata.chessnumber[i] >= 3)
         {
-            for (int j = 0; j < player1data.PlayerArray->num; j++)
+            for (int j = 0; j < playerdata.PlayerArray->num; j++)
             {
-                if (((Chess*)(player1data.PlayerArray->arr[j]))->getType() == i)
+                if (((Chess*)(playerdata.PlayerArray->arr[j]))->getType() == i)
                 {
-                    temp[s] = ((Chess*)(player1data.PlayerArray->arr[j]));
-                    tempArray[s] = player1data.PlayerArray;
+                    temp[s] = ((Chess*)(playerdata.PlayerArray->arr[j]));
+                    tempArray[s] = playerdata.PlayerArray;
                     s++;
                     if (s == 3)
                         break;
@@ -118,12 +118,12 @@ void GameSprite::upgrade(float dt)
             }
             if (temp[0] == NULL || temp[1] == NULL || temp[2] == NULL)   //若在备战区没寻满三个，则进入战斗区找
             {
-                for (int j = 0; j < player1data.FightArray->num; j++)
+                for (int j = 0; j < playerdata.FightArray->num; j++)
                 {
-                    if (((Chess*)(player1data.FightArray->arr[j]))->getType() == i)
+                    if (((Chess*)(playerdata.FightArray->arr[j]))->getType() == i)
                     {
-                        temp[s] = ((Chess*)(player1data.FightArray->arr[j]));
-                        tempArray[s] = player1data.FightArray;
+                        temp[s] = ((Chess*)(playerdata.FightArray->arr[j]));
+                        tempArray[s] = playerdata.FightArray;
                         s++;
                         if (s == 3)
                             break;
@@ -140,9 +140,9 @@ void GameSprite::upgrade(float dt)
                     this->removeChild(temp[i]);
                     ccArrayRemoveObject(tempArray[i], temp[i]);
                 }
-                player1data.chessnumber[i] -= 3;
-                ccArrayAppendObject(player1data.PlayerArray, upgrade_chess);            
-                player1data.HaveNewChess = 1;
+                playerdata.chessnumber[i] -= 3;
+                ccArrayAppendObject(playerdata.PlayerArray, upgrade_chess);            
+                playerdata.HaveNewChess = 1;
                 return;
             }
             

@@ -20,7 +20,7 @@ public:
 	void update(float dt);
 	IntMap MapIntReturn(Point point);
 private:
-	void upgrade(float dt);         //棋子升级
+	void upgrade(PlayerData &playerdata);         //棋子升级
 	Chess* GameSprite::upgradeChessCreate(int type);
 
 	friend class GameScene;

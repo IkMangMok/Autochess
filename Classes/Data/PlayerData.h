@@ -17,7 +17,8 @@ public:
 	void recover();
 	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
 	ccArray* FightArray = ccArrayNew(100);    //玩家战斗区的棋子数组
-	int chessnumber[ChessNumber] = {};
+
+	int chessnumber[ChessNumber] = {};    //各种棋子数量
 	//CREATE_FUNC(PlayerData);
 
 private:
@@ -39,6 +40,7 @@ private:
 	friend class ChessPile;
 	friend class GameScene;
 	friend class Package;
+	friend class PC_Player;
 };
 
 extern PlayerData player1data;

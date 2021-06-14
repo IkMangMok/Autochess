@@ -19,7 +19,7 @@ class Equipment :public Sprite
 {
 protected:
 
-	int type;//装备类型
+
 
 	/*属性加成设定值*/
 	int addAttackDistance; //攻击距离
@@ -32,6 +32,7 @@ protected:
 public:
 	/*对棋子进行装备加成*/
 	virtual void EquipToChess(Chess* Owner);
+	int type;//装备类型
 private:
 	//Chess* OwnerChess = NULL;
 	float SearchDistance = 30;         //在地图中对装备目标搜索的距离（could be better）

@@ -163,7 +163,7 @@ void GameScene::addChess(PlayerData &playerdata)
 void GameScene::update(float dt)
 {
     if (test_timer->pTime > 1e-6)
-        gamesprite->upgrade(dt);             //监测是否可升级
+        gamesprite->upgrade(player1data);             //监测是否可升级
     addChess(player1data);
     addChess(player2data);
     Coins->setString(to_string(player1data.Gold));  //临时记录
