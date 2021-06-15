@@ -2,55 +2,114 @@
 
 void PC_Player::pcAction()
 {
-	pcJudgeMoneyUsage();   //使钱
-	pcEquip();             //快速装备
-	//pcCreateBattleArray(); //快速阵型
+	pcJudgeMoneyUsage();   //step 1 使钱
+	pcCreateBattleArray(); //step 2 快速阵型
+	pcEquip();             //step 3 快速装备
 }
 
+/*-------------------------------pcJudgeMoneyUsage------------------------------------------*/
 int PC_Player::pcJudgeMoneyUsage()
 {
-	int step_done = 0;
+	bool step_done = 0;
 
 	/*step 1 检查能否升星*/
 	if (!step_done)
 	{
-		//CheckChessStar();  //检查
+		//CheckChessUpgrade();                   //检查我的棋子是否能够升星!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		step_done = 1;
 	}
 
-	/*step 2 检查战斗区棋子是否达到上限*/
+	/*step 2 检查棋子总数能不能塞满*/
 	if (!step_done)
 	{
-		//CheckFightArrLimit();
+		//CheckFightArrLimit();!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		step_done = 1;
 	}
 
 	/*step 3 检查与敌方exp差距是否过大*/
 	if (!step_done)
 	{
-		//CheckBuyExp();
+		//CheckBuyExp();!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		step_done = 1;
 	}
 
 	/*step 4 检查是否靠近利息点*/
+	bool save_money = 0;
 	if (!step_done)
 	{
-		//CheckGoldInterest();
-		step_done = 1;
+		if (CheckGoldInterest())
+		{
+			step_done = 1;
+			save_money = 1;
+		}
+		else
+			step_done = 1;
 	}
 
 	/*step 5 买高费棋子*/
+	if((!step_done) && (!save_money))
 	{
-		//CheckHighFeeChess();
+		//CheckHighFeeChess();!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		step_done = 1;
 	}
 
-	//if (step_done)
+	//if ((step_done)&&(!save_money))
 		//pcJudgeMoneyUsage();  //参与递归
 
 	return 0;
+}   
+
+/*--------------下面为pcJudgeMoneyUsage调用的函数---------------------*/
+
+/*检查是否能够升星*/
+/*若能够升星，判断钱够不够，不够就算了*/
+void PC_Player::CheckChessUpgrade()
+{
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
+/*检查pc的棋子总数是否能够塞满战斗区*/
+/*若是，有钱就买一些棋子*/
+void PC_Player::CheckFightArrLimit()
+{
+	int ChessTotal = (player2data.FightArray->num) + (player2data.PlayerArray->num);  //战斗区+准备区=总数
+	if (ChessTotal < player2data.Grade)  //若不足
+	{
+		//按一定逻辑购买!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
+}
+
+/*检查与敌方Exp差距是否过大*/
+/*若是，钱够就购买一些Exp*/
+void PC_Player::CheckBuyExp()
+{
+	int ExpError = player1data.ExperienceValue - player2data.ExperienceValue;
+	if (ExpError > 5)
+	{
+		//购买Exp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
+}
+
+/*检查是否靠近利息点（需要存钱的点）*/
+int PC_Player::CheckGoldInterest()
+{
+	if (player2data.Gold < 10)  //积蓄10元以下
+		return 1;            //要存钱
+	else if (player2data.Gold > 25 && player2data.Gold < 30)//积蓄25-30元
+		return 1;            //要存钱
+	else if (player2data.Gold > 45 && player2data.Gold < 50)//积蓄45-50元
+		return 1;
+	else
+		return 0;           //不存了
+}
+
+/*买高费棋子*/
+/*若有足够高档的棋子，且有足够的钱，就买*/
+void PC_Player::CheckHighFeeChess()
+{
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+}
+/*---------------------------------------------------------------------------------------------*/
 /*pc 快速随机装备*/
 void PC_Player::pcEquip()
 {
@@ -142,9 +201,16 @@ void PC_Player::ShowFightArray()
 	/*准备区*/
 	for (int i = 0; i < player2data.PlayerArray->num; i++)
 	{
-		//一排备战棋子
+		;//放到备战区并且显示!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	/*战斗区*/
+	for (int i = 0; i < player2data.FightArray->num; i++)
+	{
+		//放到战场上并显示（先做低级版本，乱放）!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
+	//调用战斗函数!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 
 }
+
+

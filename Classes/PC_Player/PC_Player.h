@@ -15,10 +15,10 @@ private:
 	void pcAction();
 
 	int pcJudgeMoneyUsage();
-	void CheckChessStar();
+	void CheckChessUpgrade();
 	void CheckFightArrLimit();
 	void CheckBuyExp();
-	void CheckGoldInterest();
+	int CheckGoldInterest();
 	void CheckHighFeeChess();
 
 
