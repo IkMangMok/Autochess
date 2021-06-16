@@ -64,7 +64,6 @@ list(APPEND GAME_SOURCE
      Classes/Player/Player.cpp
      Classes/Chess/Chess1.cpp
      Classes/Timer/RoundTimer.cpp
-     Classes/Data/GameData.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -75,7 +74,6 @@ list(APPEND GAME_HEADER
      Classes/Player/Player.h
      Classes/Chess/Chess1.h
      Classes/Timer/RoundTimer.h
-     Classes/Data/GameData.cpp
      )
 
 if(ANDROID)

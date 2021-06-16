@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 
-
 USING_NS_CC;
 
 class RoundTimer :public cocos2d::Node
@@ -20,10 +19,10 @@ public:
 	bool init(float time);
 
 private:
-	float pTime = 100;
+	float pTime;
 	cocos2d::Label* label;
+
 	friend class scene1;
-	friend class Chess;
 };
 
 #endif

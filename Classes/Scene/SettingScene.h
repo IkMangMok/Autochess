@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+;
 
 class SettingScene : public cocos2d::Scene
 {
@@ -10,9 +11,6 @@ public:
     virtual bool init();
 
     void settingBack(cocos2d::Ref* pSender);
-    void musicOn(cocos2d::Ref* pSender);
-    void musicOff(cocos2d::Ref* pSender);
-
     // implement the "static create()" method manually
     CREATE_FUNC(SettingScene);
 };

@@ -26,10 +26,11 @@
 #include"scene1.h"
 #include "HelpScene.h"
 #include "SettingScene.h"
+#include "LoginScene.h"
 
 
 USING_NS_CC;
-static int audioID;
+
 Scene* AutoChess::createScene()
 {
     return AutoChess::create();
@@ -153,6 +154,30 @@ bool AutoChess::init()
     menusetting->setPosition(Vec2::ZERO);
     this->addChild(menusetting, 1);
 
+    /*----------------MenuItemImage Login 登录---------------------*/
+    auto loginButton = MenuItemImage::create(
+        "pea.png",
+        "pea.png",
+        CC_CALLBACK_1(AutoChess::menuLogin, this));
+
+    if (loginButton == nullptr ||
+        loginButton->getContentSize().width <= 0 ||
+        loginButton->getContentSize().height <= 0)
+    {
+        problemLoading("'pea.png' and 'pea.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + visibleSize.height / 2 - 300;
+        loginButton->setPosition(Vec2(x, y));
+    }
+
+    auto loginsetting = Menu::create(loginButton, NULL);
+    loginsetting->setPosition(Vec2::ZERO);
+    this->addChild(loginsetting, 1);
+
+
     /////////////////////////////
     // 3. add your codes below...
 
@@ -174,9 +199,6 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    auto sprite_bg = Sprite::create("startbg.png");
-    sprite_bg->setPosition(800, 460);
-    this->addChild(sprite_bg);
 
     return true;
 }
@@ -185,7 +207,6 @@ bool AutoChess::init()
 void AutoChess::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
-
     Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
@@ -200,20 +221,19 @@ void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
     global_data->GameStartInit(); //初始化全局数据
 
-
-    _director->replaceScene(scene1::createScene());
-
+    _director->replaceScene(scene1::createScene());  //切换场景
 }
 
 void AutoChess::menuHelp(Ref* pSender)   //帮助
 {
-
-
     _director->replaceScene(HelpScene::createScene());
 }
 void AutoChess::menuSetting(Ref* pSender)   //帮助
 {
-
     _director->replaceScene(SettingScene::createScene());
 }
 
+void AutoChess::menuLogin(Ref* pSender)   
+{
+    _director->replaceScene(LoginScene::createScene());
+}

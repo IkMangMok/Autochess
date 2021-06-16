@@ -2,10 +2,9 @@
 #include<iostream>
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
-#include"AudioEngine.h"
+
 using namespace std;
 USING_NS_CC;
-static int audioID;
 
 Scene* SettingScene::createScene()
 {
@@ -51,7 +50,7 @@ bool SettingScene::init()
 
 
     /*-------------------Lable Help---------------*/
-    auto label = Label::createWithTTF("Setting", "fonts/Marker Felt.ttf", 48);
+    auto label = Label::createWithTTF("Setting", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -66,22 +65,6 @@ bool SettingScene::init()
         this->addChild(label, 1);
     }
 
-    /*--------------------Music Switch-------------*/
-    auto sound_on = MenuItemImage::create("music_on.png", "music_on.png", CC_CALLBACK_1(SettingScene::musicOn, this));
-    auto SoundOn = Menu::create(sound_on, NULL);
-    SoundOn->setPosition(800, 400);
-    this->addChild(SoundOn, 1);
-
-    auto sound_off = MenuItemImage::create("music_off.png", "music_off.png", CC_CALLBACK_1(SettingScene::musicOff, this));
-    auto SoundOff = Menu::create(sound_off, NULL);
-    SoundOff->setPosition(800, 300);
-    this->addChild(SoundOff, 1);
-
-
-    auto sprite_bg = Sprite::create("help_bg.jpg");
-    sprite_bg->setPosition(800, 460);
-    this->addChild(sprite_bg);
-
     return true;
 
 }
@@ -89,14 +72,4 @@ bool SettingScene::init()
 void SettingScene::settingBack(cocos2d::Ref* pSender)
 {
     _director->replaceScene(AutoChess::createScene());
-}
-
-void SettingScene::musicOn(cocos2d::Ref* pSender)
-{
-    AudioEngine::resumeAll();
-}
-
-void SettingScene::musicOff(cocos2d::Ref* pSender)
-{
-    AudioEngine::pauseAll();
 }
