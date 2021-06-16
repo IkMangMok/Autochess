@@ -59,7 +59,6 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
 
      Classes/Scene/AutoChessScene.cpp
-     Classes/Scene/Scene1.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelpScene.cpp
      Classes/Scene/SettingScene.cpp
@@ -97,7 +96,6 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
 
      Classes/Scene/AutoChessScene.h
-     Classes/Scene/Scene1.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelpScene.h
      Classes/Scene/SettingScene.h
