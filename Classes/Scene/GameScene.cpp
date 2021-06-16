@@ -29,7 +29,7 @@ Point GameScene::MapJudge(Point point)
     {
         for (int j = 0; j < 10; j++)
         {
-            if (j == 0)          // ±¸Õ½ÇøÌØÅÐ
+            if (j == 0)         // ±¸Õ½ÇøÌØÅÐ
             {
                 if (point.y >= 50 && point.y <= 150 &&
                     point.x >= mapPosition[i][0].x - 37.5 && point.x <= mapPosition[i][0].x + 37.5)
@@ -72,7 +72,7 @@ GameScene* GameScene::createScene()
 
 GameScene::GameScene()
 {
-    Coins->retain();
+    
 }
 GameScene::~GameScene()
 {
@@ -94,39 +94,61 @@ bool GameScene::init()
 
     this->addChild(Chesspile, 4);  //ÅÆ¶Ñ²ã
    
-    Coins->setPosition(380, 390);   //ÁÙÊ±¼ÇÂ¼
-    this->addChild(Coins);
-	this->scheduleUpdate();
+    this->addChild(hasl, 5);       //ÉèÖÃ²ã¼°ÐÅÏ¢²ã
+
+    this->scheduleUpdate();
+
+    
+	
+    playerLayer->scheduleUpdate();
+
 	return true;
 
 }
 
-void GameScene::addChess(PlayerData &playerdata)
+void GameScene::addChess(PlayerData& playerdata, int playerinfo)
 {
+
     if (playerdata.HaveNewChess)                  //ÈôÓÐÐÂÆå×Ó¼ÓÈë
     {
         bool flag = 1;
         auto temp = ((Chess*)(playerdata.PlayerArray->arr[playerdata.PlayerArray->num - 1]));
-        for (int i = 0; i < 8; i++)
+        if (playerinfo == 0)
         {
-
-            if (ChessExist[i][0] == 0)
+            for (int i = 0; i < 8; i++)
             {
-                playerdata.Gold -= temp->getCoinsNeeded();
-                gamesprite->addChild(temp);
-                temp->setPosition(mapPosition[i][0].x, mapPosition[i][0].y);
-                temp->set(mapPosition[i][0].x, mapPosition[i][0].y);
-                temp->setTempPosition();
-                playerdata.HaveNewChess = 0;
-                //temp->setPlayer(0);
-                temp->setPlayer(rand() % 2);//³é½±
-                playerdata.chessnumber[temp->getType()]++;     //¼ÇÂ¼ÆäÆå×ÓÉý¼¶ÐÅÏ¢
-                ChessExist[i][0] = 1;        //Ìí¼Ó³É¹¦
-                flag = 0;
-                playerdata.HaveNewChess = 0;        //·ÀÖ¹ÄªÃûÆäÃîµÄBUG
-                flag = 0;
-                break;
+
+                if (ChessExist[i][0 + 9 * playerinfo] == 0)
+                {
+                    playerdata.Gold -= temp->getCoinsNeeded();
+                    gamesprite->addChild(temp);
+                    temp->setPosition(mapPosition[i][0 + 9 * playerinfo].x, mapPosition[i][0 + 9 * playerinfo].y);
+                    temp->set(mapPosition[i][0 + 9 * playerinfo].x, mapPosition[i][0 + 9 * playerinfo].y);
+                    temp->setTempPosition();
+                    playerdata.HaveNewChess = 0;
+                    //temp->setPlayer(0);
+                    temp->setPlayer(playerinfo);//³é½±
+                    playerdata.chessnumber[temp->getType()]++;     //¼ÇÂ¼ÆäÆå×ÓÉý¼¶ÐÅÏ¢
+                    ChessExist[i][0 + 9 * playerinfo] = 1;        //Ìí¼Ó³É¹¦
+                    flag = 0;
+                    playerdata.HaveNewChess = 0;        //·ÀÖ¹ÄªÃûÆäÃîµÄBUG
+                    flag = 0;
+                    break;
+                }
             }
+        }
+        else
+        {
+            playerdata.Gold -= temp->getCoinsNeeded();
+            gamesprite->addChild(temp);
+            temp->setPosition(10000, 10000);
+            temp->set(10000, 10000);
+            temp->setPlayer(playerinfo);//³é½±
+            playerdata.chessnumber[temp->getType()]++;
+            playerdata.HaveNewChess = 0;        //·ÀÖ¹ÄªÃûÆäÃîµÄBUG
+            flag = 0;
+            playerdata.HaveNewChess = 0;        //·ÀÖ¹ÄªÃûÆäÃîµÄBUG
+            flag = 0;
         }
         if (flag)
         {
@@ -145,14 +167,28 @@ void GameScene::addChess(PlayerData &playerdata)
 void GameScene::update(float dt)
 {
     if (test_timer->pTime > 1e-6)
-        gamesprite->upgrade(dt);             //¼à²âÊÇ·ñ¿ÉÉý¼¶
-    addChess(player1data);
-    addChess(player2data);
-    Coins->setString(to_string(player1data.Gold));  //ÁÙÊ±¼ÇÂ¼
+    {
+        gamesprite->upgrade(player1data);             //¼à²âÊÇ·ñ¿ÉÉý¼¶
+        gamesprite->upgrade(player2data);
+        addChess(player1data, 0);
+        addChess(player2data, 1);
+        pc_player.pcJudgeMoneyUsage();
+    }
+   
+    addChess(player1data, 0);
+    addChess(player2data, 1);
     
     ChessMoveInMouse();
     if (test_timer->pTime < -1e-6)
     {
+        if (PC_ShowFlag)
+        {
+            pc_player.pcCreateBattleArray();
+            pc_player.pcEquip();
+            gamesprite->pcShowFightArray();  //ÏÔÊ¾µçÄÔÍæ¼ÒÐÅÏ¢
+            gamesprite->pcShowPlayerArray();
+            PC_ShowFlag = 0;
+        }
         test_timer->setPosition(10000, 10000);
         gamesprite->scheduleUpdate();
         Win();
@@ -187,9 +223,16 @@ void GameScene::Win()
     int sum[2] = {};
     JudgeWin(player1data, sum);
     JudgeWin(player2data, sum);
+   
     if (sum[1] == 0 || sum[0] == 0)          //ÓÐÒ»·½µÄÆå×Ó¸öÊýÎª0
     {
-        //player2data.Hurted(3);
+        Sleep(3000);
+        if (sum[1] == 0)
+            player2data.Hurted(2 + 2 * sum[0]);
+        else if (sum[0] == 0)
+        {
+            player1data.Hurted(2 + 2 * sum[1]);
+        }
         WinRetain(player1data.PlayerArray);
         WinRetain(player2data.PlayerArray);
         WinRetain(player1data.FightArray);
@@ -199,17 +242,23 @@ void GameScene::Win()
         gamesprite->unscheduleUpdate();
         player1data.recover();
         player2data.recover();
-        Sleep(300);
-        _director->replaceScene(GameScene::createScene());
+        
+       
+        if (player1data.HealthValue > 0 && player2data.HealthValue > 0)
+            _director->replaceScene(GameScene::createScene());
+        else
+        {
+            string name = player1data.HealthValue <= 0 ? "player2":"player1";
+            auto label = Label::createWithTTF(name + " win!", "fonts/Marker Felt.ttf", 36);
+            this->addChild(label);
+            label->setTextColor(Color4B::WHITE);
+            label->setPosition(800, 400);
+            auto move = FadeOut::create(5.0f);
+            label->runAction(move);
+            this->unscheduleUpdate();
+            _director->replaceScene(TransitionFade::create(8.0f, AutoChess::createScene()));
+        }
     }
-    else
-    {
-        //player1data.Hurted(3);
-
-       // AudioEngine::stop(audioID);
-       // _director->replaceScene(GameScene::createScene());
-    }
-    
     return;
 }
 
@@ -246,13 +295,13 @@ void GameScene::ToPlayerArray(Chess* chess, PlayerData& playerdata)
 }
 void GameScene::ToFightArray(Chess* chess, PlayerData& playerdata)
 {
-    chess->setPosition(MapJudge(chess->getPosition()));
+    chess->setPosition(MapJudge(chess->getPosition()));   //½«Æä¶¨Î»ÖÁ×ø±êÖÐµã
     chess->set(MapJudge(chess->getPosition()));
 
-    ChessExist[MapIntReturn(chess->getPosition()).x][MapIntReturn(chess->getPosition()).y] = 1;
+    ChessExist[MapIntReturn(chess->getPosition()).x][MapIntReturn(chess->getPosition()).y] = 1;      //ÐÞ¸ÄµØÍ¼Æå×Ó´æÔÚ×´¿ö
     ChessExist[MapIntReturn(chess->getTempPosition()).x][MapIntReturn(chess->getTempPosition()).y] = 0;
     chess->setTempPosition();
-    ccArrayAppendObject(player1data.FightArray, chess);
+    ccArrayAppendObject(player1data.FightArray, chess);    //·ÅÈëÕ½¶·Çø
     ccArrayRemoveObject(playerdata.PlayerArray, chess);
 }
 void GameScene::onMouseUp(Event* event)
@@ -307,7 +356,20 @@ void GameScene::onMouseUp(Event* event)
             }
             else if (test_timer->pTime > 1e-6)       //Èô½øÈëÕ½¶·Çø
             {
-                ToFightArray(temp, player1data);
+                if(player1data.FightArray->num<player1data.Grade)
+                    ToFightArray(temp, player1data);
+                else
+                {
+                    temp->setPosition(MapJudge(temp->getTempPosition()));
+                    temp->set(MapJudge(temp->getTempPosition()));
+                    auto label = Label::createWithTTF("Not enough Grade!", "fonts/Marker Felt.ttf", 36);
+                    this->addChild(label);
+                    label->setTextColor(Color4B::WHITE);
+                    label->setPosition(800, 400);
+                    auto move = FadeOut::create(2.0f);
+                    label->runAction(move);
+                    MouseToChess = -1;
+                }
             }
             else                            //ÆäËû²»¿É¿ØÇé¿ö
             {
@@ -326,16 +388,19 @@ void GameScene::onMouseMove(Event* event)
     EventMouse* e = (EventMouse*)event;
     if (MouseToChess != -1)
     {
-        if (test_timer->pTime < -1e-6 && MouseToChess < FightNumber)
+        if (test_timer->pTime < 1e-2 && MouseToChess < FightNumber)
         {
+            auto temp = (Chess*)(player1data.FightArray->arr[MouseToChess]);
+            temp->setPosition(MapJudge(temp->getTempPosition()));
+            temp->set(MapJudge(temp->getTempPosition()));
             MouseToChess = -1;
             return;
         }
         else if (MouseToChess < FightNumber)             //Ð¡ÓÚFightNumberÎªÕ½¶·Çø£¬´óÓÚFightNumberÎª±¸Õ½Çø
         {
             auto temp = (Chess*)(player1data.FightArray->arr[MouseToChess]);
-            
-            if (MapJudge(temp->getPosition()) != Point(-1, -1))
+            auto point = MapJudge(temp->getPosition());
+            if (point != Point(-1, -1) && point.y <= mapPosition[0][4].y + 37.5)
             {
                 temp->setPosition(e->getCursorX(), e->getCursorY());
                 temp->set(e->getCursorX(), e->getCursorY());  //ÒÆ¶¯Ö®
@@ -350,7 +415,8 @@ void GameScene::onMouseMove(Event* event)
         else if (MouseToChess >= FightNumber)
         {
             auto temp = (Chess*)(player1data.PlayerArray->arr[MouseToChess - FightNumber]);
-            if (MapJudge(temp->getPosition()) != Point(-1, -1))
+            auto point = MapJudge(temp->getPosition());
+            if (point != Point(-1, -1) && point.y <= mapPosition[0][4].y + 37.5)
             {
                 temp->setPosition(e->getCursorX(), e->getCursorY());
                 temp->set(e->getCursorX(), e->getCursorY());  //ÒÆ¶¯Ö®
@@ -384,7 +450,7 @@ void GameScene::SoldChess(Chess* temp, ccArray* Array)        //ÕûºÏº¯Êý
     ccArrayRemoveObject(Array, temp);
 }
 
-bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)       //Ó¦ÐÞ¸´£ºÂô³öÕýÔÚ´ò¼ÜµÄÆå×Ó
+bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)    
 {
     int temp = 0;
     if (Array == player1data.PlayerArray)
@@ -400,7 +466,7 @@ bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)       //Ó¦ÐÞ¸´£ºÂ
         {
             if ((int)e->getMouseButton() == 0)
                 MouseToChess = i + temp;    //È·¶¨Ñ¡È¡µÄÆå×Ó
-            else if ((int)e->getMouseButton() == 1)
+            else if ((int)e->getMouseButton() == 1 && test_timer->pTime > 1e-2)
             {
                 auto temp1 = ((Chess*)(Array->arr[i]));
                 SoldChess(temp1, Array);

@@ -6,6 +6,8 @@ public:
 	CornShooter();
 	static CornShooter* createChess();
 	CREATE_FUNC(CornShooter);
+	void update(float dt);
+	void Skill();
 };
 
 class upgrade_CornShooter :public CornShooter {

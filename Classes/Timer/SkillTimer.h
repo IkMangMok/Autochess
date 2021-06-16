@@ -12,9 +12,9 @@ public:
 
 	static SkillTimer* createTimer(float time);
 
-	void update(float delta);
+	void update(float dt);
 
-	float pTime = 100;
+	float pTime = 100.f;
 	CREATE_FUNC(SkillTimer);
 
 

@@ -19,7 +19,7 @@ void GameSprite::PlayerArrayInit(ccArray* Array)
 bool GameSprite::init()
 {
     PlayerArrayInit(player1data.PlayerArray);
-    PlayerArrayInit(player2data.PlayerArray);
+    PlayerArrayInit(player2data.PlayerArray);      //  电脑玩家信息暂不显示
     PlayerArrayInit(player1data.FightArray);
     PlayerArrayInit(player2data.FightArray);
 
@@ -39,7 +39,7 @@ IntMap GameSprite::MapIntReturn(Point point)
     return IntMap(-1, -1);
 }
 
-void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata)
+void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata, PlayerData& AttackPlayer)
 {
     
     Point a(0, 0);
@@ -47,9 +47,9 @@ void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata)
     float distance = 9999999;
     if (chess->AttackTarget == NULL || chess->AttackTarget->Die())    //如果已经有攻击目标则不搜寻
     {
-        for (int i = 0; i < playerdata.FightArray->num; i++)
+        for (int i = 0; i < AttackPlayer.FightArray->num; i++)
         {
-            auto temp = playerdata.FightArray->arr[i];
+            auto temp = AttackPlayer.FightArray->arr[i];
             Point atemp = ((Chess*)temp)->getPosition();
             float distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
                 (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
@@ -76,8 +76,8 @@ void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata)
     }
     if (distance >= chess->GetAttackDistance() && !chess->AttackTarget->Die())    //距离大于射程且目标没死则移动
     {
-        chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) / distance * 6);
-        chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) / distance * 6);  //将新位置传入类中
+        chess->setPosition(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) / distance * chess->getSpeed());
+        chess->set(chess->getPosition() + (chess->AttackTarget->getPosition() - chess->getPosition()) / distance * chess->getSpeed());  //将新位置传入类中
         
     }
         //连续移动
@@ -87,29 +87,29 @@ void GameSprite::update(float dt)
 {
     for (int i = 0; i < player1data.FightArray->num; i++)
     {
-        ChessMove((Chess*)(player1data.FightArray->arr[i]), player1data);
+        ChessMove((Chess*)(player1data.FightArray->arr[i]), player1data, player2data);
     }
     for (int i = 0; i < player2data.FightArray->num; i++)
     {
-        ChessMove((Chess*)(player2data.FightArray->arr[i]), player2data);
+        ChessMove((Chess*)(player2data.FightArray->arr[i]), player2data, player1data);
     }
 }
 
-void GameSprite::upgrade(float dt)
+void GameSprite::upgrade(PlayerData &playerdata)
 {
     Chess* temp[3] = { NULL,NULL,NULL };
     ccArray* tempArray[3] = {};
     int s = 0;  //三个待升级棋子
     for (int i = 0; i < ChessNumber; i++)
     {
-        if (player1data.chessnumber[i] >= 3)
+        if (playerdata.chessnumber[i] >= 3 && i < 8)
         {
-            for (int j = 0; j < player1data.PlayerArray->num; j++)
+            for (int j = 0; j < playerdata.PlayerArray->num; j++)
             {
-                if (((Chess*)(player1data.PlayerArray->arr[j]))->getType() == i)
+                if (((Chess*)(playerdata.PlayerArray->arr[j]))->getType() == i)
                 {
-                    temp[s] = ((Chess*)(player1data.PlayerArray->arr[j]));
-                    tempArray[s] = player1data.PlayerArray;
+                    temp[s] = ((Chess*)(playerdata.PlayerArray->arr[j]));
+                    tempArray[s] = playerdata.PlayerArray;
                     s++;
                     if (s == 3)
                         break;
@@ -118,12 +118,12 @@ void GameSprite::upgrade(float dt)
             }
             if (temp[0] == NULL || temp[1] == NULL || temp[2] == NULL)   //若在备战区没寻满三个，则进入战斗区找
             {
-                for (int j = 0; j < player1data.FightArray->num; j++)
+                for (int j = 0; j < playerdata.FightArray->num; j++)
                 {
-                    if (((Chess*)(player1data.FightArray->arr[j]))->getType() == i)
+                    if (((Chess*)(playerdata.FightArray->arr[j]))->getType() == i)
                     {
-                        temp[s] = ((Chess*)(player1data.FightArray->arr[j]));
-                        tempArray[s] = player1data.FightArray;
+                        temp[s] = ((Chess*)(playerdata.FightArray->arr[j]));
+                        tempArray[s] = playerdata.FightArray;
                         s++;
                         if (s == 3)
                             break;
@@ -140,9 +140,9 @@ void GameSprite::upgrade(float dt)
                     this->removeChild(temp[i]);
                     ccArrayRemoveObject(tempArray[i], temp[i]);
                 }
-                player1data.chessnumber[i] -= 3;
-                ccArrayAppendObject(player1data.PlayerArray, upgrade_chess);            
-                player1data.HaveNewChess = 1;
+                playerdata.chessnumber[i] -= 3;
+                ccArrayAppendObject(playerdata.PlayerArray, upgrade_chess);            
+                playerdata.HaveNewChess = 1;
                 return;
             }
             
@@ -180,6 +180,44 @@ Chess* GameSprite::upgradeChessCreate(int type)
             break;
         default:
             break;
+    }
+
+}
+
+/*PC_Player相关*/
+void GameSprite::pcShowPlayerArray()
+{
+    for (int i = 0; i < player2data.PlayerArray->num; i++)
+    {     
+        ((Chess*)player2data.PlayerArray->arr[i])->setPosition(mapPosition[i][9].x, mapPosition[i][9].y);
+        ((Chess*)player2data.PlayerArray->arr[i])->set(mapPosition[i][9].x, mapPosition[i][9].y);
+    }
+}
+void GameSprite::pcShowFightArray()
+{
+    /*位置初始化*/
+    for (int i = 0; i < player2data.FightArray->num; i++)
+    {
+        if (i >= 0 && i <= 7)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i][5].x, mapPosition[i][5].y);   
+            ((Chess*)player2data.FightArray->arr[i])->set(mapPosition[i][5].x, mapPosition[i][5].y);
+        }
+        else if (i >= 8 && i <= 15)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 8][6].x, mapPosition[i - 8][6].y);        
+            ((Chess*)player2data.FightArray->arr[i])->set(mapPosition[i - 8][6].x, mapPosition[i - 8][6].y);
+        }
+        else if (i >= 16 && i <= 23)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 16][7].x, mapPosition[i - 16][7].y);
+            ((Chess*)player2data.FightArray->arr[i])->set(mapPosition[i - 16][7].x, mapPosition[i - 16][7].y);
+        }
+        else if (i >= 24 && i <= 31)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 24][8].x, mapPosition[i - 24][8].y);
+            ((Chess*)player2data.FightArray->arr[i])->set(mapPosition[i - 24][8].x, mapPosition[i - 24][8].y);
+        }
     }
 
 }

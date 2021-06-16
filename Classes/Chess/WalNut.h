@@ -7,9 +7,8 @@ public:
 	static WalNut* createChess();
 	void Skill();
 	void update(float dt);
-	RoundTimer* SkillTime = RoundTimer::create(5);
+	
 	CREATE_FUNC(WalNut);
-	bool flag = 0;
 };
 
 class upgrade_WalNut :public WalNut {

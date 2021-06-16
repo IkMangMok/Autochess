@@ -26,7 +26,7 @@ Cactus* Cactus::createChess()
 	cactus->scheduleUpdate();
 	cactus->addChild(cactus->Blood, 2);
 	cactus->addChild(temp);
-	
+	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cactus->AttackSpeed);
 	cactus->autorelease();
 	return cactus;
@@ -58,7 +58,7 @@ upgrade_Cactus* upgrade_Cactus::createChess()
 	cactus->scheduleUpdate();
 	cactus->addChild(cactus->Blood, 2);
 	cactus->addChild(temp);
-	
+	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cactus->AttackSpeed);
 	cactus->autorelease();
 	return cactus;

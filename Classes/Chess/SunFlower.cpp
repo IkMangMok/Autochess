@@ -28,7 +28,7 @@ SunFlower* SunFlower::createChess()
 	sunflower->addChild(sunflower->Blood, 2);
 	auto temp = Sprite::create("sunflower.png");
 	sunflower->addChild(temp);
-	sunflower->setPosition(sunflower->x, sunflower->y);
+	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / sunflower->AttackSpeed);
 	sunflower->autorelease();
 	return sunflower;
@@ -42,7 +42,7 @@ void SunFlower::Skill()
 			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
 				if (temp->getPlayer() == OfPlayer && !temp->Die())
 				{
-					temp->Hurted(-(50 + 50 * star) * Magic);
+					temp->MagicHurt(-(50 + 50 * star) * Magic);
 						Mana = 0;
 				}
 		}
@@ -51,10 +51,10 @@ void SunFlower::Skill()
 	{
 		for (int i = 0; i < player2data.FightArray->num; i++)
 		{
-			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
+			auto temp = ((Chess*)(player2data.FightArray->arr[i]));
 			if (temp->getPlayer() == OfPlayer && !temp->Die())
 			{
-				temp->Hurted(-(50 + 50 * star) * Magic);
+				temp->MagicHurt(-(50 + 50 * star) * Magic);
 				Mana = 0;
 			}
 		}
@@ -88,7 +88,7 @@ upgrade_SunFlower* upgrade_SunFlower::createChess()
 	sunflower->addChild(sunflower->Blood, 2);
 	auto temp = Sprite::create("upgrade_sunflower.png");
 	sunflower->addChild(temp);
-	sunflower->setPosition(sunflower->x, sunflower->y);
+	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / sunflower->AttackSpeed);
 	sunflower->autorelease();
 	return sunflower;

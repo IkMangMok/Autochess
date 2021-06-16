@@ -16,25 +16,26 @@ WalNut::WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 }
 void WalNut::Skill()
 {
-	SkillTime->pTime = 5.0f;
+	TimeSet = 5.0f;
 	HurtRate = 0.8 - (0.1 * star);
 	Mana = 0;
-	SkillTime->scheduleUpdate();
 }
 void WalNut::update(float dt)
 {
-	Blood->setPosition(Vec2(0, 40));
-	Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
-	Blood->setTag(Health);
+	
 	if (Mana == ManaLimit)           //释放技能
 	{
 		Skill();
-		flag = 1;
+		SkillFlag = 1;
 	}
-	if (SkillTime->pTime < -1e-6 && flag)
+	if (SkillFlag)
+	{
+		TimeSet -= dt;
+	}
+	if (fabs(TimeSet) < 1e-1 && SkillFlag)
 	{
 		HurtRate = 1.0f;
-		flag = 0;
+		SkillFlag = 0;
 	}
 }
 WalNut* WalNut::createChess()
@@ -48,6 +49,7 @@ WalNut* WalNut::createChess()
 	walnut->addChild(walnut->Blood, 2);
 	auto temp = Sprite::create("walnut.png");
 	walnut->addChild(temp);
+	walnut->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	walnut->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / walnut->AttackSpeed);
 	walnut->autorelease();
 	return walnut;
@@ -80,6 +82,7 @@ upgrade_WalNut* upgrade_WalNut::createChess()
 	walnut->addChild(walnut->Blood, 2);
 	auto temp = Sprite::create("upgrade_walnut.png");
 	walnut->addChild(temp);
+	walnut->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	walnut->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / walnut->AttackSpeed);
 	walnut->autorelease();
 	return walnut;

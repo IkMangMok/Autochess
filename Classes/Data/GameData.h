@@ -55,9 +55,30 @@ struct chessInfo
 /*外部声明全局变量 global_data*/
 extern GameData* global_data;
 
+enum ChessType
+{
+	None = -1,
+	sunflower,
+	cactus,
+	walnut,
+	pealauncher,
+	mushroom,
+	cherrybomb,
+	cornshooter,
+	cabbagepult,
+	//升级后的植物
+	upgrade_sunflower,
+	upgrade_cactus,
+	upgrade_walnut,
+	upgrade_pealauncher,
+	upgrade_mushroom,
+	upgrade_cherrybomb,
+	upgrade_cornshooter,
+	upgrade_cabbagepult
+};
 
 
 extern ccArray* ComputerArray; //电脑棋子数组
 extern int chesspile[ChessNumber];
 extern const int PB[9][5];
-extern chessInfo Used[5];
+extern const chessInfo chess_store[OriginalChess];

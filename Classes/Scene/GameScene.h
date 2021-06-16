@@ -5,9 +5,10 @@
 #include "Timer/RoundTimer.h"
 #include "Sprite/GameSprite.h"
 #include "AudioEngine.h"
-#include "ChessPile/ChessPile.h"
+#include "PC_Player/PC_Player.h"
 #include "cocos-ext.h"              //包含cocos-ext.h头文件
 #include <vector>
+#include "HelpAndSetLayer.h"
 using namespace cocos2d::extension; //引用cocos2d::extension命名空间
 
 USING_NS_CC;
@@ -41,7 +42,7 @@ private:
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
 	void SoldChess(Chess* temp, ccArray* Array);
 	
-	void GameScene::addChess(PlayerData &playerdata);
+	void GameScene::addChess(PlayerData& playerdata, int playerinfo);
 
 	friend class Chess;
 	friend class GameSprite;
@@ -57,9 +58,10 @@ private:
 	Player* playerLayer = Player::createPlayer();
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
+	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
 	int turn = 0;
-
-	Label* Coins = Label::createWithTTF(to_string(player1data.Gold), "fonts/Marker Felt.ttf", 24);  //临时记录
+	bool PC_ShowFlag = 1;
+	
 	
 	friend class GameSprite;
 };

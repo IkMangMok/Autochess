@@ -63,8 +63,10 @@ list(APPEND GAME_SOURCE
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelpScene.cpp
      Classes/Scene/SettingScene.cpp
+     Classes/Scene/HelpAndSetLayer.cpp
 
      Classes/Player/Player.cpp
+     Classes/PC_Player/PC_Player.cpp
 
      Classes/Map/MapLayer.cpp
 
@@ -86,6 +88,10 @@ list(APPEND GAME_SOURCE
      Classes/Data/PlayerData.cpp
 
      Classes/ChessPile/ChessPile.cpp
+
+     Classes/Equipment/Equipment.cpp
+     Classes/Equipment/Gun.cpp
+     Classes/Equipment/Knife.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -95,8 +101,10 @@ list(APPEND GAME_HEADER
      Classes/Scene/GameScene.h
      Classes/Scene/HelpScene.h
      Classes/Scene/SettingScene.h
+     Classes/Scene/HelpAndSetLayer.h
 
      Classes/Player/Player.h
+     Classes/PC_Player/PC_Player.h
 
      Classes/Map/MapLayer.h
 
@@ -119,6 +127,10 @@ list(APPEND GAME_HEADER
      Classes/Data/PlayerData.h
 
      Classes/ChessPile/ChessPile.h
+
+     Classes/Equipment/Equipment.h
+     Classes/Equipment/Gun.h
+     Classes/Equipment/Knife.h
      )
 
 if(ANDROID)

@@ -5,7 +5,9 @@ class CabbagePult :public Chess {
 public:
 	CabbagePult();
 	static CabbagePult* createChess();
+	void Skill();
 	CREATE_FUNC(CabbagePult);
+	void update(float dt);
 };
 
 class upgrade_CabbagePult :public CabbagePult {

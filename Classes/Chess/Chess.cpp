@@ -19,7 +19,7 @@ Chess* Chess::createChess(string picture_name)
 	chess->Blood->setContentSize(Size(75, 10));
 	chess->addChild(chess->Blood, 2);
 	chess->addChild(temp);
-	
+	chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 60.0f);
 	chess->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / chess->AttackSpeed);
 	chess->scheduleUpdate();
 	chess->autorelease();
@@ -61,7 +61,7 @@ void Chess::Attack(float dt)
     }
 }
 
-void Chess::Hurted(int Damage)
+void Chess::Hurted(float Damage)
 {
 	if (Damage > 0)
 	{
@@ -73,7 +73,18 @@ void Chess::Hurted(int Damage)
 		Health = min(HealthLimit, Health - Damage);      //回血
 	}
 }
-
+void Chess::MagicHurt(float Damage)
+{
+	if (Damage > 0)
+	{
+		Health = Health - Damage * (1.0f - MagicResistance / (MagicResistance + 100)) * HurtRate;    //受伤
+		Mana = min(Mana + Damage / 10, ManaLimit);
+	}
+	else
+	{
+		Health = min(HealthLimit, Health - Damage);      //回血
+	}
+}
 bool Chess::Die()
 {
 	if (Health <= 0)
@@ -91,15 +102,12 @@ int Chess::GetAttackDistance()
 }
 void Chess::update(float dt)
 {
-	Blood->setPosition(Vec2(0, 40));
-	Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
-	Blood->setTag(Health);
 	if (Mana == ManaLimit)           //释放技能
 	{
 		Skill();
 	}
 }
- void Chess::recover() 
+void Chess::recover() 
  {
 	Mana = ManaOrigin; 
 	Health = HealthLimit;
@@ -107,4 +115,12 @@ void Chess::update(float dt)
 	Blood->setPercentage(100.f);
 	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / this->AttackSpeed);
 	this->scheduleUpdate();
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1/60.0f);
 }
+
+void Chess::Bloodupdate(float dt)
+{
+	 Blood->setPosition(Vec2(0, 40));
+	 Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
+	 Blood->setTag(Health);
+ }

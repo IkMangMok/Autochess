@@ -25,6 +25,7 @@ CherryBomb* CherryBomb::createChess()
 	cherrybomb->Blood->setScaleX(0.22);
 	cherrybomb->scheduleUpdate();
 	cherrybomb->addChild(cherrybomb->Blood, 2);
+	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cherrybomb->AttackSpeed);
 	cherrybomb->autorelease();
 	return cherrybomb;
@@ -53,6 +54,7 @@ upgrade_CherryBomb* upgrade_CherryBomb::createChess()
 	cherrybomb->Blood->setScaleX(0.22);
 	cherrybomb->scheduleUpdate();
 	cherrybomb->addChild(cherrybomb->Blood, 2);
+	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
 	cherrybomb->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cherrybomb->AttackSpeed);
 	cherrybomb->autorelease();
 	return cherrybomb;
