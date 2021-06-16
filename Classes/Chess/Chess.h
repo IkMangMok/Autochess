@@ -29,9 +29,10 @@ enum ChessType
 	upgrade_cabbagepult
 };
 
-class Chess :public Sprite {
+class Chess :public Sprite
+{
 protected:
-
+	/*重要物理属性*/
 	float AttackDistance = 100;  //攻击距离
 	float HealthLimit = 500;     //生命上限
 	float Health = 500;          //生命值
@@ -44,8 +45,16 @@ protected:
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力
 	float HurtRate = 1;   //伤害比率
-	int type = None;        //种类
 
+	int type = None;        //种类
+	int star = 1;        //星级
+	int CoinsNeeded = 0;    //所需金币
+	int SoldCoins = CoinsNeeded; //卖掉所获金币
+	int OfPlayer = 0;     //所属玩家
+
+	ccArray* equipment = ccArrayNew(100);   //装备
+
+	/*位置属性*/
 	float xtemp = x;      //进入战斗时的位置(地图位置)
 	float ytemp = y;
 
@@ -55,15 +64,10 @@ protected:
 	float height = 0; //所带图片的长度和宽度
 	float width = 0;
 
-	int OfPlayer = 0;     //所属玩家
-	int CoinsNeeded = 0;    //所需金币
-	int SoldCoins = CoinsNeeded; //卖掉所获金币
-	int star = 1;        //星级
-	ccArray* equipment = ccArrayNew(100);   //装备
-	
 public:
 	//virtual bool init();
-	Chess* AttackTarget = NULL;   //攻击目标
+
+	/*构造以及位置设定*/
 	static Chess* createChess(string picture_name);
 	void set(float x1, float y1);
 	void set(Point point) {
@@ -71,30 +75,33 @@ public:
 		y = point.y;
 	};
 	void setTempPosition() { xtemp = x; ytemp = y; }
+	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 
-	Point getPosition();
-	Point getTempPosition(){return Point(xtemp, ytemp);}   //获得进入战斗时的位置
+	/*更新函数*/
+	void update(float dt);
+
+	/*相关属性*/
+	Chess* AttackTarget = NULL;   //攻击目标
+	Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
+	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+
+	/*返回与设置属性相关函数*/
+	Point getPosition() { return Point(x, y); }
+	Point getTempPosition() { return Point(xtemp, ytemp); }   //获得进入战斗时的位置
+	int GetAttackDistance() { return AttackDistance; }        //获得攻击距离
 	int getType() { return type; }                       //获得类型
-	int getCoinsNeeded() { return CoinsNeeded; }
-	int getSoldCoins() { return SoldCoins; }
+	int getCoinsNeeded() { return CoinsNeeded; }        //获取购买价格
+	int getSoldCoins() { return SoldCoins; }             //获取卖出价格
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
-	int getStar() { return star; }
+	int getStar() { return star; }                //获取星数
 	void setPlayer(int player) { OfPlayer = player; }
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(int Damage);  //受伤
 
-	bool Die();                     //判断是否死亡及死亡操作
-
-	int GetAttackDistance();        //获得攻击距离
-
-	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
+	/*棋子自身功能/性质*/
 	virtual void Skill() {};          //技能
-	virtual void recover();
-	Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
-	
-	
-	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
-	void update(float dt) ;
+	virtual void recover();           //状态复原
+	bool Die();                     //判断是否死亡及死亡操作
 
 	/*用于装备修改属性*/
 	void ChangeAttackDistance(int value) { AttackDistance += value; }
@@ -103,6 +110,7 @@ public:
 	void ChangeArmor(int value) { Armor += value; }
 	void ChangeAttackSpeed(float value) { AttackSpeed += value; }
 	void ChangeDamage(int value) { Damage += value; }
+
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);
 	friend class scene1;

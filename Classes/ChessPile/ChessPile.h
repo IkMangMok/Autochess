@@ -7,9 +7,6 @@
 using namespace cocos2d::extension;
 
 
-
-
-
 class ChessPile : public Layer {
 private:
 
@@ -26,15 +23,14 @@ private:
 
 	cocos2d::LayerColor* s_layer= LayerColor::create();
 
-	
 	Chess* ChessCreate(int i);
 	
 public:	
+	/*构造及初始化函数*/
 	static ChessPile* createChessPile();
-	
 	CREATE_FUNC(ChessPile);
 	virtual bool init();
-	ChessPile();
+	ChessPile();//貌似没什么用。。。
 
 	void chessStore(cocos2d::Ref* pSender);
 	void openChessStore();

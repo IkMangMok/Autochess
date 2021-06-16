@@ -219,6 +219,7 @@ void GameScene::Win()
         player2data.recover();
         Sleep(300);
         layerPackage->removeAllChildren();
+
         _director->replaceScene(GameScene::createScene());
     }
     else
@@ -293,7 +294,7 @@ void GameScene::ToFightArray(Chess* chess, PlayerData& playerdata)
     ChessExist[MapIntReturn(chess->getPosition()).x][MapIntReturn(chess->getPosition()).y] = 1;
     ChessExist[MapIntReturn(chess->getTempPosition()).x][MapIntReturn(chess->getTempPosition()).y] = 0;
     chess->setTempPosition();
-    ccArrayAppendObject(player1data.FightArray, chess);
+    ccArrayAppendObject(playerdata.FightArray, chess);
     ccArrayRemoveObject(playerdata.PlayerArray, chess);
 }
 void GameScene::onMouseUp(Event* event)
@@ -516,3 +517,4 @@ bool GameScene::EquipSearchChess(const float EquipX, const float EquipY, const i
     }
     return false;
 }
+

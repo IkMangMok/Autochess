@@ -19,6 +19,13 @@ public:
 	virtual bool init();
 	void update(float dt);
 	IntMap MapIntReturn(Point point);
+
+
+	/*PC_Player相关*/
+	void pcShowPlayerArray();
+	void pcShowFightArray();
+	void pcRemovePlayerArray();
+	void pcRomoveFightArray();
 private:
 	void upgrade(PlayerData &playerdata);         //棋子升级
 	Chess* GameSprite::upgradeChessCreate(int type);

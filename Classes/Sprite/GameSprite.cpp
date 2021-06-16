@@ -183,4 +183,56 @@ Chess* GameSprite::upgradeChessCreate(int type)
     }
 
 }
+/*PC_Player相关*/
+void GameSprite::pcShowPlayerArray()
+{
+    for (int i = 0; i < player2data.PlayerArray->num; i++)
+    {
+        ((Chess*)player2data.PlayerArray->arr[i])->setPosition(mapPosition[i][9].x, mapPosition[i][9].y);
+        this->addChild((Chess*)player2data.PlayerArray->arr[i]);
+    }
+}
+void GameSprite::pcShowFightArray()
+{
+    /*位置初始化*/
+    for (int i = 0; i < player2data.FightArray->num; i++)
+    {
+        if (i >= 0 && i <= 7)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i][5].x, mapPosition[i][5].y);
+            this->addChild((Chess*)player2data.FightArray->arr[i]);
+        }
+        else if (i >= 8 && i <= 15)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 8][6].x, mapPosition[i - 8][6].y);
+            this->addChild((Chess*)player2data.FightArray->arr[i]);
+        }
+        else if (i >= 16 && i <= 23)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 16][7].x, mapPosition[i - 16][7].y);
+            this->addChild((Chess*)player2data.FightArray->arr[i]);
+        }
+        else if (i >= 24 && i <= 31)
+        {
+            ((Chess*)player2data.FightArray->arr[i])->setPosition(mapPosition[i - 24][8].x, mapPosition[i - 24][8].y);
+            this->addChild((Chess*)player2data.FightArray->arr[i]);
+        }
+    }
 
+}
+void GameSprite::pcRemovePlayerArray()
+{
+    for (int i = 0; i < player2data.PlayerArray->num; i++)
+    {
+        ((Chess*)player2data.PlayerArray->arr[i])->setPosition(10000,10000);
+        ((Chess*)player2data.PlayerArray->arr[i])->removeFromParent();
+    }
+}
+void GameSprite::pcRomoveFightArray()
+{
+    for (int i = 0; i < player2data.FightArray->num; i++)
+    {
+        ((Chess*)player2data.FightArray->arr[i])->setPosition(10000, 10000);
+        ((Chess*)player2data.FightArray->arr[i])->removeFromParent();
+    }
+}

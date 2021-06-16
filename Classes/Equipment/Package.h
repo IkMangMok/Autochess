@@ -3,8 +3,7 @@
 #include "Data/GameData.h"
 #include "Data/PlayerData.h"
 #include "Equipment.h"
-#include "Gun.h"
-#include "Knife.h"
+#include "EquipmentFile.h"
 
 USING_NS_CC;
 

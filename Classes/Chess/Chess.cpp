@@ -33,11 +33,11 @@ void Chess::set(float x1 = 0, float y1 = 0)  //传入数值，有两种重载形式
 	x = x1;
 	y = y1;
 }
-
+/*
 Point Chess::getPosition()
 {
 	return Point(x, y);
-}
+}*/
 
 void Chess::Attack(float dt)
 {
@@ -85,10 +85,11 @@ bool Chess::Die()
 	else
 		return 0;
 }
+/*
 int Chess::GetAttackDistance()
 {
 	return AttackDistance;
-}
+}*/
 void Chess::update(float dt)
 {
 	Blood->setPosition(Vec2(0, 40));

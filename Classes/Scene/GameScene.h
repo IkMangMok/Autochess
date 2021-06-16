@@ -56,6 +56,7 @@ private:
 	void ToFightArray(Chess* chess, PlayerData& playerdata);
 	void ToPlayerArray(Chess* chess, PlayerData& playerdata);
 
+
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer();
 	GameSprite* gamesprite = GameSprite::createGameSprite();
