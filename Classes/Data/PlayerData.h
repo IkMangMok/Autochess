@@ -11,11 +11,11 @@ struct PackageSlot
 
 class PlayerData {
 private:
-	int LifeLimit = 0;   //生命值上限
+	int LifeLimit = 100;   //生命值上限
 	int HealthValue = LifeLimit; //生命值
 	int Grade = 1; //玩家等级
 	int ExperienceValue = 0;   //经验值
-	int Gold = 3000;  //金币
+	int Gold = 3;  //金币
 	int ToNextGrade = 3;
 	void CountExperience();
 	

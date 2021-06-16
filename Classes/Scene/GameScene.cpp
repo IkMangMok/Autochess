@@ -82,7 +82,7 @@ GameScene::~GameScene()
 bool GameScene::init()
 {
     Mapinit();
-	//audioID = AudioEngine::play2d("background music.MP3", true, 1.0f); //ÒôÀÖ
+	audioID = AudioEngine::play2d("background music.MP3", true, 1.0f); //ÒôÀÖ
 	
 	this->addChild(map, 0);        //µØÍ¼²ã
 
@@ -243,7 +243,7 @@ void GameScene::Win()
         player1data.recover();
         player2data.recover();
         
-       
+        AudioEngine::stop(audioID);
         if (player1data.HealthValue > 0 && player2data.HealthValue > 0)
             _director->replaceScene(GameScene::createScene());
         else
@@ -256,6 +256,7 @@ void GameScene::Win()
             auto move = FadeOut::create(5.0f);
             label->runAction(move);
             this->unscheduleUpdate();
+          
             _director->replaceScene(TransitionFade::create(8.0f, AutoChess::createScene()));
         }
     }

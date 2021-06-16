@@ -3,11 +3,11 @@
 WalNut::WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 {
 	type = walnut;
-	AttackDistance = 80;
-	Health = 1200;
+	AttackDistance = 100;
+	Health = 800;
 	HealthLimit = Health;
 	Mana = 0;
-	ManaLimit = 80;
+	ManaLimit = 90;
 	Damage = 38;
 	Armor = 50;
 	AttackSpeed = 0.5f;
@@ -17,7 +17,7 @@ WalNut::WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 void WalNut::Skill()
 {
 	TimeSet = 5.0f;
-	HurtRate = 0.8 - (0.1 * star);
+	HurtRate = 0.9 - (0.1 * star);
 	Mana = 0;
 }
 void WalNut::update(float dt)
@@ -58,11 +58,11 @@ WalNut* WalNut::createChess()
 upgrade_WalNut::upgrade_WalNut()        //初步设想：通过技能可以群体回血或获得金币/经验
 {
 	type = upgrade_walnut;
-	AttackDistance = 80;
-	Health = 2000;
+	AttackDistance = 100;
+	Health = 1500;
 	HealthLimit = Health;
 	Mana = 0;
-	ManaLimit = 80;
+	ManaLimit = 90;
 	Damage = 60;
 	Armor = 50;
 	AttackSpeed = 0.5f;

@@ -178,7 +178,7 @@ bool AutoChess::init()
     auto sprite1 = Sprite::create("startbg.png");
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-    //audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
+    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
 
     return true;
 }
