@@ -16,8 +16,7 @@ bool RoundTimer::init(float time)
 	label = Label::createWithTTF("Help", "fonts/Marker Felt.ttf", 24);
 	label->setPosition(200, 200);
 	this->addChild(label);
-	schedule(CC_SCHEDULE_SELECTOR(RoundTimer::update));
-
+	this->scheduleUpdate();
 	return true;
 
 }

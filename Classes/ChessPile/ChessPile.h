@@ -1,11 +1,48 @@
 #pragma once
 #include"Chess/ChessFile.h"
-#define ChessNumber 10
-class ChessPile {
+#include"Data/GameData.h"
+#include"Data/PlayerData.h"
+
+#include "cocos-ext.h"              //包含cocos-ext.h头文件
+using namespace cocos2d::extension;
+
+
+
+
+
+class ChessPile : public Layer {
 private:
-	int chesspile[ChessNumber];    //记录各种棋子的数量
-public:
-	void Bought(int Chess_name);    //买
-	void Sold();      //卖
-	void ToSellDistrict();  //放入备战区
+
+	int x = 470;
+
+	const string chessValue[3] =
+	{ "1 coin","2 coins","3 coins" };
+
+	cocos2d::Layer* s_layer= Layer::create();
+
+	
+	Chess* ChessCreate(int i);
+	
+public:	
+	static ChessPile* createChessPile();
+	
+	CREATE_FUNC(ChessPile);
+	virtual bool init();
+	ChessPile();
+
+	void chessStore();
+	void refresh1(cocos2d::Ref* pSender);  //重载函数
+	void refresh(PlayerData &playerdata);
+	void openChessStore();
+	void closeChessStore();
+	void storeChess(int i);
+	void closeLayer(cocos2d::Ref* pSender);
+	void openLayer(cocos2d::Ref* pSender);
+	void cover(float x, float y);
+	void buy1(cocos2d::Ref* pSender);
+	void buy2(cocos2d::Ref* pSender);
+	void buy3(cocos2d::Ref* pSender);
+	void buy4(cocos2d::Ref* pSender);
+	bool ifCanBuy(int m, PlayerData& playerdata);
+	friend class PC_Player;
 };
