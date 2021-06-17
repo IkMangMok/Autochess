@@ -1,11 +1,13 @@
-#include "cocos2d.h"
 #include "HelpScene.h"
+#include<iostream>
 #include"AppDelegate.h"
 #include"AutoChessScene.h"
 #include "Timer/RoundTimer.h"
-#include "string.h"
+#include"AudioEngine.h"
 
+using namespace std;
 USING_NS_CC;
+static int audioID;
 
 
 Scene* HelpScene::createScene()
@@ -17,7 +19,6 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
 }
-
 bool HelpScene::init()
 {
     if (!Scene::init())
@@ -72,6 +73,7 @@ bool HelpScene::init()
     RoundTimer* test_timer = RoundTimer::create(300);
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
+    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
 
     return true;
 
@@ -79,7 +81,7 @@ bool HelpScene::init()
 
 void HelpScene::helpBack(cocos2d::Ref* pSender)
 {
+
+    AudioEngine::stop(audioID);
     _director->replaceScene(AutoChess::createScene());
 }
-
-

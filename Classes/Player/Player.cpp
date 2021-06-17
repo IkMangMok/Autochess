@@ -1,61 +1,65 @@
 #include"player.h"
-;
 
-/*--------------创建Player相关函数-----------*/
-Sprite* Player::createPlayer()
+
+static void problemLoading(const char* filename)
 {
-	return Player::create();
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
+}
+
+Player* Player::createPlayer(string& name)
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	/*-----------------------玩家头像-----------------------*/
+	auto player = Player::create();
+	string picture = "duck.jpg";
+	auto icon = Sprite::create(picture);   
+	icon->setPosition(Point(icon->getContentSize().width - 20, origin.y + visibleSize.height - icon->getContentSize().height));
+	player->addChild(icon);
+
+	/*-----------------------玩家昵称-----------------------*/
+	auto nameLabel = Label::createWithTTF(name, "fonts/Marker Felt.ttf", 24);
+	if (nameLabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		nameLabel->setPosition(Vec2(origin.x + nameLabel->getContentSize().width + 40, origin.y + visibleSize.height - nameLabel->getContentSize().height));
+		nameLabel->setPosition(Vec2(origin.x + nameLabel->getContentSize().width + 40, origin.y + visibleSize.height - nameLabel->getContentSize().height));
+		player->addChild(nameLabel, 1);
+	}
+
+	/*-----------------------玩家血条-----------------------*/
+	auto bloodFrame = Sprite::create("BloodFrame.jpg");
+	bloodFrame->setPosition(Point(230, visibleSize.height - 60));
+	player->addChild(bloodFrame);
+	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+	Blood->setBarChangeRate(Point(1, 0));
+	Blood->setType(ProgressTimer::Type::BAR);
+	Blood->setMidpoint(Point(0, 1));
+	Blood->setPosition(Point(230, visibleSize.height - 60));
+	Blood->setPercentage(100);
+	player->addChild(Blood);
+	auto lifeLabel = Label::createWithTTF("100", "fonts/Marker Felt.ttf", 20);
+	if (lifeLabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		lifeLabel->setPosition(Point(230, visibleSize.height - 85));
+		player->addChild(lifeLabel, 1);
+	}
+
+	player->retain();
+	return player;
 }
 
 bool Player::init()
 {
-	if (!Sprite::create())
-		return false;
-
-	Health = 100; //生命值
-	Level = 1; //玩家等级
-	ExpValue = 0;   //经验值
-	Money = 0;   //金币
-
 	return true;
-}
-
-/*--------------属性相关函数实现-------------*/
-void Player::ChangeHealth(int blood)
-{
-	Health -= blood;
-}
-void Player::ChangeMoney(int benefit)
-{
-	Money += benefit;
-}
-void Player::ChangeExp(int benefit)
-{
-	ExpValue += benefit;
-	
-	/*-------------升级判断-------------*/
-	/*
-		规则： Exp     Level
-		        0        1
-				1        2
-				2		 2
-				3        3
-				4        3
-				5        3
-				6        4
-			   ...      ...
-	*/
-	int tmpExp = ExpValue;
-	int tmpLevel = 1;
-	for (int i = 1; tmpExp >= 0; i++)
-	{
-		tmpExp -= i;
-		if (tmpExp >= 0)
-			tmpLevel++;
-	}
-	Level = tmpLevel;
-	/*-------------上阵数判断------------*/
-	BattleChessMaxNum = Level;  //等于级数
-
 }
 

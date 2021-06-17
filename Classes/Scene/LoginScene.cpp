@@ -3,11 +3,14 @@
 #include"AutoChessScene.h"
 #include "LoginScene.h"
 #include"Scene1.h"
+#include "GameScene.h"
 
 USING_NS_CC_EXT;
 USING_NS_CC;
 
 using namespace ui;
+
+string settingname;
 
 Scene* LoginScene::createScene()
 {
@@ -54,9 +57,9 @@ bool LoginScene::init()
     editbox->setAnchorPoint(Point(0, 0));
     editbox->setPosition(Point(visibleSize.width / 2-125, visibleSize.height / 2));
     editbox->setDelegate(this);
-    editbox->setPlaceHolder("name:");//占位字符
+    editbox->setPlaceHolder("name:");//占位字符 
     editbox->setMaxLength(100);
-    editbox->setFontColor(Color3B::BLACK);//设置输入字体的颜色
+    editbox->setFontColor(Color3B::BLACK);
     editbox->setTag(1);
     this->addChild(editbox, 1);
 
@@ -101,7 +104,7 @@ void LoginScene::editBoxEditingDidEnd(EditBox* editBox)
 void LoginScene::editBoxReturn(EditBox* editBox)
 {
     CCLOG("editboxreturn");
-   // CCLOG("get-->%s", editBox->getText());
+    settingname = editBox->getText();
 }
 
 void LoginScene::editBoxTextChanged(EditBox* editBox, const std::string& text)
@@ -118,5 +121,5 @@ void LoginScene::menuGameStart(Ref* pSender)   //开始游戏
 {
     global_data->GameStartInit(); //初始化全局数据
 
-    _director->replaceScene(scene1::createScene());  //切换场景
+    _director->replaceScene(GameScene::createScene(settingname));
 }
