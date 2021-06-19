@@ -25,14 +25,10 @@ void GameData::GameStartInit()
 	game_turn = 0;
 }
 
-
-ccArray* FightArray = ccArrayNew(100);    //打斗中的棋子数组
-ccArray* ComputerArray = ccArrayNew(100); //电脑棋子数组
-int chesspile[ChessNumber];          //牌堆
-const int PB[9][5] = { {100,0,0,0,0},{80,20,0,0,0},{75,20,5,0,0},{60,25,15,0,0},{50,30,20,0,0},
-					  {40,35,25,0,0},{30,40,30,0,0},{20,35,45,0,0},{10,40,50,0,0} };         //商店概率
+const int PB[9][5] = { {100,0,0,0,0},{80,20,0,0,0},{75,20,5,0,0},{60,25,15,0,0},{45,30,20,5,0},
+					  {35,33,25,7,0},{25,34,30,10,1},{20,25,35,15,5},{10,25,40,18,7} };         //商店概率
 
 const chessInfo chess_store[OriginalChess] =
-{ {walnut,"walnut.png",1} ,{pealauncher,"pealauncher.png",2},{mushroom,"mushroom.png",2}
-	,{sunflower,"sunflower.png",1},{cactus,"cactus.png",3 },{cherrybomb,"cherrybomb.png",3},
-	{cornshooter,"cornshooter.png",2},{cabbagepult,"cabbagepult.png",2} };      //初步的棋子商店，后续可加上卡池功能
+{ {walnut,"walnut.png",1} ,{pealauncher,"pealauncher.png",2},{mushroom,"Mushroom0.png",2}
+	,{sunflower,"sunflower.png",1},{chomper,"Flower0.png",3 },{cherrybomb,"cherrybomb.png",3},
+	{ga_peashooter,"ga_peashooter0.png",4},{tomatoboom,"tomatoboom0.png",5} };      //初步的棋子商店，后续可加上卡池功能

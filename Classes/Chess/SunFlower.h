@@ -17,3 +17,10 @@ public:
 	static upgrade_SunFlower* createChess();
 	CREATE_FUNC(upgrade_SunFlower);
 };
+
+class _3star_SunFlower :public SunFlower {
+public:
+	_3star_SunFlower();
+	static _3star_SunFlower* createChess();
+	CREATE_FUNC(_3star_SunFlower);
+};

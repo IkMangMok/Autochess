@@ -5,6 +5,8 @@ USING_NS_CC;
 
 struct PackageSlot
 {
+	PackageSlot(bool a, int b) { is_occupied = a; is_equiped = b; }
+	PackageSlot() { is_occupied = 0; is_equiped = 0; }
 	bool is_occupied = 0;
 	int is_equiped = 0;
 };
@@ -15,8 +17,8 @@ private:
 	int HealthValue = LifeLimit; //生命值
 	int Grade = 1; //玩家等级
 	int ExperienceValue = 0;   //经验值
-	int Gold = 3;  //金币
-	int ToNextGrade = 3;
+	int Gold = 3000;  //金币
+	int ToNextGrade = 2;
 	void CountExperience();
 	
 	
@@ -37,7 +39,7 @@ public:
 	bool is_package_opened = 0;
 	PackageSlot packageSlot[3][4] = {};
 	Point slotPoint[12] = {};
-
+	void remain();
 	//CREATE_FUNC(PlayerData);
 	friend class GameSprite;
 	friend class ChessPile;

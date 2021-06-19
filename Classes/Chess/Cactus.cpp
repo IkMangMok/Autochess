@@ -8,26 +8,29 @@ Cactus::Cactus()
 	HealthLimit = Health;
 	Damage = 70;
 	Armor = 20;
+	ManaOrigin = 50;
+	Mana = ManaOrigin;
+	ManaLimit = 105;
 	AttackSpeed = 1.2f;
 	CoinsNeeded = 3;
 	SoldCoins = 3;
 	star = 1;
 }
-
+void Cactus::Skill()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		AttackTarget->Hurted(Damage * (0.65 + 0.1 * star));
+	}
+	Mana = 0;
+}
 Cactus* Cactus::createChess()
 {
 	auto cactus = Cactus::create();
 
 	auto temp = Sprite::create("cactus.png");
-	cactus->Blood->setBarChangeRate(Point(1, 0));
-	cactus->Blood->setType(ProgressTimer::Type::BAR);
-	cactus->Blood->setMidpoint(Point(0, 1));
-	cactus->Blood->setScaleX(0.22);
-	cactus->scheduleUpdate();
-	cactus->addChild(cactus->Blood, 2);
+	
 	cactus->addChild(temp);
-	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
-	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cactus->AttackSpeed);
 	cactus->autorelease();
 	return cactus;
 }
@@ -40,6 +43,9 @@ upgrade_Cactus::upgrade_Cactus()
 	HealthLimit = Health;
 	Damage = 100;
 	Armor = 20;
+	ManaOrigin = 50;
+	Mana = ManaOrigin;
+	ManaLimit = 105;
 	AttackSpeed = 1.2f;
 	CoinsNeeded = 0;
 	SoldCoins = 8;
@@ -51,15 +57,38 @@ upgrade_Cactus* upgrade_Cactus::createChess()
 	auto cactus = upgrade_Cactus::create();
 
 	auto temp = Sprite::create("upgrade_cactus.png");
-	cactus->Blood->setBarChangeRate(Point(1, 0));
-	cactus->Blood->setType(ProgressTimer::Type::BAR);
-	cactus->Blood->setMidpoint(Point(0, 1));
-	cactus->Blood->setScaleX(0.22);
-	cactus->scheduleUpdate();
-	cactus->addChild(cactus->Blood, 2);
+	
 	cactus->addChild(temp);
-	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
-	cactus->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / cactus->AttackSpeed);
+
+	cactus->autorelease();
+	return cactus;
+}
+
+_3star_Cactus::_3star_Cactus()
+{
+	type = _3star_cactus;
+	AttackDistance = 750;
+	Health = 1100;
+	HealthLimit = Health;
+	Damage = 150;
+	Armor = 20;
+	ManaOrigin = 50;
+	Mana = ManaOrigin;
+	ManaLimit = 105;
+	AttackSpeed = 1.2f;
+	CoinsNeeded = 0;
+	SoldCoins = 26;
+	star = 3;
+}
+
+_3star_Cactus* _3star_Cactus::createChess()
+{
+	auto cactus = _3star_Cactus::create();
+
+	auto temp = Sprite::create("upgrade_cactus.png");
+
+	cactus->addChild(temp);
+
 	cactus->autorelease();
 	return cactus;
 }

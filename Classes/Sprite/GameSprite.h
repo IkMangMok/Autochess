@@ -18,7 +18,6 @@ public:
 	void PlayerArrayInit(ccArray* Array);
 	virtual bool init();
 	void update(float dt);
-	IntMap MapIntReturn(Point point);
 
 	/*PC_Playerœ‡πÿ*/
 	void pcShowPlayerArray();
@@ -29,6 +28,8 @@ private:
 	Chess* GameSprite::upgradeChessCreate(int type);
 
 	friend class GameScene;
+	float CountDistance(Chess* c1, Chess* c2);
+	float CountDistance(Point p1, Point p2);
 };
 
 

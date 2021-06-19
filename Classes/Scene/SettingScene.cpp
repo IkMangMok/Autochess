@@ -46,18 +46,18 @@ bool SettingScene::init()
     }
 
 
-    auto back_in_setting = Menu::create(BackInSetting,NULL);
+    auto back_in_setting = Menu::create(BackInSetting,nullptr);
     back_in_setting->setPosition(Vec2::ZERO);
     this->addChild(back_in_setting, 1);
 
     /*--------------------Music Switch--------------*/
     auto soundoff = MenuItemImage::create("music_off.png", "music_off.png", CC_CALLBACK_1(SettingScene::MusicEnd, this));
-    auto SoundOff = Menu::create(soundoff, NULL);
+    auto SoundOff = Menu::create(soundoff, nullptr);
     SoundOff->setPosition(800, 300);
     this->addChild(SoundOff, 1);
 
     auto soundon = MenuItemImage::create("music_on.png", "music_on.png", CC_CALLBACK_1(SettingScene::MusicOn, this));
-    auto SoundOn = Menu::create(soundon, NULL);
+    auto SoundOn = Menu::create(soundon, nullptr);
     SoundOff->setPosition(800, 300);
     this->addChild(SoundOn, 1);
 

@@ -80,7 +80,7 @@ bool AutoChess::init()
     }
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(closeItem, nullptr);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -103,7 +103,7 @@ bool AutoChess::init()
         GameStart->setPosition(Vec2(x, y));
     }
 
-    auto gamestart = Menu::create(GameStart, NULL);
+    auto gamestart = Menu::create(GameStart, nullptr);
     gamestart->setPosition(Vec2::ZERO);
     this->addChild(gamestart, 1);
 
@@ -126,7 +126,7 @@ bool AutoChess::init()
         Help->setPosition(Vec2(x, y));
     }
 
-    auto menuhelp = Menu::create(Help, NULL);
+    auto menuhelp = Menu::create(Help, nullptr);
     menuhelp->setPosition(Vec2::ZERO);
     this->addChild(menuhelp, 1);
 
@@ -149,7 +149,7 @@ bool AutoChess::init()
         Setting->setPosition(Vec2(x, y));
     }
 
-    auto menusetting = Menu::create(Setting, NULL);
+    auto menusetting = Menu::create(Setting, nullptr);
     menusetting->setPosition(Vec2::ZERO);
     this->addChild(menusetting, 1);
 

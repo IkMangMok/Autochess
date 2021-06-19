@@ -22,6 +22,7 @@ void Mapinit()           //地图信息初始化
         mapPosition[i][9].y = 812.5f;
     }
 }
+
 /*判断棋子位于地图的哪一格，并返回该格坐标*/
 Point GameScene::MapJudge(Point point)       
 {
@@ -50,19 +51,7 @@ Point GameScene::MapJudge(Point point)
     return Point(-1, -1);
 }
 /*判断该坐标位于哪一格，并返回离散坐标*/
-IntMap GameScene::MapIntReturn(Point point)
-{
-    for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (sqrt((point.x - mapPosition[i][j].x) * (point.x - mapPosition[i][j].x)    //遍历地图，判断是否在格子内
-                + (point.y - mapPosition[i][j].y) * (point.y - mapPosition[i][j].y)) < 37.5 * sqrt(2))
-                return IntMap(i, j);    //返回离散型坐标
-        }
-    }
-    return IntMap(-1, -1);
-}
+
 static int audioID;
 
 GameScene* GameScene::createScene()
@@ -72,7 +61,7 @@ GameScene* GameScene::createScene()
 
 GameScene::GameScene()
 {
-    
+   
 }
 GameScene::~GameScene()
 {
@@ -81,6 +70,8 @@ GameScene::~GameScene()
 
 bool GameScene::init()
 {
+  //  if (!Scene::initWithPhysics()) { return false; }
+
     Mapinit();
 	audioID = AudioEngine::play2d("background music.MP3", true, 1.0f); //音乐
 	
@@ -99,7 +90,7 @@ bool GameScene::init()
     this->scheduleUpdate();
 
     
-	
+    map->scheduleUpdate();
     playerLayer->scheduleUpdate();
 
 	return true;
@@ -125,15 +116,17 @@ void GameScene::addChess(PlayerData& playerdata, int playerinfo)
                     temp->setPosition(mapPosition[i][0 + 9 * playerinfo].x, mapPosition[i][0 + 9 * playerinfo].y);
                     temp->set(mapPosition[i][0 + 9 * playerinfo].x, mapPosition[i][0 + 9 * playerinfo].y);
                     temp->setTempPosition();
+                    temp->retain();
                     playerdata.HaveNewChess = 0;
                     //temp->setPlayer(0);
-                    temp->setPlayer(playerinfo);//抽奖
+                    temp->setPlayer(playerinfo);
                     playerdata.chessnumber[temp->getType()]++;     //记录其棋子升级信息
                     ChessExist[i][0 + 9 * playerinfo] = 1;        //添加成功
                     flag = 0;
                     playerdata.HaveNewChess = 0;        //防止莫名其妙的BUG
                     flag = 0;
                     break;
+              
                 }
             }
         }
@@ -179,7 +172,7 @@ void GameScene::update(float dt)
     addChess(player2data, 1);
     
     ChessMoveInMouse();
-    if (test_timer->pTime < -1e-6)
+    if (test_timer->pTime < -1e-2)
     {
         if (PC_ShowFlag)
         {
@@ -189,6 +182,7 @@ void GameScene::update(float dt)
             gamesprite->pcShowPlayerArray();
             PC_ShowFlag = 0;
         }
+        GameStartMouseInit();   //取消对战斗区棋子的选取
         test_timer->setPosition(10000, 10000);
         gamesprite->scheduleUpdate();
         Win();
@@ -225,8 +219,7 @@ void GameScene::Win()
     JudgeWin(player2data, sum);
    
     if (sum[1] == 0 || sum[0] == 0)          //有一方的棋子个数为0
-    {
-        Sleep(3000);
+    {    
         if (sum[1] == 0)
             player2data.Hurted(2 + 2 * sum[0]);
         else if (sum[0] == 0)
@@ -256,7 +249,8 @@ void GameScene::Win()
             auto move = FadeOut::create(5.0f);
             label->runAction(move);
             this->unscheduleUpdate();
-          
+            player1data.remain();
+            player2data.remain();
             _director->replaceScene(TransitionFade::create(8.0f, AutoChess::createScene()));
         }
     }
@@ -456,26 +450,46 @@ bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)
     int temp = 0;
     if (Array == player1data.PlayerArray)
         temp = FightNumber;
-    for (int i = 0; i < Array->num; i++)
+    
+    if (test_timer->pTime > 0 || (test_timer->pTime < 0 && temp == FightNumber)) 
     {
-        float distance = sqrt((e->getCursorX() -
-            ((Chess*)(Array->arr[i]))->getPosition().x)
-            * (e->getCursorX() - ((Chess*)(Array->arr[i]))->getPosition().x) +
-            (e->getCursorY() - ((Chess*)(Array->arr[i]))->getPosition().y)
-            * (e->getCursorY() - ((Chess*)(Array->arr[i]))->getPosition().y));
-        if (distance < 50)
+        for (int i = 0; i < Array->num; i++)
         {
-            if ((int)e->getMouseButton() == 0)
-                MouseToChess = i + temp;    //确定选取的棋子
-            else if ((int)e->getMouseButton() == 1 && test_timer->pTime > 1e-2)
+            float distance = sqrt((e->getCursorX() -
+                ((Chess*)(Array->arr[i]))->getPosition().x)
+                * (e->getCursorX() - ((Chess*)(Array->arr[i]))->getPosition().x) +
+                (e->getCursorY() - ((Chess*)(Array->arr[i]))->getPosition().y)
+                * (e->getCursorY() - ((Chess*)(Array->arr[i]))->getPosition().y));
+            if (distance < 50)
             {
-                auto temp1 = ((Chess*)(Array->arr[i]));
-                SoldChess(temp1, Array);
+                if ((int)e->getMouseButton() == 0)
+                {
+                    MouseToChess = i + temp;    //确定选取的棋子
+                }
+                else if ((int)e->getMouseButton() == 1 && test_timer->pTime > 1e-2)
+                {
+                    auto temp1 = ((Chess*)(Array->arr[i]));
+                    SoldChess(temp1, Array);
+                    return 0;
+                }
+                ((Chess*)(Array->arr[i]))->setTempPosition();  //记录原始位置
                 return 0;
             }
-            ((Chess*)(Array->arr[i]))->setTempPosition();  //记录原始位置
-            return 0;
         }
     }
     return 1;
+}
+
+void GameScene::GameStartMouseInit()
+{
+    if (test_timer->pTime < 1e-2 && test_timer->pTime > -1e-2)
+    {
+        if (MouseToChess < FightNumber && MouseToChess != -1)
+        {
+            auto temp = (Chess*)(player1data.FightArray->arr[MouseToChess]);
+            temp->setPosition(temp->getTempPosition());
+            temp->set(temp->getTempPosition());
+            MouseToChess = -1;
+        }
+    }
 }

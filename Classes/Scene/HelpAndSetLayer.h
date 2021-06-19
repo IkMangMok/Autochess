@@ -2,6 +2,7 @@
 #include"cocos2d.h"
 #include"AutoChessScene.h"
 #include"Data/PlayerData.h"
+#include"Map/MapLayer.h"
 #include"string"
 
 USING_NS_CC;

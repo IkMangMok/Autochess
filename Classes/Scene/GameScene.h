@@ -13,7 +13,7 @@ using namespace cocos2d::extension; //引用cocos2d::extension命名空间
 
 USING_NS_CC;
 
-#define FightNumber 30
+#define FightNumber 70
 
 class GameScene : public AutoChess {
 public:
@@ -24,10 +24,9 @@ public:
 
 private:
 	RoundTimer* test_timer = RoundTimer::create(10);
-
 	void update(float dt);
 	CREATE_FUNC(GameScene);
-
+	
 	//备战期鼠标移动函数
 	void ChessMoveInMouse();
 	void SceneMouseBack(cocos2d::Ref* pSender);
@@ -35,8 +34,8 @@ private:
 	void onMouseMove(Event* event);
 	void onMouseUp(Event* event);
 	void onMouseDown(Event* event);
+	void GameStartMouseInit();
 	Point MapJudge(Point point);
-	IntMap MapIntReturn(Point point);
 	int MouseToChess = -1;
 
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
@@ -61,7 +60,6 @@ private:
 	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
 	int turn = 0;
 	bool PC_ShowFlag = 1;
-	
-	
+
 	friend class GameSprite;
 };

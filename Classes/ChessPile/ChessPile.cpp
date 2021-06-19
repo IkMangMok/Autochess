@@ -30,28 +30,24 @@ Chess* ChessPile::ChessCreate(int i)   //生成不同的棋子
         case sunflower:
             return SunFlower::createChess();
             break;
-        case cactus:
-            return Cactus::createChess();
+        case chomper:
+            return Chomper::createChess();
             break;
         case cherrybomb:
             return CherryBomb::createChess();
             break;
-        case cornshooter:
-            return CornShooter::createChess();
+        case ga_peashooter:
+            return Ga_PeaShooter::createChess();
             break;
-        case cabbagepult:
-            return CabbagePult::createChess();
+        case tomatoboom:
+            return TomatoBoom::createChess();
             break;
     }
 }
 
 bool ChessPile::init()
 {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    srand(time(NULL));
-	
+    srand(time(NULL));	
 	return true;
 }
 bool ChessPile::ifCanBuy(int m, PlayerData& playerdata)
@@ -87,7 +83,7 @@ bool ChessPile::ifCanBuy(int m, PlayerData& playerdata)
 void ChessPile::openChessStore()
 {
     auto open = MenuItemImage::create("Back_test.png", "Back_test.png", CC_CALLBACK_1(ChessPile::openLayer, this));
-    auto Open = Menu::create(open, NULL);
+    auto Open = Menu::create(open, nullptr);
     Open->setPosition(1530, 850);
     this->addChild(Open, 1);
 }
@@ -95,7 +91,7 @@ void ChessPile::openChessStore()
 void ChessPile::closeChessStore()
 {
     auto close = MenuItemImage::create("Back_test.png", "Back_test.png", CC_CALLBACK_1(ChessPile::closeLayer, this));
-    auto Close = Menu::create(close, NULL);
+    auto Close = Menu::create(close, nullptr);
     Close->setPosition(110, 650);
     s_layer->addChild(Close, 1);
 }
@@ -206,7 +202,7 @@ void ChessPile::chessStore()
     s_layer->addChild(label);
     /*------------------refresh----------------------------*/
     auto Refresh = MenuItemImage::create("refresh.png", "refresh.png", CC_CALLBACK_1(ChessPile::refresh1, this));
-    auto reFresh = Menu::create(Refresh, NULL);
+    auto reFresh = Menu::create(Refresh, nullptr);
     reFresh->setPosition(110, 570);
     s_layer->addChild(reFresh, 1);
     refresh(player1data);
@@ -215,25 +211,25 @@ void ChessPile::chessStore()
     /*--------------------set chess---------------------------*/
     storeChess(0);
     auto buy1 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy1, this));
-    auto Buy1 = Menu::create(buy1, NULL);
+    auto Buy1 = Menu::create(buy1, nullptr);
     s_layer->addChild(Buy1, 1);
     Buy1->setPosition(125, 460 - 120 * 0);
 
     storeChess(1);
     auto buy2 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy2, this));
-    auto Buy2 = Menu::create(buy2, NULL);
+    auto Buy2 = Menu::create(buy2, nullptr);
     s_layer->addChild(Buy2, 1);
     Buy2->setPosition(125, 460 - 120 * 1);
 
     storeChess(2);
     auto buy3 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy3, this));
-    auto Buy3 = Menu::create(buy3, NULL);
+    auto Buy3 = Menu::create(buy3, nullptr);
     s_layer->addChild(Buy3, 1);
     Buy3->setPosition(125, 460 - 120 * 2);
 
     storeChess(3);
     auto buy4 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy4, this));
-    auto Buy4 = Menu::create(buy4, NULL);
+    auto Buy4 = Menu::create(buy4, nullptr);
     s_layer->addChild(Buy4, 1);
     Buy4->setPosition(125, 460 - 120 * 3);
  
@@ -266,6 +262,8 @@ void ChessPile::refresh1(cocos2d::Ref* pSender)
                     int temp = 0;
                     while (1)
                     {
+                       
+                        
                         temp = rand() % OriginalChess;
                         if (chess_store[temp].money == j + 1)
                             break;

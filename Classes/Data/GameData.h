@@ -5,7 +5,7 @@ USING_NS_CC;
 
 
 //地图：64*36
-#define ChessNumber 20
+#define ChessNumber 35
 #define OriginalChess 8
 class GameData: Scene
 {
@@ -59,26 +59,31 @@ enum ChessType
 {
 	None = -1,
 	sunflower,
-	cactus,
 	walnut,
 	pealauncher,
 	mushroom,
 	cherrybomb,
-	cornshooter,
-	cabbagepult,
+	ga_peashooter,
+	tomatoboom,
+	chomper,
 	//升级后的植物
 	upgrade_sunflower,
-	upgrade_cactus,
 	upgrade_walnut,
 	upgrade_pealauncher,
 	upgrade_mushroom,
 	upgrade_cherrybomb,
-	upgrade_cornshooter,
-	upgrade_cabbagepult
+	upgrade_ga_peashooter,
+	upgrade_tomatoboom,
+	upgrade_chomper,
+	_3star_sunflower,
+	_3star_walnut,
+	_3star_pealauncher,
+	_3star_mushroom,
+	_3star_cherrybomb,
+	_3star_ga_peashooter,
+	_3star_tomatoboom,
+	_3star_chomper
 };
 
-
-extern ccArray* ComputerArray; //电脑棋子数组
-extern int chesspile[ChessNumber];
 extern const int PB[9][5];
 extern const chessInfo chess_store[OriginalChess];

@@ -23,3 +23,30 @@ void PlayerData::CountExperience()
 		}
 	}
 }
+
+void PlayerData::remain()
+{
+	PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
+	FightArray = ccArrayNew(100);
+	LifeLimit = 100;   //生命值上限
+	HealthValue = LifeLimit; //生命值
+	Grade = 1; //玩家等级
+	ExperienceValue = 0;   //经验值
+	Gold = 3000;  //金币
+	ToNextGrade = 2;
+	occupied_slot = 0;
+	is_package_opened = 0;
+	for (int i = 0; i < 12; i++)
+	{
+		if (i < 3)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				packageSlot[i][j] = PackageSlot(0, 0);
+
+			}
+		}
+		slotPoint[i] = Point(0, 0);
+	}
+
+}
