@@ -59,12 +59,13 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
 
      Classes/Scene/AutoChessScene.cpp
-     Classes/Scene/Scene1.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelpScene.cpp
      Classes/Scene/SettingScene.cpp
+     Classes/Scene/HelpAndSetLayer.cpp
 
      Classes/Player/Player.cpp
+     Classes/PC_Player/PC_Player.cpp
 
      Classes/Map/MapLayer.cpp
 
@@ -72,10 +73,10 @@ list(APPEND GAME_SOURCE
 
      Classes/Chess/Chess.cpp
      Classes/Chess/PeaShooter.cpp
-     Classes/Chess/CabbagePult.cpp
-     Classes/Chess/Cactus.cpp
+     Classes/Chess/Chomper.cpp
+     Classes/Chess/Ga_PeaShooter.cpp
      Classes/Chess/CherryBomb.cpp
-     Classes/Chess/CornShooter.cpp
+     Classes/Chess/TomatoBoom.cpp
      Classes/Chess/MushRoom.cpp
      Classes/Chess/SunFlower.cpp
      Classes/Chess/WalNut.cpp
@@ -86,17 +87,23 @@ list(APPEND GAME_SOURCE
      Classes/Data/PlayerData.cpp
 
      Classes/ChessPile/ChessPile.cpp
+
+     Classes/Equipment/Equipment.cpp
+     Classes/Equipment/Gun.cpp
+     Classes/Equipment/Knife.cpp
+     Classes/Equipment/Package.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
 
      Classes/Scene/AutoChessScene.h
-     Classes/Scene/Scene1.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelpScene.h
      Classes/Scene/SettingScene.h
+     Classes/Scene/HelpAndSetLayer.h
 
      Classes/Player/Player.h
+     Classes/PC_Player/PC_Player.h
 
      Classes/Map/MapLayer.h
 
@@ -105,10 +112,10 @@ list(APPEND GAME_HEADER
      Classes/Chess/Chess.h
      Classes/Chess/ChessFile.h
      Classes/Chess/PeaShooter.h
-     Classes/Chess/CabbagePult.h
-     Classes/Chess/Cactus.h
+     Classes/Chess/Chomper.h
+     Classes/Chess/Ga_PeaShooter.h
      Classes/Chess/CherryBomb.h
-     Classes/Chess/CornShooter.h
+     Classes/Chess/TomatoBoom.h
      Classes/Chess/MushRoom.h
      Classes/Chess/SunFlower.h
      Classes/Chess/WalNut.h
@@ -119,6 +126,11 @@ list(APPEND GAME_HEADER
      Classes/Data/PlayerData.h
 
      Classes/ChessPile/ChessPile.h
+
+     Classes/Equipment/Equipment.h
+     Classes/Equipment/Gun.h
+     Classes/Equipment/Knife.h
+     Classes/Equipment/Package.h
      )
 
 if(ANDROID)

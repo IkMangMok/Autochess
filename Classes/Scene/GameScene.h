@@ -5,14 +5,16 @@
 #include "Timer/RoundTimer.h"
 #include "Sprite/GameSprite.h"
 #include "AudioEngine.h"
-#include "ChessPile/ChessPile.h"
+#include "PC_Player/PC_Player.h"
 #include "cocos-ext.h"              //包含cocos-ext.h头文件
 #include <vector>
+#include "HelpAndSetLayer.h"
+#include "Equipment/EquipmentFile.h"
 using namespace cocos2d::extension; //引用cocos2d::extension命名空间
 
 USING_NS_CC;
 
-#define FightNumber 30
+#define FightNumber 70
 
 class GameScene : public AutoChess {
 public:
@@ -23,10 +25,10 @@ public:
 
 private:
 	RoundTimer* test_timer = RoundTimer::create(10);
-
 	void update(float dt);
+	void TurnInfoInit();
 	CREATE_FUNC(GameScene);
-
+	
 	//备战期鼠标移动函数
 	void ChessMoveInMouse();
 	void SceneMouseBack(cocos2d::Ref* pSender);
@@ -34,14 +36,15 @@ private:
 	void onMouseMove(Event* event);
 	void onMouseUp(Event* event);
 	void onMouseDown(Event* event);
+	void GameStartMouseInit();
 	Point MapJudge(Point point);
-	IntMap MapIntReturn(Point point);
 	int MouseToChess = -1;
 
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
 	void SoldChess(Chess* temp, ccArray* Array);
 	
-	void GameScene::addChess(PlayerData &playerdata);
+	void GameScene::addChess(PlayerData& playerdata, int playerinfo);
+	string getName();
 
 	friend class Chess;
 	friend class GameSprite;
@@ -53,15 +56,19 @@ private:
 	void ToFightArray(Chess* chess, PlayerData& playerdata);
 	void ToPlayerArray(Chess* chess, PlayerData& playerdata);
 
-	string getName();
-
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer(getName());
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
-	int turn = 0;
+	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
+	bool PC_ShowFlag = 1;
 
-	Label* Coins = Label::createWithTTF(to_string(player1data.Gold), "fonts/Marker Felt.ttf", 24);  //临时记录
-	
+
+	int turn = 0;
+	/*装备系统*/
+	Package* layerPackage = Package::createPackage();
+	bool EquipSearchChess(const float EquipX, const float EquipY, const int EquipIndex);
+	int MouseSelectedEquip = -1;
+
 	friend class GameSprite;
 };

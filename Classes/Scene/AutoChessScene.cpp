@@ -30,7 +30,7 @@
 #include "LoginScene.h"
 
 USING_NS_CC;
-static int audioID;
+
 Scene* AutoChess::createScene()
 {
     return AutoChess::create();
@@ -81,7 +81,7 @@ bool AutoChess::init()
     }
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(closeItem, nullptr);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -104,7 +104,7 @@ bool AutoChess::init()
         GameStart->setPosition(Vec2(x, y));
     }
 
-    auto gamestart = Menu::create(GameStart, NULL);
+    auto gamestart = Menu::create(GameStart, nullptr);
     gamestart->setPosition(Vec2::ZERO);
     this->addChild(gamestart, 1);
 
@@ -127,7 +127,7 @@ bool AutoChess::init()
         Help->setPosition(Vec2(x, y));
     }
 
-    auto menuhelp = Menu::create(Help, NULL);
+    auto menuhelp = Menu::create(Help, nullptr);
     menuhelp->setPosition(Vec2::ZERO);
     this->addChild(menuhelp, 1);
 
@@ -150,9 +150,31 @@ bool AutoChess::init()
         Setting->setPosition(Vec2(x, y));
     }
 
-    auto menusetting = Menu::create(Setting, NULL);
+    auto menusetting = Menu::create(Setting, nullptr);
     menusetting->setPosition(Vec2::ZERO);
     this->addChild(menusetting, 1);
+    /*----------------MenuItemImage Login 登录---------------------*/
+    auto loginButton = MenuItemImage::create(
+        "pea.png",
+        "pea.png",
+        CC_CALLBACK_1(AutoChess::menuLogin, this));
+
+    if (loginButton == nullptr ||
+        loginButton->getContentSize().width <= 0 ||
+        loginButton->getContentSize().height <= 0)
+    {
+        problemLoading("'pea.png' and 'pea.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 2;
+        float y = origin.y + visibleSize.height / 2 - 300;
+        loginButton->setPosition(Vec2(x, y));
+    }
+
+    auto loginsetting = Menu::create(loginButton, NULL);
+    loginsetting->setPosition(Vec2::ZERO);
+    this->addChild(loginsetting, 1);
 
     /////////////////////////////
     // 3. add your codes below...
@@ -175,7 +197,11 @@ bool AutoChess::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
+
+    auto sprite1 = Sprite::create("startbg.png");
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
+
 
     return true;
 }
@@ -185,7 +211,7 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
 
-    AudioEngine::end();
+    //AudioEngine::end();
 
     Director::getInstance()->end();
 
@@ -200,23 +226,25 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
     global_data->GameStartInit(); //初始化全局数据
-    AudioEngine::stop(audioID);
 
     _director->replaceScene(LoginScene::createScene());
+
 
 }
 
 void AutoChess::menuHelp(Ref* pSender)   //帮助
 {
 
-    AudioEngine::stop(audioID);
-
     _director->replaceScene(HelpScene::createScene());
 }
 void AutoChess::menuSetting(Ref* pSender)   //帮助
 {
 
-    AudioEngine::stop(audioID);
-
     _director->replaceScene(SettingScene::createScene());
 }
+
+void AutoChess::menuLogin(Ref* pSender)
+{
+    _director->replaceScene(LoginScene::createScene());
+}
+

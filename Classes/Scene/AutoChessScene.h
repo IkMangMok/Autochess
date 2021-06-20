@@ -42,6 +42,7 @@ public:
     void menuGameStart(cocos2d::Ref* pSender);
     void menuHelp(cocos2d::Ref* pSender);
     void menuSetting(cocos2d::Ref* pSender);
+    void menuLogin(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
     CREATE_FUNC(AutoChess);
