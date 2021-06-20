@@ -15,3 +15,10 @@ public:
 	CREATE_FUNC(upgrade_MushRoom);
 };
 
+class _3star_MushRoom :public MushRoom {
+public:
+	_3star_MushRoom();
+	static _3star_MushRoom* createChess();
+	CREATE_FUNC(_3star_MushRoom);
+};
+

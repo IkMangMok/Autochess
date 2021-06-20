@@ -3,17 +3,18 @@
 #include "Data/GameData.h"
 #include "Data/PlayerData.h"
 #include "Equipment.h"
-#include "Gun.h"
-#include "Knife.h"
+#include "EquipmentFile.h"
 
 USING_NS_CC;
 
 class Package:public Layer
 {
 public:
-	CREATE_FUNC(Package);
+	
 	static Package* createPackage();
 	virtual bool init();
+
+	CREATE_FUNC(Package);
 private:
 	int TotalSlot = 12;
 

@@ -48,7 +48,7 @@ bool HelpScene::init()
         BackInHelp->setPosition(Vec2(x, y));
     }
 
-    auto back_in_help = Menu::create(BackInHelp, NULL);
+    auto back_in_help = Menu::create(BackInHelp, nullptr);
     back_in_help->setPosition(Vec2::ZERO);
     this->addChild(back_in_help, 1);
 

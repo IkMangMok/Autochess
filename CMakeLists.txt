@@ -73,10 +73,10 @@ list(APPEND GAME_SOURCE
 
      Classes/Chess/Chess.cpp
      Classes/Chess/PeaShooter.cpp
-     Classes/Chess/CabbagePult.cpp
-     Classes/Chess/Cactus.cpp
+     Classes/Chess/Chomper.cpp
+     Classes/Chess/Ga_PeaShooter.cpp
      Classes/Chess/CherryBomb.cpp
-     Classes/Chess/CornShooter.cpp
+     Classes/Chess/TomatoBoom.cpp
      Classes/Chess/MushRoom.cpp
      Classes/Chess/SunFlower.cpp
      Classes/Chess/WalNut.cpp
@@ -112,10 +112,10 @@ list(APPEND GAME_HEADER
      Classes/Chess/Chess.h
      Classes/Chess/ChessFile.h
      Classes/Chess/PeaShooter.h
-     Classes/Chess/CabbagePult.h
-     Classes/Chess/Cactus.h
+     Classes/Chess/Chomper.h
+     Classes/Chess/Ga_PeaShooter.h
      Classes/Chess/CherryBomb.h
-     Classes/Chess/CornShooter.h
+     Classes/Chess/TomatoBoom.h
      Classes/Chess/MushRoom.h
      Classes/Chess/SunFlower.h
      Classes/Chess/WalNut.h

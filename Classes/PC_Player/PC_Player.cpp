@@ -19,17 +19,17 @@ Chess* ChessCreate(int i)   //生成不同的棋子
 		case sunflower:
 			return SunFlower::createChess();
 			break;
-		case cactus:
-			return Cactus::createChess();
+		case chomper:
+			return Chomper::createChess();
 			break;
 		case cherrybomb:
 			return CherryBomb::createChess();
 			break;
-		case cornshooter:
-			return CornShooter::createChess();
+		case ga_peashooter:
+			return Ga_PeaShooter::createChess();
 			break;
-		case cabbagepult:
-			return CabbagePult::createChess();
+		case tomatoboom:
+			return TomatoBoom::createChess();
 			break;
 	}
 }
@@ -280,7 +280,7 @@ void PC_Player::pcCreateBattleArray()
 
 bool PC_Player::pcBuyChess(int j)
 {
-	if (player2data.FightArray->num + player2data.PlayerArray->num <= player2data.Grade + 8)  //确保不超过备战区
+	if (player2data.FightArray->num + player2data.PlayerArray->num <= player2data.Grade + 7)  //确保不超过备战区
 	{
 		if (player2data.Gold >= player2data.Used[j].money && player2data.Used[j].buy == false)   //大于则买
 		{

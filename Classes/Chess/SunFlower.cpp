@@ -7,7 +7,7 @@ SunFlower::SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 	Health = 300;
 	HealthLimit = Health;
 	Mana = 0;
-	ManaLimit = 50;
+	ManaLimit = 100;
 	Magic = 1.0f;
 	Damage = 60;
 	Armor = 5;
@@ -15,21 +15,15 @@ SunFlower::SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 	CoinsNeeded = 1;
 	SoldCoins = 1;
 	star = 1;
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / AttackSpeed);
 }
 
 SunFlower* SunFlower::createChess()
 {
 	auto sunflower = SunFlower::create();
-	sunflower->Blood->setBarChangeRate(Point(1, 0));
-	sunflower->Blood->setType(ProgressTimer::Type::BAR);
-	sunflower->Blood->setMidpoint(Point(0, 1));
-	sunflower->Blood->setScaleX(0.22);
-	sunflower->scheduleUpdate();
-	sunflower->addChild(sunflower->Blood, 2);
-	auto temp = Sprite::create("sunflower.png");
-	sunflower->addChild(temp);
-	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
-	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / sunflower->AttackSpeed);
+	sunflower->picturename = "Sunflower%d.png";
+	sunflower->picturenum = 17;
+	sunflower->chessAnimation(sunflower->picturename, sunflower->picturenum, sunflower, sunflower->getPosition(), 0.08f, -1);
 	sunflower->autorelease();
 	return sunflower;
 }
@@ -67,7 +61,7 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 	Health = 500;
 	HealthLimit = Health;
 	Mana = 0;
-	ManaLimit = 50;
+	ManaLimit = 100;
 	Magic = 1.0f;
 	Damage = 90;
 	Armor = 5;
@@ -80,16 +74,39 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 upgrade_SunFlower* upgrade_SunFlower::createChess()
 {
 	auto sunflower = upgrade_SunFlower::create();
-	sunflower->Blood->setBarChangeRate(Point(1, 0));
-	sunflower->Blood->setType(ProgressTimer::Type::BAR);
-	sunflower->Blood->setMidpoint(Point(0, 1));
-	sunflower->Blood->setScaleX(0.22);
-	sunflower->scheduleUpdate();
-	sunflower->addChild(sunflower->Blood, 2);
-	auto temp = Sprite::create("upgrade_sunflower.png");
-	sunflower->addChild(temp);
-	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
-	sunflower->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / sunflower->AttackSpeed);
+
+	sunflower->picturename = "upgrade_Sunflower%d.png";
+	sunflower->picturenum = 17;
+	sunflower->chessAnimation(sunflower->picturename, sunflower->picturenum, sunflower, sunflower->getPosition(), 0.08f, -1);
+
+	sunflower->autorelease();
+	return sunflower;
+}
+
+_3star_SunFlower::_3star_SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
+{
+	type = _3star_sunflower;
+	AttackDistance = 750;
+	Health = 800;
+	HealthLimit = Health;
+	Mana = 0;
+	ManaLimit = 100;
+	Magic = 1.0f;
+	Damage = 120;
+	Armor = 5;
+	AttackSpeed = 0.8f;
+	CoinsNeeded = 0;
+	SoldCoins = 8;
+	star = 3;
+}
+
+_3star_SunFlower* _3star_SunFlower::createChess()
+{
+	auto sunflower = _3star_SunFlower::create();
+
+	sunflower->picturename = "upgrade_Sunflower%d.png";
+	sunflower->picturenum = 17;
+	sunflower->chessAnimation(sunflower->picturename, sunflower->picturenum, sunflower, sunflower->getPosition(), 0.08f, -1);
 	sunflower->autorelease();
 	return sunflower;
 }

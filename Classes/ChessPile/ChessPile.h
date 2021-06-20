@@ -15,8 +15,8 @@ private:
 
 	int x = 470;
 
-	const string chessValue[3] =
-	{ "1 coin","2 coins","3 coins" };
+	const string chessValue[5] =
+	{ "1 coin","2 coins","3 coins","4 coins","5 coins" };
 
 	cocos2d::Layer* s_layer= Layer::create();
 

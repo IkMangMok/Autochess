@@ -17,3 +17,10 @@ public:
 	static upgrade_WalNut* createChess();
 	CREATE_FUNC(upgrade_WalNut);
 };
+
+class _3star_WalNut :public WalNut {
+public:
+	_3star_WalNut();
+	static _3star_WalNut* createChess();
+	CREATE_FUNC(_3star_WalNut);
+};
