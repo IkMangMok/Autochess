@@ -33,6 +33,6 @@ void HelpAndSetLayer::BackToMenu(cocos2d::Ref* pSender)
             ChessExist[i][j] = 0;
         }
     }
-	_director->replaceScene(AutoChess::createScene());
+    _director->replaceScene(AutoChess::createScene());
 }
 

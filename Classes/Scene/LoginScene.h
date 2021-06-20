@@ -26,12 +26,9 @@ public:
     virtual void editBoxTextChanged(EditBox* editBox, const std::string& text);
     virtual void editBoxReturn(EditBox* editBox);
 
-<<<<<<< HEAD
-=======
     void modeAI(cocos2d::Ref* pSender);
     void modeServer(cocos2d::Ref* pSender);
     void modeClient(cocos2d::Ref* pSender);
->>>>>>> lx
 
     CREATE_FUNC(LoginScene);
 

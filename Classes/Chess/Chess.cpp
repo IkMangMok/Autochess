@@ -22,13 +22,10 @@ Chess* Chess::createChess(string picture_name)
 
 Chess::Chess()
 {
-<<<<<<< HEAD
-=======
 	picturenum = 0;
 	xtemp = x;
 	ytemp = y;
 
->>>>>>> lx
 	Blood->setBarChangeRate(Point(1, 0));
 	Blood->setType(ProgressTimer::Type::BAR);
 	Blood->setMidpoint(Point(0, 1));
@@ -74,26 +71,18 @@ void Chess::Attack(float dt)
 		if (distance < AttackDistance)                           //小于攻击距离则开始攻击
 		{
 			isMove = 0;
-<<<<<<< HEAD
-			AttackTarget->Hurted(Damage);
-=======
 			
 			shootbullet("pea.png", AttackTarget->getPosition() - this->getPosition(), this);
 		
 		
->>>>>>> lx
 			if (!SkillFlag)
 				Mana += 10;
 
 			if (AttackTarget->Die())
-<<<<<<< HEAD
-				AttackTarget = (Chess*)nullptr;
-=======
 			{
 	
 				AttackTarget = (Chess*)nullptr;
 			}
->>>>>>> lx
 		}
 	}
     
@@ -129,10 +118,7 @@ void Chess::setPlayer(int player)
 	OfPlayer = player;
 	if (player == 0)
 	{
-<<<<<<< HEAD
-=======
 		
->>>>>>> lx
 		Blood->setSprite(Sprite::create("OurBlood.png"));
 	}
 }
@@ -214,8 +200,6 @@ void Chess::chessAnimation(string picturename, const int picturenum, Sprite* spr
 	//sp->runAction(animate);
 	sprite->runAction(action);
 	
-<<<<<<< HEAD
-=======
 }
 
 void Chess::EquimentChange()
@@ -254,5 +238,4 @@ void Chess::shootbullet(string picturename, Point deltaPos, Chess* mychess)
 	auto all = Sequence::createWithTwoActions(actionTo, actionBack);
 	bullet->runAction(Repeat::create(all, 1));
 	AttackTarget->Hurted(Damage);
->>>>>>> lx
 }

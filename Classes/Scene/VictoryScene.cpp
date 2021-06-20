@@ -1,3 +1,5 @@
+#pragma once
+#include"AutoChessScene.h"
 #include "VictoryScene.h"
 
 Scene* VictoryScene::createVictoryScene()
@@ -15,6 +17,9 @@ bool VictoryScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	auto sprite1 = Sprite::create("startbg.png");
+	sprite1->setPosition(800, 460);
+	this->addChild(sprite1);
 
 	/*---------------MenuItemImage* BackToMenu--------------*/
 	auto BackToMenu = MenuItemImage::create("BackToMenu.png", "BackToMenu.png",CC_CALLBACK_1(VictoryScene::backToMenu,this));

@@ -178,7 +178,6 @@ bool AutoChess::init()
     auto sprite1 = Sprite::create("startbg.png");
     sprite1->setPosition(800, 460);
     this->addChild(sprite1);
-    audioID = AudioEngine::play2d("init_music.MP3", true, 1.0f);
 
     return true;
 }
@@ -203,8 +202,6 @@ void AutoChess::menuCloseCallback(Ref* pSender)
 void AutoChess::menuGameStart(Ref* pSender)   //开始游戏
 {
     global_data->GameStartInit(); //初始化全局数据
-
-    AudioEngine::stop(audioID);
 
     _director->replaceScene(LoginScene::createScene());
 

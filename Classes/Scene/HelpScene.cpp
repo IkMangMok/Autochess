@@ -7,7 +7,6 @@
 
 using namespace std;
 USING_NS_CC;
-static int audioID;
 
 
 Scene* HelpScene::createScene()

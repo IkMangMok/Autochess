@@ -7,11 +7,7 @@ SunFlower::SunFlower()        //初步设想：通过技能可以群体回血或获得金币/经验
 	Health = 300;
 	HealthLimit = Health;
 	Mana = 0;
-<<<<<<< HEAD
-	ManaLimit = 100;
-=======
 	ManaLimit = 80;
->>>>>>> lx
 	Magic = 1.0f;
 	Damage = 60;
 	Armor = 5;
@@ -40,11 +36,7 @@ void SunFlower::Skill()
 			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
 				if (temp->getPlayer() == OfPlayer && !temp->Die())
 				{
-<<<<<<< HEAD
-					temp->MagicHurt(-(50 + 50 * star) * Magic);
-=======
 					temp->MagicHurt(-(100 + 80 * star) * Magic);
->>>>>>> lx
 						Mana = 0;
 				}
 		}
@@ -56,11 +48,7 @@ void SunFlower::Skill()
 			auto temp = ((Chess*)(player2data.FightArray->arr[i]));
 			if (temp->getPlayer() == OfPlayer && !temp->Die())
 			{
-<<<<<<< HEAD
-				temp->MagicHurt(-(50 + 50 * star) * Magic);
-=======
 				temp->MagicHurt(-(100 + 80 * star) * Magic);
->>>>>>> lx
 				Mana = 0;
 			}
 		}
@@ -73,11 +61,7 @@ upgrade_SunFlower::upgrade_SunFlower()        //初步设想：通过技能可以群体回血或
 	Health = 500;
 	HealthLimit = Health;
 	Mana = 0;
-<<<<<<< HEAD
-	ManaLimit = 100;
-=======
 	ManaLimit = 80;
->>>>>>> lx
 	Magic = 1.0f;
 	Damage = 90;
 	Armor = 5;
@@ -106,11 +90,7 @@ _3star_SunFlower::_3star_SunFlower()        //初步设想：通过技能可以群体回血或获
 	Health = 800;
 	HealthLimit = Health;
 	Mana = 0;
-<<<<<<< HEAD
-	ManaLimit = 100;
-=======
 	ManaLimit = 80;
->>>>>>> lx
 	Magic = 1.0f;
 	Damage = 120;
 	Armor = 5;

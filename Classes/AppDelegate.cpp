@@ -116,7 +116,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = AutoChess::createScene();
 
     static int audioID;
- //   audioID = AudioEngine::play2d("background music.MP3", true, 1.0f);
+    audioID = AudioEngine::play2d("background music.MP3", true, 1.0f);
     // run
     director->runWithScene(scene);
     

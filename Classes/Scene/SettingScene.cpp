@@ -5,7 +5,6 @@
 #include"AudioEngine.h"
 using namespace std;
 USING_NS_CC;
-static int audioID;
 
 Scene* SettingScene::createScene()
 {

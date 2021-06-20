@@ -32,17 +32,12 @@ bool LoginScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-<<<<<<< HEAD
-    /*-------------------Lable Login---------------*/
-    auto label = Label::createWithTTF("Login", "fonts/Marker Felt.ttf", 36);
-=======
     auto sprite_bg = Sprite::create("help_bg.jpg");
     sprite_bg->setPosition(800, 460);
     this->addChild(sprite_bg);
 
     /*-------------------Lable Login---------------*/
     auto label = Label::createWithTTF("Login", "fonts/Marker Felt.ttf", 48);
->>>>>>> lx
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -51,11 +46,7 @@ bool LoginScene::init()
     {
         // position the label on the center of the screen
         label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-<<<<<<< HEAD
-            origin.y + visibleSize.height/2+100));
-=======
             origin.y + visibleSize.height - label->getContentSize().height));
->>>>>>> lx
 
         // add the label as a child to this layer
         this->addChild(label, 1);
@@ -63,15 +54,6 @@ bool LoginScene::init()
 
     /*-------------------Login frame---------------*/
 
-<<<<<<< HEAD
-    auto editbox = EditBox::create(Size(259, 39), Scale9Sprite::create("nameframe.png"));
-    // editbox1->openKeyboard();
-
-    editbox->setAnchorPoint(Point(0, 0));
-    editbox->setPosition(Point(visibleSize.width / 2-125, visibleSize.height / 2));
-    editbox->setDelegate(this);
-    editbox->setPlaceHolder("name:");//占位字符 
-=======
     auto editbox = EditBox::create(Size(299, 59), Scale9Sprite::create("nameframe.png"));
     // editbox1->openKeyboard();
 
@@ -79,17 +61,11 @@ bool LoginScene::init()
     editbox->setPosition(Point(visibleSize.width / 2 - 125, visibleSize.height / 2 + 100));
     editbox->setDelegate(this);
     editbox->setPlaceHolder("InputNickname:");//占位字符 
->>>>>>> lx
     editbox->setMaxLength(100);
     editbox->setFontColor(Color3B::BLACK);
     editbox->setTag(1);
     this->addChild(editbox, 1);
 
-<<<<<<< HEAD
-    /*-------------------Next button---------------*/
-    
-    auto next = MenuItemImage::create(
-=======
     /*-------------------Mode Switch------------------*/
 
     auto label2 = Label::createWithTTF("Select Mode", "fonts/Marker Felt.ttf", 36);
@@ -125,7 +101,6 @@ bool LoginScene::init()
     /*-------------------Next button---------------*/
     
     /*auto next = MenuItemImage::create(
->>>>>>> lx
         "next.png",
         "next.png",
         CC_CALLBACK_1(LoginScene::menuGameStart, this));
@@ -146,11 +121,7 @@ bool LoginScene::init()
     auto nextbutton = Menu::create(next, NULL);
     nextbutton->setPosition(Vec2::ZERO);
     this->addChild(nextbutton, 1);
-<<<<<<< HEAD
-
-=======
     */
->>>>>>> lx
 
     return true;
 }
@@ -187,8 +158,6 @@ void LoginScene::menuGameStart(Ref* pSender)   //开始游戏
 
     _director->replaceScene(GameScene::createScene(settingname));
 }
-<<<<<<< HEAD
-=======
 
 void LoginScene::modeAI(cocos2d::Ref* pSender)
 {
@@ -210,4 +179,3 @@ void LoginScene::modeClient(cocos2d::Ref* pSender)
 
     _director->replaceScene(GameScene::createScene(settingname));
 }
->>>>>>> lx

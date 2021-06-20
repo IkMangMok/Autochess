@@ -11,11 +11,7 @@ Ga_PeaShooter::Ga_PeaShooter()
 	ManaLimit = 100;
 	Damage = 60;
 	Armor = 20;
-<<<<<<< HEAD
-	AttackSpeed = 12.5f;
-=======
 	AttackSpeed = 1.5f;
->>>>>>> lx
 	CoinsNeeded = 4;
 	SoldCoins = 4;
 	star = 1;
@@ -35,11 +31,7 @@ void Ga_PeaShooter::Skill()
 			if (temp->getPlayer() == OfPlayer && !temp->Die())
 			{
 				temp->setAttackSpeed(temp->getAttackSpeed() * rate * Magic);
-<<<<<<< HEAD
-				temp->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / AttackSpeed);
-=======
 				temp->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / temp->getAttackSpeed());
->>>>>>> lx
 				Mana = 0;
 			}
 		}
@@ -100,11 +92,7 @@ upgrade_Ga_PeaShooter::upgrade_Ga_PeaShooter()
 	ManaLimit = 100;
 	Damage = 90;
 	Armor = 20;
-<<<<<<< HEAD
-	AttackSpeed = 12.5f;
-=======
 	AttackSpeed = 1.5f;
->>>>>>> lx
 	CoinsNeeded = 0;
 	SoldCoins = 11;
 	star = 2;
