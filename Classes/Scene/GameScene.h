@@ -63,7 +63,6 @@ private:
 	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
 	bool PC_ShowFlag = 1;
 
-
 	int turn = 0;
 	/*装备系统*/
 	Package* layerPackage = Package::createPackage();

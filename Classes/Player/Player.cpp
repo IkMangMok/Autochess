@@ -1,21 +1,36 @@
 #include"player.h"
 
+const Point myBloodPos = Point(250, 510);
+const Point myExpPos = Point(250, 490);
 
+const Point enemyBloodPos = Point(250, 710);
+const Point enemyExpPos = Point(250, 690);
 
 Player* Player::createPlayer(string& name)
 {
 	auto player = Player::create();	
 
-	/*-----------------------玩家头像（静态，不需要update）-----------------------*/
-	string picture = "duck.jpg";
-	auto icon = Sprite::create(picture);
-	icon->setPosition(Point(50, 400));
-	player->addChild(icon);
+	/*-----------------------玩家1头像（静态，不需要update）-----------------------*/
+	string picture1 = "head1.jpg";
+	auto icon1 = Sprite::create(picture1);
+	icon1->setPosition(Point(50, 500));
+	player->addChild(icon1);
 
-	/*-----------------------玩家昵称（静态，不需要update）-----------------------*/
-	auto nameLabel = Label::createWithTTF(name, "fonts/Marker Felt.ttf", 24);
-	nameLabel->setPosition(Point(80 + nameLabel->getContentSize().width, 425));
-	player->addChild(nameLabel, 1);
+	/*-----------------------玩家1昵称（静态，不需要update）-----------------------*/
+	auto nameLabel1 = Label::createWithTTF(name, "fonts/Marker Felt.ttf", 24);
+	nameLabel1->setPosition(Point(80 + nameLabel1->getContentSize().width, 540));
+	player->addChild(nameLabel1, 1);
+
+	/*-----------------------玩家2头像（静态，不需要update）-----------------------*/
+	string picture2 = "head2.png";
+	auto icon2 = Sprite::create(picture2);
+	icon2->setPosition(Point(50, 700));
+	player->addChild(icon2);
+
+	/*-----------------------玩家2昵称（静态，不需要update）-----------------------*/
+	auto nameLabel2 = Label::createWithTTF("Computer", "fonts/Marker Felt.ttf", 24);
+	nameLabel2->setPosition(Point(60 + nameLabel2->getContentSize().width, 740));
+	player->addChild(nameLabel2, 1);
 
 	player->retain();
 	player->Coins->retain();
@@ -26,7 +41,7 @@ Player* Player::createPlayer(string& name)
 
 bool Player::init()
 {
-	this->setPosition(0, 0);
+	/*------------------------买经验------------------*/
 	MenuItemImage* BuyExp = MenuItemImage::create("BuyExp.png", "BuyExp.png",
 		CC_CALLBACK_1(Player::BuyExp, this));
 	Menu* buyexp = Menu::create(BuyExp, nullptr);
@@ -34,26 +49,75 @@ bool Player::init()
 	buyexp->setScale(0.2);
 	this->addChild(buyexp, 1);
 
-	Coins->setPosition(50, 300);
-	Grades->setPosition(60, 250);
-	Exp->setPosition(60, 200);
-	Hyut->setPosition(60, 350);
-	this->addChild(Coins);
-	this->addChild(Grades);
-	this->addChild(Exp);
+	/*------------------------Player1(己方)------------------------*/
+	/*------------------------血条------------------*/
+	this->setPosition(0, 0);
+	player1BloodFrame->setPosition(myBloodPos);
+	this->addChild(player1BloodFrame);
+
+	player1Blood->setBarChangeRate(Point(1, 0));
+	player1Blood->setType(ProgressTimer::Type::BAR);
+	player1Blood->setMidpoint(Point(0, 1));
+	player1Blood->setPosition(myBloodPos);
+	player1Blood->setPercentage(player1data.HealthValue);
+	this->addChild(player1Blood);
+
+	Hyut->setPosition(myBloodPos.x + 180, myBloodPos.y);
 	this->addChild(Hyut);
-	
 
-	p2Coins->setPosition(50, 600);
-	p2Grades->setPosition(60, 550);
-	p2Exp->setPosition(60, 500);
-	p2Hyut->setPosition(60, 650);
-	
+	/*------------------------等级------------------*/
+	player1expFrame->setPosition(myExpPos);
+	this->addChild(player1expFrame);
 
-	this->addChild(p2Coins);
-	this->addChild(p2Grades);
-	this->addChild(p2Exp);
-	this->addChild(p2Hyut);
+	player1Experience->setBarChangeRate(Point(1, 0));
+	player1Experience->setType(ProgressTimer::Type::BAR);
+	player1Experience->setMidpoint(Point(0, 1));
+	player1Experience->setPosition(myExpPos);
+	player1Experience->setPercentage(player1data.ExperienceValue * 100 / player1data.NextNeedExp);
+	this->addChild(player1Experience);
+
+	Grades->setPosition(myExpPos.x + 190, myExpPos.y);
+	this->addChild(Grades);
+
+	/*------------------------金钱------------------*/
+	Coins->setPosition(75, 450);
+	this->addChild(Coins);
+
+	
+	/*------------------------Player2(对方)------------------------*/
+	/*------------------------血条------------------*/
+	this->setPosition(0, 0);
+	player2BloodFrame->setPosition(enemyBloodPos);
+	this->addChild(player2BloodFrame);
+
+	player2Blood->setBarChangeRate(Point(1, 0));
+	player2Blood->setType(ProgressTimer::Type::BAR);
+	player2Blood->setMidpoint(Point(0, 1));
+	player2Blood->setPosition(enemyBloodPos);
+	player2Blood->setPercentage(player2data.HealthValue);
+	this->addChild(player2Blood);
+
+	Hyut2->setPosition(enemyBloodPos.x + 180, enemyBloodPos.y);
+	this->addChild(Hyut2);
+
+	/*------------------------等级------------------*/
+	player2expFrame->setPosition(enemyExpPos);
+	this->addChild(player2expFrame);
+
+	player2Experience->setBarChangeRate(Point(1, 0));
+	player2Experience->setType(ProgressTimer::Type::BAR);
+	player2Experience->setMidpoint(Point(0, 1));
+	player2Experience->setPosition(enemyExpPos);
+	player2Experience->setPercentage(player2data.ExperienceValue * 100 / player2data.NextNeedExp);
+	this->addChild(player2Experience);
+
+	Grades2->setPosition(enemyExpPos.x + 190, enemyExpPos.y);
+	this->addChild(Grades2);
+
+	/*------------------------金钱------------------*/
+	Coins2->setPosition(75, 650);
+	this->addChild(Coins2);
+
 	return true;
 }
 
@@ -78,38 +142,32 @@ void Player::BuyExp(cocos2d::Ref* pSender)
 
 void Player::update(float dt)
 {
-	Coins->setString("Coins:" + to_string(player1data.Gold));  //临时记录
-	Grades->setString("Grades: " + to_string(player1data.Grade));
-	Exp->setString("ExpForGrade++: " + to_string(player1data.ToNextGrade));
-	showBlood(Point(250, 400), this, player2data.HealthValue);
+	/*------------------------Player1(己方)------------------------*/
+	
+	/*------------------------血条------------------*/
+	player1Blood->setPercentage(player1data.HealthValue);
+	player1Blood->setTag(player1data.HealthValue);
+	Hyut->setString(to_string(player1data.HealthValue));
 
+	/*------------------------金钱------------------*/
+	Coins->setString("Coins: " + to_string(player1data.Gold)); //临时记录
 
-	//Hyut->setString("Hp : " + to_string(player1data.HealthValue));
+	player1Experience->setPercentage(player1data.ExperienceValue * 100 / player1data.NextNeedExp);
+	Grades->setString("Lv. " + to_string(player1data.Grade));
 
-	p2Coins->setString("Coins:" + to_string(player2data.Gold));  //临时记录
-	p2Grades->setString("Grades: " + to_string(player2data.Grade));
-	p2Exp->setString("ExpForGrade++: " + to_string(player2data.ToNextGrade));
-	p2Hyut->setString("Hp : " + to_string(player2data.HealthValue));
+	
+	/*------------------------Player1(对方)------------------------*/
+
+	/*------------------------血条------------------*/
+	player2Blood->setPercentage(player2data.HealthValue);
+	player2Blood->setTag(player2data.HealthValue);
+	Hyut2->setString(to_string(player2data.HealthValue));
+
+	/*------------------------金钱------------------*/
+	Coins2->setString("Coins: " + to_string(player2data.Gold)); //临时记录
+
+	player2Experience->setPercentage(player2data.ExperienceValue * 100 / player2data.NextNeedExp);
+	Grades2->setString("Lv. " + to_string(player2data.Grade));
+	
 }
 
-
-
-
-
-/*-----------------------玩家血条-----------------------*/
-void Player::showBlood(Point setPos, Player* player, int health)
-{
-	auto bloodFrame = Sprite::create("BloodFrame.jpg");
-	bloodFrame->setPosition(setPos);
-	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
-	Blood->setBarChangeRate(Point(1, 0));
-	Blood->setType(ProgressTimer::Type::BAR);
-	Blood->setMidpoint(Point(0, 1));
-	Blood->setPosition(setPos);
-	Blood->setPercentage(health);
-	this->addChild(Blood);
-	auto lifeLabel = Label::createWithTTF("100", "fonts/Marker Felt.ttf", 20);
-
-	lifeLabel->setPosition(Point(setPos.x, setPos.y - 25));
-	this->addChild(lifeLabel, 1);
-}
