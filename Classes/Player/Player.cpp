@@ -1,22 +1,58 @@
 #include"player.h"
 
-
+static void problemLoading(const char* filename)
+{
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in AutoChessScene.cpp\n");
+}
 
 Player* Player::createPlayer(string& name)
 {
-	auto player = Player::create();	
-
-	/*-----------------------玩家头像（静态，不需要update）-----------------------*/
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	/*-----------------------玩家头像-----------------------*/
+	auto player = Player::create();
 	string picture = "duck.jpg";
 	auto icon = Sprite::create(picture);
-	icon->setPosition(Point(50, 400));
+	icon->setPosition(Point(icon->getContentSize().width - 20, origin.y + visibleSize.height - icon->getContentSize().height));
 	player->addChild(icon);
 
-	/*-----------------------玩家昵称（静态，不需要update）-----------------------*/
+	/*-----------------------玩家昵称-----------------------*/
 	auto nameLabel = Label::createWithTTF(name, "fonts/Marker Felt.ttf", 24);
-	nameLabel->setPosition(Point(80 + nameLabel->getContentSize().width, 425));
-	player->addChild(nameLabel, 1);
+	if (nameLabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		nameLabel->setPosition(Vec2(origin.x + nameLabel->getContentSize().width + 40, origin.y + visibleSize.height - nameLabel->getContentSize().height));
+		nameLabel->setPosition(Vec2(origin.x + nameLabel->getContentSize().width + 40, origin.y + visibleSize.height - nameLabel->getContentSize().height));
+		player->addChild(nameLabel, 1);
+	}
 
+	/*-----------------------玩家血条-----------------------*/
+	auto bloodFrame = Sprite::create("BloodFrame.jpg");
+	bloodFrame->setPosition(Point(230, visibleSize.height - 60));
+	player->addChild(bloodFrame);
+	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
+	Blood->setBarChangeRate(Point(1, 0));
+	Blood->setType(ProgressTimer::Type::BAR);
+	Blood->setMidpoint(Point(0, 1));
+	Blood->setPosition(Point(230, visibleSize.height - 60));
+	Blood->setPercentage(100);
+	player->addChild(Blood);
+	auto lifeLabel = Label::createWithTTF("100", "fonts/Marker Felt.ttf", 20);
+	if (lifeLabel == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		lifeLabel->setPosition(Point(230, visibleSize.height - 85));
+		player->addChild(lifeLabel, 1);
+	}
+
+	player->retain();
 	player->retain();
 	player->Coins->retain();
 	player->Grades->retain();
@@ -42,13 +78,11 @@ bool Player::init()
 	this->addChild(Grades);
 	this->addChild(Exp);
 	this->addChild(Hyut);
-	
 
 	p2Coins->setPosition(50, 600);
 	p2Grades->setPosition(60, 550);
 	p2Exp->setPosition(60, 500);
 	p2Hyut->setPosition(60, 650);
-	
 
 	this->addChild(p2Coins);
 	this->addChild(p2Grades);
@@ -81,35 +115,10 @@ void Player::update(float dt)
 	Coins->setString("Coins:" + to_string(player1data.Gold));  //临时记录
 	Grades->setString("Grades: " + to_string(player1data.Grade));
 	Exp->setString("ExpForGrade++: " + to_string(player1data.ToNextGrade));
-	showBlood(Point(250, 400), this, player2data.HealthValue);
-
-
-	//Hyut->setString("Hp : " + to_string(player1data.HealthValue));
+	Hyut->setString("Hp : " + to_string(player1data.HealthValue));
 
 	p2Coins->setString("Coins:" + to_string(player2data.Gold));  //临时记录
 	p2Grades->setString("Grades: " + to_string(player2data.Grade));
 	p2Exp->setString("ExpForGrade++: " + to_string(player2data.ToNextGrade));
 	p2Hyut->setString("Hp : " + to_string(player2data.HealthValue));
-}
-
-
-
-
-
-/*-----------------------玩家血条-----------------------*/
-void Player::showBlood(Point setPos, Player* player, int health)
-{
-	auto bloodFrame = Sprite::create("BloodFrame.jpg");
-	bloodFrame->setPosition(setPos);
-	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
-	Blood->setBarChangeRate(Point(1, 0));
-	Blood->setType(ProgressTimer::Type::BAR);
-	Blood->setMidpoint(Point(0, 1));
-	Blood->setPosition(setPos);
-	Blood->setPercentage(health);
-	this->addChild(Blood);
-	auto lifeLabel = Label::createWithTTF("100", "fonts/Marker Felt.ttf", 20);
-
-	lifeLabel->setPosition(Point(setPos.x, setPos.y - 25));
-	this->addChild(lifeLabel, 1);
 }

@@ -100,7 +100,6 @@ void GameSprite::PlayerArrayInit(ccArray* Array,int playerinfo)
         {
             temp1->setPosition(temp->getTempPosition());
             temp1->set(temp->getTempPosition());
-            *(temp1->equipment) = *(temp->equipment);
             temp1->setTempPosition();
         }
         else
@@ -112,7 +111,6 @@ void GameSprite::PlayerArrayInit(ccArray* Array,int playerinfo)
             temp1->set(10000, 10000);
         }
         temp1->setPlayer(temp->getPlayer());
-        temp1->EquimentChange();
         if (ccArrayContainsObject(Array, temp))
             ccArrayRemoveObject(Array, temp);
         ccArrayInsertObjectAtIndex(Array, temp1, i);
@@ -148,7 +146,7 @@ void GameSprite::ChessMove(Chess* chess, PlayerData& playerdata, PlayerData& Att
         Point atemp = ((Chess*)temp)->getPosition();
         float distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
             (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
-        if (distanceTemp < distance && distanceTemp>0 && !((Chess*)temp)->Die()) //确定攻击目标
+        if (distanceTemp < distance && distanceTemp>0) //确定攻击目标
         {
             distance = distanceTemp;
             a = atemp;
@@ -178,12 +176,10 @@ void GameSprite::update(float dt)
 {
     for (int i = 0; i < player1data.FightArray->num; i++)
     {
-        ((Chess*)(player1data.FightArray->arr[i]))->Die();
         ChessMove((Chess*)(player1data.FightArray->arr[i]), player1data, player2data);
     }
     for (int i = 0; i < player2data.FightArray->num; i++)
     {
-        ((Chess*)(player2data.FightArray->arr[i]))->Die();
         ChessMove((Chess*)(player2data.FightArray->arr[i]), player2data, player1data);
     }
 }
@@ -234,12 +230,10 @@ void GameSprite::upgrade(PlayerData &playerdata)
             if (temp[0] != nullptr && temp[1] != nullptr && temp[2] != nullptr && s == 3
                 && temp[0]->getType() == i && temp[1]->getType() == i && temp[2]->getType() == i)  //防止Bug
             {
-                auto upgrade_chess = upgradeChessCreate(i);  
-               
+                auto upgrade_chess = upgradeChessCreate(i);        
                 playerdata.chessnumber[i] -= 3;
                 for (int k = 0; k < 3; k++)
                 {
-                    ccArrayAppendArray(upgrade_chess->equipment, temp[k]->equipment);
                     ChessExist[MapIntReturn(temp[k]->getTempPosition()).x][MapIntReturn(temp[k]->getTempPosition()).y] = 0;
                     temp[k]->retain();          //不retain在release下无法运行
                     temp[k]->removeFromParent();
@@ -247,9 +241,9 @@ void GameSprite::upgrade(PlayerData &playerdata)
                     {
                         ccArrayRemoveObject(tempArray[k], temp[k]);    //_referanceCount>0 报错（加retain后貌似解决）
                        // temp[i]->autorelease();
-                    }                    
+                    }
+                    
                 }
-                upgrade_chess->EquimentChange();
                 ccArrayAppendObject(playerdata.PlayerArray, upgrade_chess);
                 playerdata.HaveNewChess = 1;
                 return;

@@ -18,7 +18,7 @@ bool Package::init()
 	this->addChild(packageImage);
 	packageImage->setPosition(10000, 10000);
 	/*init open button*/
-	OpenPackage->setPosition(400, 300);
+	OpenPackage->setPosition(400, 400);
 	auto open_package = Menu::create(OpenPackage, NULL);
 	open_package->setPosition(Vec2::ZERO);
 	this->addChild(open_package, 1);
@@ -36,7 +36,7 @@ bool Package::init()
 
 		/*reset the button*/
 		(this->OpenPackage)->setPosition(10000, 10000);
-		(this->ClosePackage)->setPosition(400, 300);
+		(this->ClosePackage)->setPosition(400, 400);
 
 		/*show equipment*/
 		ShowEquipment();
@@ -51,8 +51,8 @@ void Package::SlotPositionInit()     //初始化插槽坐标数组
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			int tmpX_1 = 1240 + j * 40;         //背包插槽的坐标
-			int tmpY_1 = 450 - i * 54;
+			int tmpX_1 = 1300 + j * 50;         //背包插槽的坐标
+			int tmpY_1 = 610 - i * 70;
 
 			if (index < player1data.occupied_slot)
 				player1data.packageSlot[i][j].is_occupied = 1;
@@ -76,7 +76,7 @@ void Package::openPackage(cocos2d::Ref* pSender)   //打开背包按钮
 
 	/*reset the position of button*/
 	(this->OpenPackage)->setPosition(10000, 10000);
-	(this->ClosePackage)->setPosition(400, 300);
+	(this->ClosePackage)->setPosition(400, 400);
 
 	/*show the unequiped-equipment*/
 	ShowEquipment();
@@ -90,7 +90,7 @@ void Package::closePackage(cocos2d::Ref* pSender)  //关闭背包数组
 	(this->packageImage)->setPosition(10000, 10000);
 
 	/*reset the button*/
-	(this->OpenPackage)->setPosition(400, 300);
+	(this->OpenPackage)->setPosition(400, 400);
 	(this->ClosePackage)->setPosition(10000, 10000);
 
 	/*hide the unequiped-equipment*/
@@ -103,18 +103,17 @@ void Package::ShowEquipment()             //打开背包时，展示装备
 {
 	for (int i = 0; i < player1data.UnequipedEquipment->num; i++)
 	{
-
-		((Equipment*)(player1data.UnequipedEquipment->arr[i]))->retain();
-		((Equipment*)(player1data.UnequipedEquipment->arr[i]))->removeFromParent();
-
-	}
-	for (int i = 0; i < player1data.UnequipedEquipment->num; i++)
-	{
-		if (i < 12)
-			((Equipment*)(player1data.UnequipedEquipment->arr[i]))->setPosition(player1data.slotPoint[i]);
-		this->addChild((Equipment*)(player1data.UnequipedEquipment->arr[i]));
-			
-		
+		switch (((Equipment*)player1data.UnequipedEquipment->arr[i])->type)
+		{
+			case GUN:
+				((Gun*)(player1data.UnequipedEquipment->arr[i]))->setPosition(player1data.slotPoint[i]);
+				this->addChild((Gun*)(player1data.UnequipedEquipment->arr[i]));
+				break;
+			case KNIFE:
+				((Knife*)(player1data.UnequipedEquipment->arr[i]))->setPosition(player1data.slotPoint[i]);
+				this->addChild((Knife*)(player1data.UnequipedEquipment->arr[i]));
+				break;
+		}
 	}
 }
 void Package::HideEquipment()             //关闭背包时，隐藏装备
@@ -137,8 +136,7 @@ void Package::HideEquipment()             //关闭背包时，隐藏装备
 
 void Package::ObtainEquipment(int game_turn)  //按回合发放装备
 {
-	
-	if (game_turn % 3 == 0 && game_turn > -1)
+	if (/*game_turn % 3 == 0 &&*/ game_turn > -1)
 	{
 		/*player1*/
 		if (player1data.occupied_slot < 12)
@@ -176,6 +174,5 @@ void Package::ObtainEquipment(int game_turn)  //按回合发放装备
 			}
 			player2data.occupied_slot++;
 		}
-
 	}
 }

@@ -18,7 +18,6 @@ public:
 	Label* Grades = Label::createWithTTF("Grades: " + to_string(player1data.Grade), "fonts/Marker Felt.ttf", 24);  //临时记录
 	Label* Exp = Label::createWithTTF("Exp->Grade++" + to_string(player1data.ToNextGrade), "fonts/Marker Felt.ttf", 24);
 	Label* Hyut = Label::createWithTTF("Hp : " + to_string(player1data.HealthValue), "fonts/Marker Felt.ttf", 24);
-	void showBlood(Point setPos, Player* player, int health);
 
 	Label* p2Coins = Label::createWithTTF("Coins:" + to_string(player1data.Gold), "fonts/Marker Felt.ttf", 24);  //临时记录
 	Label* p2Grades = Label::createWithTTF("Grades: " + to_string(player1data.Grade), "fonts/Marker Felt.ttf", 24);  //临时记录
