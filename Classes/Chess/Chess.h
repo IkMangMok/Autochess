@@ -3,7 +3,11 @@
 #include "string"
 #include "Data/PlayerData.h"
 #include "Timer/RoundTimer.h"
+<<<<<<< HEAD
 
+=======
+#include "Equipment/EquipmentFile.h"
+>>>>>>> lx
 using namespace cocos2d;
 using namespace std;
 
@@ -47,14 +51,22 @@ protected:
 	int star = 1;        //星级
 
 	
+<<<<<<< HEAD
 	ccArray* equipment = ccArrayNew(100);   //装备
+=======
+	
+>>>>>>> lx
 	
 public:
 	//virtual bool init();
 	Chess* AttackTarget = nullptr;   //攻击目标
 	Chess();
 	bool isMove = 0;
+<<<<<<< HEAD
 
+=======
+	ccArray* equipment = ccArrayNew(100);   //装备
+>>>>>>> lx
 	string picturename;   //图片名字
 	int picturenum;       //图片张数
 
@@ -73,7 +85,11 @@ public:
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
 	int getStar() { return star; }
 	float getHealth() { return Health; }
+<<<<<<< HEAD
 	
+=======
+	void Chess::shootbullet(string picturename, Point deltaPos, Chess* mychess);
+>>>>>>> lx
 
 	Point getPosition(){ return Point(x,y); }
 	float getSpeed() { return Speed; }
@@ -115,6 +131,12 @@ public:
 	void ChangeArmor(int value) { Armor += value; }
 	void ChangeAttackSpeed(float value) { AttackSpeed += value; }
 	void ChangeDamage(int value) { Damage += value; }
+<<<<<<< HEAD
+=======
+	void ChangeMana(float value) { Mana += value; }
+	void EquimentChange();
+	void Chess::EquipToChess(Equipment* equ);
+>>>>>>> lx
 	
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);

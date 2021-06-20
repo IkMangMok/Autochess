@@ -18,7 +18,11 @@ void PlayerData::CountExperience()
 		if (ExperienceValue >= (i * i * i * 2 / 5 + 2 * i) && ExperienceValue < (k * k * k * 2 / 5 + 2 * k))
 		{
 			Grade = k;
+<<<<<<< HEAD
 			ToNextGrade = (k * k * k * 2 / 5 + 2 * k) - ExperienceValue;
+=======
+			NextNeedExp = k * k * k * 2 / 5 + 2 * k;
+>>>>>>> lx
 			return;
 		}
 	}
@@ -32,8 +36,12 @@ void PlayerData::remain()
 	HealthValue = LifeLimit; //生命值
 	Grade = 1; //玩家等级
 	ExperienceValue = 0;   //经验值
+<<<<<<< HEAD
 	Gold = 3000;  //金币
 	ToNextGrade = 2;
+=======
+	Gold = 10;  //金币
+>>>>>>> lx
 	occupied_slot = 0;
 	is_package_opened = 0;
 	for (int i = 0; i < 12; i++)

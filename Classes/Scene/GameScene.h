@@ -42,7 +42,11 @@ private:
 	int MouseToChess = -1;
 
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
+<<<<<<< HEAD
 	void SoldChess(Chess* temp, ccArray* Array);
+=======
+	void SoldChess(Chess* temp, ccArray* Array, PlayerData& playerdata);
+>>>>>>> lx
 	
 	void GameScene::addChess(PlayerData& playerdata, int playerinfo);
 

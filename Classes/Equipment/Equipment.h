@@ -4,7 +4,10 @@
 #define KNIFE 2
 
 #include "cocos2d.h"
+<<<<<<< HEAD
 #include "Chess/Chess.h"
+=======
+>>>>>>> lx
 
 USING_NS_CC;
 
@@ -31,7 +34,16 @@ protected:
 
 public:
 	/*对棋子进行装备加成*/
+<<<<<<< HEAD
 	virtual void EquipToChess(Chess* Owner);
+=======
+	int getaddAttackDistance(){ return addAttackDistance; } //攻击距离
+	int getaddHealthLimit() { return addHealthLimit; };    //生命上限
+	int getaddHealth() { return addHealth; };         //当前生命值
+	int getaddArmor() { return addArmor; };            //护甲
+	float getaddAttackSpeed() { return addAttackSpeed; }; //攻速
+	int getaddDamage() { return addDamage; };          //攻击力
+>>>>>>> lx
 	int type;//装备类型
 private:
 	//Chess* OwnerChess = NULL;

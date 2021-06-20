@@ -6,6 +6,7 @@ CornShooter::CornShooter()
 	AttackDistance = 225;
 	Health = 600;
 	HealthLimit = Health;
+<<<<<<< HEAD
 	ManaOrigin = 0;
 	Mana = ManaOrigin;
 	ManaLimit = 100;
@@ -41,6 +42,15 @@ void CornShooter::update(float dt)
 		SkillFlag = 0;
 	}
 }
+=======
+	Damage = 100;
+	Armor = 20;
+	AttackSpeed = 0.5f;
+	CoinsNeeded = 2;
+	SoldCoins = 2;
+}
+
+>>>>>>> lx
 CornShooter* CornShooter::createChess()
 {
 	auto CornShooter = CornShooter::create();
@@ -52,7 +62,10 @@ CornShooter* CornShooter::createChess()
 	CornShooter->addChild(CornShooter->Blood, 2);
 	auto temp = Sprite::create("cornshooter.png");
 	CornShooter->addChild(temp);
+<<<<<<< HEAD
 	CornShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
+=======
+>>>>>>> lx
 	CornShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / CornShooter->AttackSpeed);
 	CornShooter->autorelease();
 	return CornShooter;
@@ -64,12 +77,18 @@ upgrade_CornShooter::upgrade_CornShooter()
 	AttackDistance = 225;
 	Health = 900;
 	HealthLimit = Health;
+<<<<<<< HEAD
 	ManaOrigin = 0;
 	Mana = ManaOrigin;
 	ManaLimit = 100;
 	Damage = 140;
 	Armor = 20;
 	AttackSpeed = 0.7f;
+=======
+	Damage = 140;
+	Armor = 20;
+	AttackSpeed = 0.5f;
+>>>>>>> lx
 	CoinsNeeded = 0;
 	SoldCoins = 5;
 	star = 1;
@@ -86,7 +105,10 @@ upgrade_CornShooter* upgrade_CornShooter::createChess()
 	CornShooter->addChild(CornShooter->Blood, 2);
 	auto temp = Sprite::create("cornshooter.png");
 	CornShooter->addChild(temp);
+<<<<<<< HEAD
 	CornShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 60.0f);
+=======
+>>>>>>> lx
 	CornShooter->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / CornShooter->AttackSpeed);
 	CornShooter->autorelease();
 	return CornShooter;

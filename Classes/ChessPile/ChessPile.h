@@ -14,7 +14,10 @@ class ChessPile : public Layer {
 private:
 
 	int x = 470;
+<<<<<<< HEAD
 
+=======
+>>>>>>> lx
 	const string chessValue[5] =
 	{ "1 coin","2 coins","3 coins","4 coins","5 coins" };
 

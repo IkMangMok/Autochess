@@ -3,6 +3,10 @@
 ChessPile::ChessPile()
 {
     chessStore();
+<<<<<<< HEAD
+=======
+
+>>>>>>> lx
 }
 ChessPile* ChessPile::createChessPile()
 {
@@ -42,6 +46,11 @@ Chess* ChessPile::ChessCreate(int i)   //生成不同的棋子
         case tomatoboom:
             return TomatoBoom::createChess();
             break;
+<<<<<<< HEAD
+=======
+        default:
+            return nullptr;
+>>>>>>> lx
     }
 }
 
@@ -206,8 +215,17 @@ void ChessPile::chessStore()
     reFresh->setPosition(110, 570);
     s_layer->addChild(reFresh, 1);
     refresh(player1data);
+<<<<<<< HEAD
     refresh(player2data);
 
+=======
+    if (player2data.Gold > 2)
+    {
+        player2data.Gold -= 2;
+        refresh(player2data);
+    }
+    
+>>>>>>> lx
     /*--------------------set chess---------------------------*/
     storeChess(0);
     auto buy1 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy1, this));
@@ -217,18 +235,27 @@ void ChessPile::chessStore()
 
     storeChess(1);
     auto buy2 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy2, this));
+<<<<<<< HEAD
     auto Buy2 = Menu::create(buy2, nullptr);
+=======
+    auto Buy2 = Menu::create(buy2, NULL);
+>>>>>>> lx
     s_layer->addChild(Buy2, 1);
     Buy2->setPosition(125, 460 - 120 * 1);
 
     storeChess(2);
     auto buy3 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy3, this));
+<<<<<<< HEAD
     auto Buy3 = Menu::create(buy3, nullptr);
+=======
+    auto Buy3 = Menu::create(buy3, NULL);
+>>>>>>> lx
     s_layer->addChild(Buy3, 1);
     Buy3->setPosition(125, 460 - 120 * 2);
 
     storeChess(3);
     auto buy4 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy4, this));
+<<<<<<< HEAD
     auto Buy4 = Menu::create(buy4, nullptr);
     s_layer->addChild(Buy4, 1);
     Buy4->setPosition(125, 460 - 120 * 3);
@@ -237,6 +264,15 @@ void ChessPile::chessStore()
     /*----------------------close store-----------------*/
     closeChessStore();
 
+=======
+    auto Buy4 = Menu::create(buy4, NULL);
+    s_layer->addChild(Buy4, 1);
+    Buy4->setPosition(125, 460 - 120 * 3);
+ 
+    /*----------------------close store-----------------*/
+    closeChessStore();
+   
+>>>>>>> lx
     /*-----------------------reset buy status-----------*/
     for (int i = 0; i < 4; i++)
     {
@@ -248,6 +284,7 @@ void ChessPile::refresh1(cocos2d::Ref* pSender)
 {
     if (player1data.Gold >= 2)
     {
+<<<<<<< HEAD
         player1data.Gold -= 2;
         for (int i = 0; i < 4; i++)
         {
@@ -277,6 +314,10 @@ void ChessPile::refresh1(cocos2d::Ref* pSender)
                 }
             }
         }
+=======
+       
+        player1data.Gold -= 2;
+>>>>>>> lx
         s_layer->removeAllChildren();
         chessStore();
     }
@@ -318,4 +359,8 @@ void ChessPile::refresh(PlayerData& playerdata)
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> lx

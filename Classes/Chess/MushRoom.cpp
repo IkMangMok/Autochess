@@ -6,6 +6,11 @@ MushRoom::MushRoom()
 	AttackDistance = 225;
 	Health = 400;
 	HealthLimit = Health;
+<<<<<<< HEAD
+=======
+	Mana = 0;
+	ManaLimit = 50;
+>>>>>>> lx
 	Damage = 120;
 	Armor = 15;
 	AttackSpeed = 1.1f;
@@ -14,7 +19,38 @@ MushRoom::MushRoom()
 	star = 1;
 	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / AttackSpeed);
 }
+<<<<<<< HEAD
 
+=======
+void MushRoom::Skill()
+{
+	auto value = (star == 1) ? 30 : (star == 2) ? 40 : 55;
+	if (OfPlayer == 0)
+	{
+		for (int i = 0; i < player1data.FightArray->num; i++)
+		{
+			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
+			if (temp->getPlayer() == OfPlayer && !temp->Die())
+			{
+				temp->ChangeMana((15 + 15 * star) * Magic);
+				Mana = 0;
+			}
+		}
+	}
+	if (OfPlayer == 1)
+	{
+		for (int i = 0; i < player2data.FightArray->num; i++)
+		{
+			auto temp = ((Chess*)(player1data.FightArray->arr[i]));
+			if (temp->getPlayer() == OfPlayer && !temp->Die())
+			{
+				temp->ChangeMana((15 + 15 * star) * Magic);
+				Mana = 0;
+			}		
+		}
+	}
+}
+>>>>>>> lx
 MushRoom* MushRoom::createChess()
 {
 	auto mushroom = MushRoom::create();
