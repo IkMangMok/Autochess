@@ -63,6 +63,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/HelpScene.cpp
      Classes/Scene/SettingScene.cpp
      Classes/Scene/HelpAndSetLayer.cpp
+     Classes/Scene/LoginScene.cpp
 
      Classes/Player/Player.cpp
      Classes/PC_Player/PC_Player.cpp
@@ -101,6 +102,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/HelpScene.h
      Classes/Scene/SettingScene.h
      Classes/Scene/HelpAndSetLayer.h
+     Classes/Scene/LoginScene.h
 
      Classes/Player/Player.h
      Classes/PC_Player/PC_Player.h

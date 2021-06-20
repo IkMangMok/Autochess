@@ -11,9 +11,9 @@ Chomper::Chomper()
 	HealthLimit = Health;
 	Damage = 140;
 	Armor = 30;
-	ManaOrigin = 300;
+	ManaOrigin = 100;
 	Mana = ManaOrigin;
-	ManaLimit = 300;
+	ManaLimit = 200;
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 3;
 	SoldCoins = 3;
@@ -39,7 +39,7 @@ void Chomper::Skill()
 		AttackTarget->setHealth(-1);
 		Hurted(-Damaged * 0.3f);
 		AttackTarget = (Chess*)nullptr;
-		Mana = 150;
+		Mana = 100;
 	}
 	else
 	{
@@ -57,9 +57,7 @@ upgrade_Chomper::upgrade_Chomper()
 	HealthLimit = Health;
 	Damage = 180;
 	Armor = 30;
-	ManaOrigin = 300;
-	Mana = ManaOrigin;
-	ManaLimit = 300;
+	
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 0;
 	SoldCoins = 8;
@@ -84,9 +82,7 @@ _3star_Chomper::_3star_Chomper()
 	HealthLimit = Health;
 	Damage = 220;
 	Armor = 30;
-	ManaOrigin = 300;
-	Mana = ManaOrigin;
-	ManaLimit = 300;
+	
 	AttackSpeed = 0.8f;
 	CoinsNeeded = 0;
 	SoldCoins = 26;

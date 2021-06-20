@@ -30,7 +30,7 @@ public:
 	virtual bool init();
 	ChessPile();
 
-	void chessStore();
+	void chessStore(bool isRefresh);
 	void refresh1(cocos2d::Ref* pSender);  //жидиКЏЪ§
 	void refresh(PlayerData &playerdata);
 	void openChessStore();

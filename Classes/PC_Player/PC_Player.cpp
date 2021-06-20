@@ -201,6 +201,8 @@ void PC_Player::pcEquip()
 		//((Equipment*)player1data.UnequipedEquipment->arr[i])->retain();
 		ccArrayRemoveObjectAtIndex(player2data.UnequipedEquipment, i);
 		((Equipment*)player2data.UnequipedEquipment->arr[i])->removeFromParent();
+
+		temp->EquimentChange();
 		
 	}
 }

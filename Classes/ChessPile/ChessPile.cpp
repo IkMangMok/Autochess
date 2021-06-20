@@ -2,7 +2,7 @@
 
 ChessPile::ChessPile()
 {
-    chessStore();
+    chessStore(0);
 }
 ChessPile* ChessPile::createChessPile()
 {
@@ -179,7 +179,7 @@ void ChessPile::buy4(cocos2d::Ref* pSender)
 }
 
 
-void ChessPile::chessStore()
+void ChessPile::chessStore(bool isRefresh)
 {
     static int x, y, width, height;
     x = 1420;
@@ -206,7 +206,8 @@ void ChessPile::chessStore()
     reFresh->setPosition(110, 570);
     s_layer->addChild(reFresh, 1);
     refresh(player1data);
-    refresh(player2data);
+    if(!isRefresh)
+        refresh(player2data);
 
     /*--------------------set chess---------------------------*/
     storeChess(0);
@@ -278,7 +279,7 @@ void ChessPile::refresh1(cocos2d::Ref* pSender)
             }
         }
         s_layer->removeAllChildren();
-        chessStore();
+        chessStore(1);
     }
     else
     {

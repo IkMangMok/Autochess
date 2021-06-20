@@ -115,6 +115,7 @@ public:
 	void ChangeArmor(int value) { Armor += value; }
 	void ChangeAttackSpeed(float value) { AttackSpeed += value; }
 	void ChangeDamage(int value) { Damage += value; }
+	void ChangeMana(float value) { Mana += value; }
 	void EquimentChange();
 	void Chess::EquipToChess(Equipment* equ);
 	
