@@ -5,70 +5,121 @@
 using namespace cocos2d;
 using namespace std;
 USING_NS_CC;
-#define schedule_selector(_SELECTOR) static_cast(&_SELECTOR)
 
-Chess* Chess::createChess(string picture_name, float x1 = 0., float y1 = 0.)
+
+
+Chess* Chess::createChess(string picture_name)
 {
 
 	auto chess = new  Chess();
-	chess->set(x1, y1);
 
 	auto temp = Sprite::create(picture_name);
-
 	chess->addChild(temp);
-	chess->setPosition(chess->x, chess->y);
-    if (test_timer->getpTime() <= 0)
-        chess->schedule(CC_SCHEDULE_SELECTOR(Chess::update), 1.f / 60);
 	chess->autorelease();
 	return chess;
 	
 }
 
+Chess::Chess()
+{
+	Blood->setBarChangeRate(Point(1, 0));
+	Blood->setType(ProgressTimer::Type::BAR);
+	Blood->setMidpoint(Point(0, 1));
+	Blood->setScaleX(0.22);
+	Blood->setScaleY(0.6);
+	bloodFrame->setScaleX(0.22);
+	bloodFrame->setScaleY(0.6);
+	
+	_Mana->setBarChangeRate(Point(1, 0));
+	_Mana->setType(ProgressTimer::Type::BAR);
+	_Mana->setMidpoint(Point(0, 1));
+	_Mana->setScaleX(0.18);
+	_Mana->setScaleY(0.6);
+	ManaFrame->setScaleX(0.18);
+	ManaFrame->setScaleY(0.6);
 
+	this->addChild(Star, 1);
+	this->scheduleUpdate();
+	this->addChild(bloodFrame, 1);
+	this->addChild(Blood, 2);
+	this->addChild(_Mana, 2);
+	this->addChild(ManaFrame, 1);
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1 / 120.0f);
+	
+}
 void Chess::set(float x1 = 0, float y1 = 0)  //传入数值，有两种重载形式
 {
 	x = x1;
 	y = y1;
 }
-void Chess::set(Point point)
-{
-	x = point.x;
-	y = point.y;
-}
 
-Point Chess::getPosition()
+void Chess::Attack(float dt)
 {
-	return Point(x, y);
-}
-
-void Chess::Attack()
-{
-	if (AttackTarget != NULL && !Die())
+  //  if (test_timer->pTime <= 0)
+    
+	
+	if (AttackTarget != (Chess*)nullptr && !Die())
 	{
-		float  distance = sqrt((AttackTarget->getPosition().x - x)  //获得距离
-			* (AttackTarget->getPosition().x - x) +
-			(AttackTarget->getPosition().y - y)
-			* (AttackTarget->getPosition().y - y));
+		float  distance = sqrt((AttackTarget->getPosition().x - getPosition().x)  //获得距离
+			* (AttackTarget->getPosition().x - getPosition().x) +
+			(AttackTarget->getPosition().y - getPosition().y)
+			* (AttackTarget->getPosition().y - getPosition().y));
 		if (distance < AttackDistance)                           //小于攻击距离则开始攻击
 		{
+			isMove = 0;
 			AttackTarget->Hurted(Damage);
+			if (!SkillFlag)
+				Mana += 10;
+
 			if (AttackTarget->Die())
-				AttackTarget = NULL;
+				AttackTarget = (Chess*)nullptr;
 		}
 	}
+    
 }
 
-void Chess::Hurted(int Damage)
+void Chess::Hurted(float Damage)
 {
-	Health -= Damage;
+	if (Damage > 0)
+	{
+		Health = Health - Damage * (1.0f - Armor / (Armor + 100)) * HurtRate;    //受伤
+		if(!SkillFlag)
+			Mana = min(Mana + Damage / 10, ManaLimit);
+	}
+	else
+	{
+		Health = min(HealthLimit, Health - Damage);      //回血
+	}
 }
-
+void Chess::MagicHurt(float Damage)
+{
+	if (Damage > 0)
+	{
+		Health = Health - Damage * (1.0f - MagicResistance / (MagicResistance + 100)) * HurtRate;    //受伤
+		Mana = min(Mana + Damage / 10, ManaLimit);
+	}
+	else
+	{
+		Health = min(HealthLimit, Health - Damage);      //回血
+	}
+}
+void Chess::setPlayer(int player)
+{
+	OfPlayer = player;
+	if (player == 0)
+	{
+		Blood->setSprite(Sprite::create("OurBlood.png"));
+	}
+}
 bool Chess::Die()
 {
 	if (Health <= 0)
 	{
+
+		ChessExist[MapIntReturn(getPosition()).x][MapIntReturn(getPosition()).y] = 0;
 		setPosition(Point(10000, 10000));
 		set(10000, 10000);
+		
 		return 1;
 	}
 	else
@@ -78,52 +129,64 @@ int Chess::GetAttackDistance()
 {
 	return AttackDistance;
 }
-void Chess::Move()
-{
-
-    Point a(0, 0);
-    Point chessPosition =getPosition();
-    float distance = 9999999;
-    if (AttackTarget == NULL ||AttackTarget->Die())    //如果已经有攻击目标则不搜寻
-    {
-        for (int i = 0; i < pArray->num; i++)
-        {
-            auto temp = pArray->arr[i];
-            Point atemp = ((Chess*)temp)->getPosition();
-            float distanceTemp = sqrt((atemp.x - chessPosition.x) * (atemp.x - chessPosition.x) +
-                (atemp.y - chessPosition.y) * (atemp.y - chessPosition.y));   //求距离
-            if (distanceTemp < distance && distanceTemp>0) //确定攻击目标
-            {
-                distance = distanceTemp;
-                a = atemp;
-                AttackTarget = (Chess*)temp;
-            }
-        }
-    }
-    else
-    {
-        distance = sqrt((AttackTarget->getPosition().x - chessPosition.x)
-            * (AttackTarget->getPosition().x - chessPosition.x) +
-            (AttackTarget->getPosition().y - chessPosition.y)
-            * (AttackTarget->getPosition().y - chessPosition.y));
-    }
-    /*移动，以1e-2为单位移动
-    */
-    if (AttackTarget == NULL)  //无攻击目标则结束
-    {
-        return;
-    }
-    if (distance >= GetAttackDistance() && !AttackTarget->Die())    //距离大于射程且目标没死则移动
-    {
-        setPosition(getPosition() + (AttackTarget->getPosition() - getPosition()) * (float)1e-2);
-        set(getPosition() + (AttackTarget->getPosition() - getPosition()) * (float)1e-2);  //将新位置传入类中
-        //除以模长乘上固定参数即可改进
-    }
-
-}
-
 void Chess::update(float dt)
 {
-    Move();
-    Attack();
+	if (Mana >= ManaLimit && AttackTarget != (Chess*)nullptr)           //释放技能
+	{
+		Skill();
+		
+	}
+	
+}
+void Chess::recover() 
+ {
+	Mana = ManaOrigin; 
+	Health = HealthLimit;
+	AttackTarget = (Chess*)nullptr;
+	Blood->setPercentage(100.f);
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Attack), 1 / this->AttackSpeed);
+	this->scheduleUpdate();
+	this->schedule(CC_SCHEDULE_SELECTOR(Chess::Bloodupdate), 1/60.0f);
+	chessAnimation(picturename, picturenum, this, getPosition(), 0.8f, -1);
+}
+
+void Chess::Bloodupdate(float dt)
+{
+	_Mana->setPosition(Vec2(30, 80));
+	ManaFrame->setPosition(Vec2(30, 80));
+	Blood->setPosition(Vec2(35, 90));
+	bloodFrame->setPosition(Vec2(35, 90));
+	Blood->setPercentage(float(Health) / float(HealthLimit) * 100);
+	Blood->setTag(Health);
+	_Mana->setPercentage(float(Mana) / float(ManaLimit) * 100);
+	_Mana->setTag(Mana);
+	Star->setPosition(Vec2(85, 50));
+	Star->setString(to_string(star));
+ }
+
+void Chess::chessAnimation(string picturename, const int picturenum, Sprite* sprite, Point location, const float speed, const int loop)
+{
+	/*Sprite* sp = Sprite::create(picturename);
+	sp->setPosition(location);
+	mychess->addChild(sp);*/
+	// sp->setFlippedX(true);//相对位置关系，先保留
+
+	Animation* animation = Animation::create();
+
+	const char* picname = picturename.c_str();
+
+	for (int i = 0; i <= picturenum; i++) {
+		char key[32];
+		sprintf(key, picname, i);
+		animation->addSpriteFrameWithFile(key);
+	}
+
+	animation->setDelayPerUnit(speed); //设定速度
+	animation->setRestoreOriginalFrame(true);
+	animation->setLoops(loop); //loop=-1,循环
+	auto action = Animate::create(animation);
+	action->setTag(-2);
+	//sp->runAction(animate);
+	sprite->runAction(action);
+	
 }

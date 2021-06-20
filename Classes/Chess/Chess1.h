@@ -3,7 +3,6 @@
 #include "string"
 #include"Timer/RoundTimer.h"
 #include"Data/GameData.h"
-
 using namespace cocos2d;
 using namespace std;
 
@@ -19,31 +18,12 @@ enum class ChessType
 	Citron              /* 离子缘 */
 	//...
 };
-
-struct chessInfo
-{
-	string address;
-	int money;
-	bool buy = false;
-};
-
-const chessInfo chess_store[9] =
-{ {"walnut.png",1},{"pealauncher.png",2},{"mushroom.png",2},{"sunflower.png",1},{"cactus.png",3 },{"cherrybomb.png",3},
-	{"octupus.png",2},{"cannibal_flower.png",2},{"tomatoboom.png",2} };
-
-const string chessValue[3] =
-{ "1 coin","2 coins","3 coins" };
-
-/*const string upgradeChess[8]=
-{"upgrade_walnut.jpg","upgrade_pealauncher.png","upgrade_mushroom.png","upgrade_sunflower.png","cactus.png","cherrybomb.png",
-
-}*/
-
 class Chess :public Sprite {
 protected:
+
 	int AttackDistance = 100;  //攻击距离
 	int HealthLimit = 500;     //生命上限
-	int Health = 500;          //生命值;
+	int Health = 500;          //生命值
 	int Armor = 0;        //护甲
 	float AttackSpeed = 0.8f;  //攻击速度
 	int Damage = 50;     //攻击力

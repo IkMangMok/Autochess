@@ -9,6 +9,7 @@ using namespace std;
 USING_NS_CC;
 
 
+
 Scene* HelpScene::createScene()
 {
     return HelpScene::create();
@@ -47,7 +48,7 @@ bool HelpScene::init()
         BackInHelp->setPosition(Vec2(x, y));
     }
 
-    auto back_in_help = Menu::create(BackInHelp, NULL);
+    auto back_in_help = Menu::create(BackInHelp, nullptr);
     back_in_help->setPosition(Vec2::ZERO);
     this->addChild(back_in_help, 1);
 
@@ -73,10 +74,11 @@ bool HelpScene::init()
     test_timer->setPosition(50, 50);
     this->addChild(test_timer);
 
+    /*------------------background setting-------------------*/
+    auto sprite1 = Sprite::create("help_bg.jpg");
+    sprite1->setPosition(800, 460);
+    this->addChild(sprite1);
 
-    auto sprite_bg = Sprite::create("help_bg.jpg");
-    sprite_bg->setPosition(800, 460);
-    this->addChild(sprite_bg);
 
     return true;
 
@@ -84,6 +86,5 @@ bool HelpScene::init()
 
 void HelpScene::helpBack(cocos2d::Ref* pSender)
 {
-
     _director->replaceScene(AutoChess::createScene());
 }

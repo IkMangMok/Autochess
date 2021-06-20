@@ -2,41 +2,27 @@
 #include"cocos2d.h"
 #include"AutoChessScene.h"
 #include"Player/Player.h"
-#include"Chess/Chess1.h"
 #include "Data/GameData.h"
 #include "Timer/RoundTimer.h"
-#include"Chess/TestChess.h"
 #include"AudioEngine.h"
+#include"ChessPile/ChessPile.h"
+#include "cocos-ext.h"              //包含cocos-ext.h头文件
+using namespace cocos2d::extension; //引用cocos2d::extension命名空间
+
+USING_NS_CC;
 
 class scene1 : public AutoChess {
 public:
 	static cocos2d::Scene* createScene();
-	cocos2d::LayerColor* s_layer;
 	virtual bool init();
-
+	scene1();
+	~scene1();
+	
 private:
-	RoundTimer* test_timer = RoundTimer::create(5);
-
-	chessInfo Used[4];
-	int i1=0,i2=1,i3=2,i4=3;
-	int x=475;
-	//实在不知道怎么传参 自闭中
-
-	int ifCanBuy(int x);
-	void cover(int x, int y);
+	RoundTimer* test_timer = RoundTimer::create(500);
 	void scene1::ChessMove(Chess* chess);
 	void scene1Back(cocos2d::Ref* pSender);
-	void chessStore(cocos2d::Ref* pSender);
-	void openChessStore();
-	void closeChessStore();
-	void storeChess(int i);
-	void closeLayer(cocos2d::Ref* pSender);
-	void buy1(cocos2d::Ref* pSender);
-	void buy2(cocos2d::Ref* pSender);
-	void buy3(cocos2d::Ref* pSender);
-	void buy4(cocos2d::Ref* pSender);
-
-
+	
 	void update(float dt);
 	CREATE_FUNC(scene1);
 	
@@ -53,5 +39,6 @@ private:
 	void Win();  //判断打斗结束
 
 	//玩家买棋子
-	void PlayerBuyChess(cocos2d::Ref* pSender);
+	void PlayerBuyChess(cocos2d::Ref* pSender, Control::EventType controlEvent);
+	ChessPile* Chesspile = ChessPile::create();
 };
