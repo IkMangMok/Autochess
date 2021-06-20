@@ -196,16 +196,11 @@ void PC_Player::pcEquip()
 	for (int i = 0; i < player2data.UnequipedEquipment->num; i++)
 	{
 		int equipTargetIndex = rand() % (player2data.FightArray->num);
-
-		switch (((Equipment*)player2data.UnequipedEquipment->arr[i])->type)
-		{
-			case GUN:
-				((Gun*)player2data.UnequipedEquipment->arr[i])->EquipToChess((Chess*)(player2data.FightArray->arr[equipTargetIndex]));
-				break;
-			case KNIFE:
-				((Knife*)player2data.UnequipedEquipment->arr[i])->EquipToChess((Chess*)(player2data.FightArray->arr[equipTargetIndex]));
-				break;
-		}
+		auto temp = (Chess*)player2data.FightArray->arr[equipTargetIndex];
+		ccArrayAppendObject(temp->equipment, ((Equipment*)player2data.UnequipedEquipment->arr[i]));
+		//((Equipment*)player1data.UnequipedEquipment->arr[i])->retain();
+		ccArrayRemoveObjectAtIndex(player2data.UnequipedEquipment, i);
+		((Equipment*)player2data.UnequipedEquipment->arr[i])->removeFromParent();
 		
 	}
 }

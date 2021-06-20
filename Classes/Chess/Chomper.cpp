@@ -37,7 +37,6 @@ void Chomper::Skill()
 	{
 		auto Damaged = AttackTarget->getHealth();
 		AttackTarget->setHealth(-1);
-		AttackTarget->Die();
 		Hurted(-Damaged * 0.3f);
 		AttackTarget = (Chess*)nullptr;
 		Mana = 150;

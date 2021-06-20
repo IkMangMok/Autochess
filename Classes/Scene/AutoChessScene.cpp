@@ -23,9 +23,9 @@
  ****************************************************************************/
 
 #include "AutoChessScene.h"
-#include "scene1.h"
 #include "HelpScene.h"
 #include "SettingScene.h"
+#include "LoginScene.h"
 #include "GameScene.h"
 
 USING_NS_CC;
@@ -206,7 +206,7 @@ void AutoChess::menuGameStart(Ref* pSender)   //¿ªÊ¼ÓÎÏ·
 
     AudioEngine::stop(audioID);
 
-    _director->replaceScene(GameScene::createScene());
+    _director->replaceScene(LoginScene::createScene());
 
 
 }

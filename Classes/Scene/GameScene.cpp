@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 using namespace std;
- 
+string name;
 
 void Mapinit()           //地图信息初始化
 {
@@ -65,11 +65,15 @@ Point GameScene::MapJudge(Point point)
 
 static int audioID;
 
-GameScene* GameScene::createScene()
+GameScene* GameScene::createScene(string& settingname)
 {
-	return GameScene::create();
+    name = settingname;
+    return GameScene::create();
 }
-
+string GameScene::getName()
+{
+    return name;
+}
 GameScene::GameScene()
 {
    
@@ -249,10 +253,11 @@ void GameScene::Win()
         gamesprite->unscheduleUpdate();
         player1data.recover();
         player2data.recover();
-        
+        /*remove from parent*/
+        layerPackage->removeAllChildren();
         AudioEngine::stop(audioID);
         if (player1data.HealthValue > 0 && player2data.HealthValue > 0)
-            _director->replaceScene(GameScene::createScene());
+            _director->replaceScene(GameScene::createScene(name));
         else
         {
             string name = player1data.HealthValue <= 0 ? "player2":"player1";
@@ -263,6 +268,7 @@ void GameScene::Win()
             auto move = FadeOut::create(5.0f);
             label->runAction(move);
             this->unscheduleUpdate();
+            
             player1data.remain();
             player2data.remain();
             for (int i = 0; i < 8; i++)
@@ -353,9 +359,6 @@ void GameScene::onMouseUp(Event* event)
         {
             if (EquipSearchChess(e->getCursorX(), e->getCursorY(), MouseSelectedEquip))//装备搜索到附近的棋子
             {
-                ((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(10000, 10000);
-                ccArrayRemoveObjectAtIndex(player1data.UnequipedEquipment, MouseSelectedEquip);
-                this->removeChild((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]));
                 player1data.occupied_slot--;
             }
             else  //搜索失败，返回原有位置
@@ -506,8 +509,11 @@ void GameScene::SoldChess(Chess* temp, ccArray* Array)        //整合函数
 {
     ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 0;
     player1data.Gold += temp->getSoldCoins();
+    ccArrayAppendArray(player1data.UnequipedEquipment, temp->equipment);
+    temp->retain();
     gamesprite->removeChild(temp);       //卖出
     ccArrayRemoveObject(Array, temp);
+
 }
 
 bool GameScene::FindMouseTarget(ccArray* Array, EventMouse* e)    
@@ -563,39 +569,35 @@ bool GameScene::EquipSearchChess(const float EquipX, const float EquipY, const i
 {
     for (int i = 0; i < player1data.FightArray->num; i++)//先在战斗区寻找
     {
+        auto temp= (Chess*)(player1data.FightArray->arr[i]);
         float dx = EquipX - ((Chess*)(player1data.FightArray->arr[i]))->getPosition().x;
         float dy = EquipY - ((Chess*)(player1data.FightArray->arr[i]))->getPosition().y;
         float distance = sqrt(dx * dx + dy * dy);
         if (distance < 20) //搜索精度设定为20
-        {
-            switch (((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->type)
-            {
-                case GUN:
-                    ((Gun*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.FightArray->arr[i]));
-                    break;
-                case KNIFE:
-                    ((Knife*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.FightArray->arr[i]));
-                    break;
-            }
+        {               
+            ccArrayAppendObject(temp->equipment, ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])); 
+            ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->retain();
+            ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->removeFromParent();
+            ccArrayRemoveObjectAtIndex(player1data.UnequipedEquipment, EquipIndex);
+           
             return true;
         }
     }
     for (int i = 0; i < player1data.PlayerArray->num; i++)//接下来在备战区寻找
     {
+        auto temp = (Chess*)(player1data.PlayerArray->arr[i]);
         float dx = EquipX - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x;
         float dy = EquipY - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y;
         float distance = sqrt(dx * dx + dy * dy);
         if (distance < 20) //搜索精度设定为20
         {
-            switch (((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->type)
-            {
-                case GUN:
-                    ((Gun*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.PlayerArray->arr[i]));
-                    break;
-                case KNIFE:
-                    ((Knife*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.PlayerArray->arr[i]));
-                    break;
-            }
+            temp->EquipToChess(((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex]));
+            ccArrayAppendObject(temp->equipment, ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex]));
+            ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->retain();
+            ((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->removeFromParent();
+            ccArrayRemoveObjectAtIndex(player1data.UnequipedEquipment, EquipIndex);
+          
+            
             return true;
         }
     }
