@@ -10,6 +10,7 @@ USING_NS_CC;
 class PC_Player
 {
 public:
+	Chess* pcSoldChess();
 private:
 
 	int pcJudgeMoneyUsage();
@@ -18,9 +19,10 @@ private:
 	void CheckBuyExp();
 	int CheckGoldInterest();
 	bool CheckHighFeeChess();
-
+	
 
 	bool pcBuyChess(int j);
+	
 	void pcCreateBattleArray();  //—°∞Œ’Ω∂∑’Û¡–
 	void pcEquip();
 

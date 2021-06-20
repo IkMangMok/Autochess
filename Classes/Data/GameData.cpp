@@ -6,7 +6,9 @@ GameData* global_data = GameData::createGameData();
 
 GameData* GameData::createGameData()
 {
-	return GameData::create();
+	auto game = GameData::create();
+	game->retain();
+	return game;
 }
 
 bool GameData::init()

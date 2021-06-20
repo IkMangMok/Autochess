@@ -64,6 +64,7 @@ int PC_Player::pcJudgeMoneyUsage()
 	CheckBuyExp();
 		/*step 4 检查是否靠近利息点*/
 		/*step 5 买高费棋子*/
+	
 	if ((!save_money))
 	{
 		if (flag == 1)
@@ -119,8 +120,7 @@ bool PC_Player::CheckFightArrLimit()
 			if (player2data.Used[j].money >= tempgold && player2data.Used[j].buy == false)
 			{
 				tempgold = player2data.Used[j].money;  //寻找最高费棋子
-				tempaddress = j;
-				
+				tempaddress = j;				
 			}
 		}
 		if (tempaddress != -1)
@@ -196,16 +196,13 @@ void PC_Player::pcEquip()
 	for (int i = 0; i < player2data.UnequipedEquipment->num; i++)
 	{
 		int equipTargetIndex = rand() % (player2data.FightArray->num);
+		auto temp = (Chess*)player2data.FightArray->arr[equipTargetIndex];
+		ccArrayAppendObject(temp->equipment, ((Equipment*)player2data.UnequipedEquipment->arr[i]));
+		//((Equipment*)player1data.UnequipedEquipment->arr[i])->retain();
+		ccArrayRemoveObjectAtIndex(player2data.UnequipedEquipment, i);
+		((Equipment*)player2data.UnequipedEquipment->arr[i])->removeFromParent();
 
-		switch (((Equipment*)player2data.UnequipedEquipment->arr[i])->type)
-		{
-			case GUN:
-				((Gun*)player2data.UnequipedEquipment->arr[i])->EquipToChess((Chess*)(player2data.FightArray->arr[equipTargetIndex]));
-				break;
-			case KNIFE:
-				((Knife*)player2data.UnequipedEquipment->arr[i])->EquipToChess((Chess*)(player2data.FightArray->arr[equipTargetIndex]));
-				break;
-		}
+		temp->EquimentChange();
 		
 	}
 }
@@ -324,5 +321,16 @@ void PC_Player::refresh(PlayerData& playerdata)
 		}
 	}
 }
-
+Chess* PC_Player::pcSoldChess()
+{
+	
+	for (int i = 0; i < player2data.PlayerArray->num; i++)
+	{
+		auto temp = (Chess*)player2data.PlayerArray->arr[i];
+		if (temp->getStar() == 1 && temp->getCoinsNeeded() <= 2)   //卖掉星级最低的
+		{
+			return temp;
+		}
+	}
+}
 PC_Player pc_player;

@@ -3,6 +3,7 @@
 ChessPile::ChessPile()
 {
     chessStore();
+
 }
 ChessPile* ChessPile::createChessPile()
 {
@@ -42,6 +43,8 @@ Chess* ChessPile::ChessCreate(int i)   //生成不同的棋子
         case tomatoboom:
             return TomatoBoom::createChess();
             break;
+        default:
+            return nullptr;
     }
 }
 
@@ -206,8 +209,12 @@ void ChessPile::chessStore()
     reFresh->setPosition(110, 570);
     s_layer->addChild(reFresh, 1);
     refresh(player1data);
-    refresh(player2data);
-
+    if (player2data.Gold > 2)
+    {
+        player2data.Gold -= 2;
+        refresh(player2data);
+    }
+    
     /*--------------------set chess---------------------------*/
     storeChess(0);
     auto buy1 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy1, this));
@@ -217,26 +224,25 @@ void ChessPile::chessStore()
 
     storeChess(1);
     auto buy2 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy2, this));
-    auto Buy2 = Menu::create(buy2, nullptr);
+    auto Buy2 = Menu::create(buy2, NULL);
     s_layer->addChild(Buy2, 1);
     Buy2->setPosition(125, 460 - 120 * 1);
 
     storeChess(2);
     auto buy3 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy3, this));
-    auto Buy3 = Menu::create(buy3, nullptr);
+    auto Buy3 = Menu::create(buy3, NULL);
     s_layer->addChild(Buy3, 1);
     Buy3->setPosition(125, 460 - 120 * 2);
 
     storeChess(3);
     auto buy4 = MenuItemImage::create("buy_store.jpg", "buy_store.jpg", CC_CALLBACK_1(ChessPile::buy4, this));
-    auto Buy4 = Menu::create(buy4, nullptr);
+    auto Buy4 = Menu::create(buy4, NULL);
     s_layer->addChild(Buy4, 1);
     Buy4->setPosition(125, 460 - 120 * 3);
  
-
     /*----------------------close store-----------------*/
     closeChessStore();
-
+   
     /*-----------------------reset buy status-----------*/
     for (int i = 0; i < 4; i++)
     {
@@ -248,35 +254,8 @@ void ChessPile::refresh1(cocos2d::Ref* pSender)
 {
     if (player1data.Gold >= 2)
     {
+       
         player1data.Gold -= 2;
-        for (int i = 0; i < 4; i++)
-        {
-            int deter = 0;
-            deter = rand() % 100 + 1;
-            for (int j = 0; j < 5; j++)
-            {
-                if (deter > PB[min(9, player1data.Grade) - 1][j])
-                    deter -= PB[min(9, player1data.Grade) - 1][j];
-                else
-                {
-                    int temp = 0;
-                    while (1)
-                    {
-                       
-                        
-                        temp = rand() % OriginalChess;
-                        if (chess_store[temp].money == j + 1)
-                            break;
-                    }
-                    player1data.Used[i].address = chess_store[temp].address;
-                    player1data.Used[i].money = chess_store[temp].money;
-                    player1data.Used[i].picture_name = chess_store[temp].picture_name;
-                    player1data.Used[i].buy = false;
-                    
-                    break;
-                }
-            }
-        }
         s_layer->removeAllChildren();
         chessStore();
     }

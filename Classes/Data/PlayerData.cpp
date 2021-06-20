@@ -32,7 +32,7 @@ void PlayerData::remain()
 	HealthValue = LifeLimit; //生命值
 	Grade = 1; //玩家等级
 	ExperienceValue = 0;   //经验值
-	Gold = 3000;  //金币
+	Gold = 10;  //金币
 	occupied_slot = 0;
 	is_package_opened = 0;
 	for (int i = 0; i < 12; i++)

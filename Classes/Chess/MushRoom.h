@@ -5,6 +5,7 @@ class MushRoom :public Chess {
 public:
 	MushRoom();
 	static MushRoom* createChess();
+	void Skill();
 	CREATE_FUNC(MushRoom);
 };
 

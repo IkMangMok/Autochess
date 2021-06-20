@@ -17,7 +17,7 @@ private:
 	int HealthValue = LifeLimit; //生命值
 	int Grade = 1; //玩家等级
 	int ExperienceValue = 0;   //经验值
-	int Gold = 3000;  //金币
+	int Gold = 10;  //金币
 	int NextNeedExp = 2;
 	void CountExperience();
 	

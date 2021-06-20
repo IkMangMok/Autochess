@@ -20,6 +20,7 @@ class GameScene : public AutoChess {
 public:
 	static GameScene* createScene(string& settingname);
 	virtual bool init();
+	string getName();
 	GameScene();
 	~GameScene();
 
@@ -28,7 +29,7 @@ private:
 	void update(float dt);
 	void TurnInfoInit();
 	CREATE_FUNC(GameScene);
-	
+
 	//备战期鼠标移动函数
 	void ChessMoveInMouse();
 	void SceneMouseBack(cocos2d::Ref* pSender);
@@ -41,10 +42,9 @@ private:
 	int MouseToChess = -1;
 
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
-	void SoldChess(Chess* temp, ccArray* Array);
+	void SoldChess(Chess* temp, ccArray* Array, PlayerData& playerdata);
 	
 	void GameScene::addChess(PlayerData& playerdata, int playerinfo);
-	string getName();
 
 	friend class Chess;
 	friend class GameSprite;
@@ -62,6 +62,7 @@ private:
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
 	bool PC_ShowFlag = 1;
+
 
 	int turn = 0;
 	/*装备系统*/

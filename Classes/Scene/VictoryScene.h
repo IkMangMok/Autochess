@@ -1,6 +1,5 @@
 #pragma once
 #include "cocos2d.h"
-#include "scene1.h"
 
 USING_NS_CC;
 

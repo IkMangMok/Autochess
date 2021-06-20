@@ -26,6 +26,13 @@ void HelpAndSetLayer::BackToMenu(cocos2d::Ref* pSender)
 {
     player1data.remain();
     player2data.remain();
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            ChessExist[i][j] = 0;
+        }
+    }
 	_director->replaceScene(AutoChess::createScene());
 }
 
