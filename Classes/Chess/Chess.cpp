@@ -11,7 +11,7 @@ USING_NS_CC;
 Chess* Chess::createChess(string picture_name)
 {
 
-	auto chess = new  Chess();
+	auto chess = Chess::create();
 
 	auto temp = Sprite::create(picture_name);
 	chess->addChild(temp);
@@ -87,7 +87,6 @@ void Chess::Attack(float dt)
 	}
     
 }
-
 void Chess::Hurted(float Damage)
 {
 	if (Damage > 0)

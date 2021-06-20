@@ -25,6 +25,7 @@ public:
 	~GameScene();
 
 private:
+	/**********计时器及Update**************/
 	RoundTimer* test_timer = RoundTimer::create(10);
 	void update(float dt);
 	void TurnInfoInit();
@@ -32,7 +33,6 @@ private:
 
 	//备战期鼠标移动函数
 	void ChessMoveInMouse();
-	void SceneMouseBack(cocos2d::Ref* pSender);
 	void onMouseScroll(Event* event);
 	void onMouseMove(Event* event);
 	void onMouseUp(Event* event);
@@ -40,14 +40,12 @@ private:
 	void GameStartMouseInit();
 	Point MapJudge(Point point);
 	int MouseToChess = -1;
-
+	//整合函数
 	bool FindMouseTarget(ccArray* Array, EventMouse* e);
 	void SoldChess(Chess* temp, ccArray* Array, PlayerData& playerdata);
 	
 	void GameScene::addChess(PlayerData& playerdata, int playerinfo);
 
-	friend class Chess;
-	friend class GameSprite;
 
 	void Win();  //判断打斗结束
 	void JudgeWin(PlayerData& playerdata, int sum[]);
@@ -56,11 +54,14 @@ private:
 	void ToFightArray(Chess* chess, PlayerData& playerdata);
 	void ToPlayerArray(Chess* chess, PlayerData& playerdata);
 
+	/***********所需子Layer************/
 	MapLayer* map = MapLayer::createMapLayer();
 	Player* playerLayer = Player::createPlayer(getName());
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
+
+	/***********电脑玩家相关************/
 	bool PC_ShowFlag = 1;
 
 
@@ -71,4 +72,7 @@ private:
 	int MouseSelectedEquip = -1;
 
 	friend class GameSprite;
+	friend class Chess;
+	friend class GameSprite;
+
 };

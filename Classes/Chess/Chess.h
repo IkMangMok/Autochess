@@ -59,13 +59,8 @@ public:
 	int picturenum;       //图片张数
 
 	static Chess* createChess(string picture_name);
-	void set(float x1, float y1);
-	void set(Point point) {
-		x = point.x;
-		y = point.y;
-	};
-	void setTempPosition() { xtemp = x; ytemp = y; }
-
+	
+	/*-----------------get类型--------------------*/
 	Point getTempPosition(){return Point(xtemp, ytemp);}   //获得进入战斗时的位置
 	int getType() { return type; }                       //获得类型
 	int getCoinsNeeded() { return CoinsNeeded; }
@@ -73,39 +68,50 @@ public:
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
 	int getStar() { return star; }
 	float getHealth() { return Health; }
-	void Chess::shootbullet(string picturename, Point deltaPos, Chess* mychess);
-
-	Point getPosition(){ return Point(x,y); }
+	Point getPosition() { return Point(x, y); }
 	float getSpeed() { return Speed; }
 	float getTempSpeed() { return TempSpeed; }
+	float getAttackSpeed() { return AttackSpeed; }
+	float getTempAttackSpeed() { return TempAttackSpeed; }
+	int GetAttackDistance();        //获得攻击距离
+	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
+
+	/*---------------set类型----------------------*/
 	void setSpeed(float a) { Speed = a; }
 	void setPlayer(int player); 
-	float getAttackSpeed() { return AttackSpeed; }
 	void setAttackSpeed(float a) { AttackSpeed = a; }
 	void setHealth(float a) { Health = a; }
-	float getTempAttackSpeed() { return TempAttackSpeed; }
+	void set(float x1, float y1);
+	void set(Point point) {
+		x = point.x;
+		y = point.y;
+	};
+	void setTempPosition() { xtemp = x; ytemp = y; }
+
+
+/*-------------攻击及技能相关--------------------*/
 	virtual void Attack(float dt);    //攻击
 	virtual void Hurted(float Damage);  //受伤
 	virtual void MagicHurt(float Damage);
 	float TimeSet = 0;
-
 	bool SkillFlag = 0;
-
-	bool Die();                     //判断是否死亡及死亡操作
-	void chessAnimation(string picturename, const int picturenum, Sprite* sprite, Point location, const float speed, const int loop);
-	int GetAttackDistance();        //获得攻击距离
-
-	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
 	virtual void Skill() {};          //技能
+	void Chess::shootbullet(string picturename, Point deltaPos, Chess* mychess);//动画
+	void chessAnimation(string picturename, const int picturenum, Sprite* sprite, Point location, const float speed, const int loop);
+	bool Die();                     //判断是否死亡及死亡操作
+	
+	/***************恢复***************/
 	virtual void recover();
 
+
+	/*------------------所需子类----------------*/
 	Sprite* bloodFrame = Sprite::create("BloodFrame.jpg");
 	ProgressTimer* Blood = ProgressTimer::create(Sprite::create("Blood.jpg"));
 	ProgressTimer* _Mana = ProgressTimer::create(Sprite::create("Mana.png"));
 	Sprite* ManaFrame = Sprite::create("BloodFrame.jpg");
-
 	Label* Star = Label::createWithTTF(to_string(star), "fonts/arial.ttf", 24);
-	void update(float dt) ;
+
+	void update(float dt) ;         //子类update函数
 	void Bloodupdate(float dt);
 	
 	/*用于装备修改属性*/
@@ -118,8 +124,10 @@ public:
 	void ChangeMana(float value) { Mana += value; }
 	void EquimentChange();
 	void Chess::EquipToChess(Equipment* equ);
-	
+
+
+	CREATE_FUNC(Chess);
 private:
-	RoundTimer* test_timer = RoundTimer::create(5);
-	friend class scene1;
+	RoundTimer* test_timer = RoundTimer::create(5);     
+	friend class scene1; 
 };

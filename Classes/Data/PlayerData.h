@@ -13,6 +13,7 @@ struct PackageSlot
 
 class PlayerData {
 private:
+	/**********玩家信息*************/
 	int LifeLimit = 100;   //生命值上限
 	int HealthValue = LifeLimit; //生命值
 	int Grade = 1; //玩家等级
@@ -21,12 +22,14 @@ private:
 	int NextNeedExp = 2;
 	void CountExperience();
 	
-	
+	//判断是否有新棋子
 	bool HaveNewChess = 0;
-public:
-	void Hurted(int blood){ HealthValue -= blood;}
 
+public:
+
+	void Hurted(int blood){ HealthValue -= blood;}   //玩家受伤相关
 	void recover();
+
 	ccArray* PlayerArray = ccArrayNew(100);   //玩家备战区的棋子数组
 	ccArray* FightArray = ccArrayNew(100);    //玩家战斗区的棋子数组
 	int chessnumber[ChessNumber] = {};
@@ -41,6 +44,9 @@ public:
 	Point slotPoint[12] = {};
 	void remain();
 	//CREATE_FUNC(PlayerData);
+
+
+
 	friend class GameSprite;
 	friend class ChessPile;
 	friend class GameScene;

@@ -29,14 +29,20 @@ public:
 	virtual bool init();
 	ChessPile();
 
-	void chessStore();
-	void refresh1(cocos2d::Ref* pSender);  //重载函数
+
+	void refresh1(cocos2d::Ref* pSender);  //刷新相关
 	void refresh(PlayerData &playerdata);
+
+	/********商店开关相关**********/
+	void chessStore();
 	void openChessStore();
 	void closeChessStore();
 	void storeChess(int i);
 	void closeLayer(cocos2d::Ref* pSender);
 	void openLayer(cocos2d::Ref* pSender);
+
+
+	/**************购买相关***************/
 	void cover(float x, float y);
 	void buy1(cocos2d::Ref* pSender);
 	void buy2(cocos2d::Ref* pSender);
