@@ -73,7 +73,7 @@ public:
 	int getPlayer() { return OfPlayer; }           //返回所属玩家
 	int getStar() { return star; }
 	float getHealth() { return Health; }
-	void chessAnimation(string picturename, const int picturenum, Sprite* sprite, Point location, const float speed, const int loop);
+	
 
 	Point getPosition(){ return Point(x,y); }
 	float getSpeed() { return Speed; }
@@ -92,7 +92,7 @@ public:
 	bool SkillFlag = 0;
 
 	bool Die();                     //判断是否死亡及死亡操作
-	
+	void chessAnimation(string picturename, const int picturenum, Sprite* sprite, Point location, const float speed, const int loop);
 	int GetAttackDistance();        //获得攻击距离
 
 	const cocos2d::Size getContentSize() { return Size(width, height); }   //获得图片长宽
@@ -108,7 +108,13 @@ public:
 	void update(float dt) ;
 	void Bloodupdate(float dt);
 	
-
+	/*用于装备修改属性*/
+	void ChangeAttackDistance(int value) { AttackDistance += value; }
+	void ChangeHealthLimit(int value) { HealthLimit += value; }
+	void ChangeHealth(int value) { Health += value; }
+	void ChangeArmor(int value) { Armor += value; }
+	void ChangeAttackSpeed(float value) { AttackSpeed += value; }
+	void ChangeDamage(int value) { Damage += value; }
 	
 private:
 	RoundTimer* test_timer = RoundTimer::create(5);

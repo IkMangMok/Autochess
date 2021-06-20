@@ -15,13 +15,14 @@ public:
 	CREATE_FUNC(GameSprite);
 
 	void ChessMove(Chess* chess, PlayerData& playerdata, PlayerData& AttackPlayer);
-	void PlayerArrayInit(ccArray* Array);
+	void PlayerArrayInit(ccArray* Array,int playerinfo);
 	virtual bool init();
 	void update(float dt);
 
 	/*PC_Player相关*/
 	void pcShowPlayerArray();
 	void pcShowFightArray();
+
 
 private:
 	void upgrade(PlayerData& playerdata);         //棋子升级

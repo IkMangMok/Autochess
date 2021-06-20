@@ -9,6 +9,7 @@
 #include "cocos-ext.h"              //包含cocos-ext.h头文件
 #include <vector>
 #include "HelpAndSetLayer.h"
+#include "Equipment/EquipmentFile.h"
 using namespace cocos2d::extension; //引用cocos2d::extension命名空间
 
 USING_NS_CC;
@@ -25,6 +26,7 @@ public:
 private:
 	RoundTimer* test_timer = RoundTimer::create(10);
 	void update(float dt);
+	void TurnInfoInit();
 	CREATE_FUNC(GameScene);
 	
 	//备战期鼠标移动函数
@@ -58,8 +60,14 @@ private:
 	GameSprite* gamesprite = GameSprite::createGameSprite();
 	ChessPile* Chesspile = ChessPile::createChessPile();
 	HelpAndSetLayer* hasl = HelpAndSetLayer::createLayer();
-	int turn = 0;
 	bool PC_ShowFlag = 1;
+
+
+	int turn = 0;
+	/*装备系统*/
+	Package* layerPackage = Package::createPackage();
+	bool EquipSearchChess(const float EquipX, const float EquipY, const int EquipIndex);
+	int MouseSelectedEquip = -1;
 
 	friend class GameSprite;
 };

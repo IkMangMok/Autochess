@@ -87,7 +87,7 @@ GameSprite* GameSprite::createGameSprite()
 	temp->retain();
 	return temp;
 }
-void GameSprite::PlayerArrayInit(ccArray* Array)
+void GameSprite::PlayerArrayInit(ccArray* Array,int playerinfo)
 {
     for (int i = 0; i < Array->num; i++)
     {
@@ -96,11 +96,23 @@ void GameSprite::PlayerArrayInit(ccArray* Array)
         temp->set(temp->getTempPosition());
        
         auto temp1 = CreateChess(temp->getType());
-        temp1->setPosition(temp->getTempPosition());
-        temp1->set(temp->getTempPosition());
-        temp1->setTempPosition();
+        if (playerinfo == 0)
+        {
+            temp1->setPosition(temp->getTempPosition());
+            temp1->set(temp->getTempPosition());
+            temp1->setTempPosition();
+        }
+        else
+        {
+            temp1->setPosition(temp->getTempPosition());
+            temp1->set(temp->getTempPosition());
+            temp1->setTempPosition();
+            temp1->setPosition(10000,10000);
+            temp1->set(10000, 10000);
+        }
         temp1->setPlayer(temp->getPlayer());
-        ccArrayRemoveObject(Array, temp);
+        if (ccArrayContainsObject(Array, temp))
+            ccArrayRemoveObject(Array, temp);
         ccArrayInsertObjectAtIndex(Array, temp1, i);
         this->addChild(temp1);
         ChessExist[MapIntReturn(temp->getTempPosition()).x][MapIntReturn(temp->getTempPosition()).y] = 1;
@@ -110,10 +122,10 @@ void GameSprite::PlayerArrayInit(ccArray* Array)
 }
 bool GameSprite::init()
 {
-    PlayerArrayInit(player1data.PlayerArray);
-    PlayerArrayInit(player2data.PlayerArray);      //  电脑玩家信息暂不显示
-    PlayerArrayInit(player1data.FightArray);
-    PlayerArrayInit(player2data.FightArray);
+    PlayerArrayInit(player1data.PlayerArray, 0);
+    PlayerArrayInit(player2data.PlayerArray, 1);      //  电脑玩家信息暂不显示
+    PlayerArrayInit(player1data.FightArray, 0);
+    PlayerArrayInit(player2data.FightArray, 1);
    
     return true;
 }
@@ -174,55 +186,68 @@ void GameSprite::update(float dt)
 
 void GameSprite::upgrade(PlayerData &playerdata)
 {
-    Chess* temp[3] = { nullptr,nullptr,nullptr };
-    ccArray* tempArray[3] = {};
-    int s = 0;  //三个待升级棋子
-    for (int i = 0; i < ChessNumber; i++)
+    
+    for (int i = 0; i < 16; i++)
     {
+        Chess* temp[3] = { NULL,NULL,NULL };
+        ccArray* tempArray[3] = {};
+        int s = 0;  //三个待升级棋子
         if (playerdata.chessnumber[i] >= 3 && i < 16)
         {
             for (int j = 0; j < playerdata.PlayerArray->num; j++)
             {
                 if (((Chess*)(playerdata.PlayerArray->arr[j]))->getType() == i)
                 {
-                    temp[s] = ((Chess*)(playerdata.PlayerArray->arr[j]));
-                    tempArray[s] = playerdata.PlayerArray;
-                    s++;
+                    if (s < 3)
+                    {
+                        temp[s] = ((Chess*)(playerdata.PlayerArray->arr[j]));
+                        tempArray[s] = playerdata.PlayerArray;
+                        s++;
+                    }
                     if (s == 3)
                         break;
 
                 }
             }
-            if (temp[0] == nullptr || temp[1] == nullptr || temp[2] == nullptr)   //若在备战区没寻满三个，则进入战斗区找
+            if (s < 3)   //若在备战区没寻满三个，则进入战斗区找
             {
                 for (int j = 0; j < playerdata.FightArray->num; j++)
                 {
                     if (((Chess*)(playerdata.FightArray->arr[j]))->getType() == i)
                     {
-                        temp[s] = ((Chess*)(playerdata.FightArray->arr[j]));
-                        tempArray[s] = playerdata.FightArray;
-                        s++;
+                        if (s < 3)
+                        {
+                            temp[s] = ((Chess*)(playerdata.FightArray->arr[j]));
+                            tempArray[s] = playerdata.FightArray;
+                            s++;
+                        }
                         if (s == 3)
                             break;
 
                     }
                 }
             }
-            if (temp[0] != nullptr && temp[1] != nullptr && temp[2] != nullptr)
+            if (temp[0] != nullptr && temp[1] != nullptr && temp[2] != nullptr && s == 3
+                && temp[0]->getType() == i && temp[1]->getType() == i && temp[2]->getType() == i)  //防止Bug
             {
-                auto upgrade_chess = upgradeChessCreate(i);
-                for (int i = 0; i < 3; i++)
-                {
-                    ChessExist[MapIntReturn(temp[i]->getTempPosition()).x][MapIntReturn(temp[i]->getTempPosition()).y] = 0;
-                    this->removeChild(temp[i]);
-                    ccArrayRemoveObject(tempArray[i], temp[i]);
-                }
+                auto upgrade_chess = upgradeChessCreate(i);        
                 playerdata.chessnumber[i] -= 3;
-                ccArrayAppendObject(playerdata.PlayerArray, upgrade_chess);            
+                for (int k = 0; k < 3; k++)
+                {
+                    ChessExist[MapIntReturn(temp[k]->getTempPosition()).x][MapIntReturn(temp[k]->getTempPosition()).y] = 0;
+                    temp[k]->retain();          //不retain在release下无法运行
+                    temp[k]->removeFromParent();
+                    if (ccArrayContainsObject(tempArray[k], temp[k]))
+                    {
+                        ccArrayRemoveObject(tempArray[k], temp[k]);    //_referanceCount>0 报错（加retain后貌似解决）
+                       // temp[i]->autorelease();
+                    }
+                    
+                }
+                ccArrayAppendObject(playerdata.PlayerArray, upgrade_chess);
                 playerdata.HaveNewChess = 1;
                 return;
             }
-            
         }
         
     }

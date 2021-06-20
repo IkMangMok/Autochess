@@ -23,6 +23,17 @@ void Mapinit()           //地图信息初始化
     }
 }
 
+void GameScene::TurnInfoInit()
+{
+    global_data->ChangeGameTurn();
+    auto turn_label = Label::createWithTTF("TURN", "fonts/Marker Felt.ttf", 24);
+    turn_label->setPosition(200, 800);
+    this->addChild(turn_label, 2);
+    char* mTurn = new char[8];
+    sprintf(mTurn, "Turn %02d", global_data->game_turn);
+    turn_label->setString(mTurn);
+}
+
 /*判断棋子位于地图的哪一格，并返回该格坐标*/
 Point GameScene::MapJudge(Point point)       
 {
@@ -71,7 +82,7 @@ GameScene::~GameScene()
 bool GameScene::init()
 {
   //  if (!Scene::initWithPhysics()) { return false; }
-
+    TurnInfoInit();
     Mapinit();
 	audioID = AudioEngine::play2d("background music.MP3", true, 1.0f); //音乐
 	
@@ -86,6 +97,9 @@ bool GameScene::init()
     this->addChild(Chesspile, 4);  //牌堆层
    
     this->addChild(hasl, 5);       //设置层及信息层
+
+    layerPackage->setPosition(0, 0);
+    this->addChild(layerPackage, 6);
 
     this->scheduleUpdate();
 
@@ -136,7 +150,7 @@ void GameScene::addChess(PlayerData& playerdata, int playerinfo)
             gamesprite->addChild(temp);
             temp->setPosition(10000, 10000);
             temp->set(10000, 10000);
-            temp->setPlayer(playerinfo);//抽奖
+            temp->setPlayer(playerinfo);
             playerdata.chessnumber[temp->getType()]++;
             playerdata.HaveNewChess = 0;        //防止莫名其妙的BUG
             flag = 0;
@@ -251,6 +265,13 @@ void GameScene::Win()
             this->unscheduleUpdate();
             player1data.remain();
             player2data.remain();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    ChessExist[i][j] = 0;
+                }
+            }
             _director->replaceScene(TransitionFade::create(8.0f, AutoChess::createScene()));
         }
     }
@@ -271,11 +292,33 @@ void GameScene::ChessMoveInMouse()
 
 void GameScene::onMouseDown(Event* event)
 {
-    // to illustrate the event....
+   // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
 
-    if (FindMouseTarget(player1data.FightArray, e) == 1)       //在战斗区寻找目标
-       FindMouseTarget(player1data.PlayerArray, e);  //寻找不到则在备战区寻找
+    /*选中对象的标志*/
+    int Obj_is_Selected = 0;
+
+    /*装备选取*/
+    if (!Obj_is_Selected && test_timer->pTime > 1e-6)
+    {
+        for (int i = 0; i < player1data.UnequipedEquipment->num; i++)
+        {
+            float dx = (e->getCursorX() - ((Equipment*)(player1data.UnequipedEquipment->arr[i]))->getPosition().x);
+            float dy = (e->getCursorY() - ((Equipment*)(player1data.UnequipedEquipment->arr[i]))->getPosition().y);
+            float distance = sqrt(dx * dx + dy * dy);
+            if (distance < 20)
+            {
+                MouseSelectedEquip = i;  //确定选中的装备
+                Obj_is_Selected = 1;
+            }
+        }
+    }
+
+    if (!Obj_is_Selected)
+    {
+        if (FindMouseTarget(player1data.FightArray, e) == 1)       //在战斗区寻找目标
+            FindMouseTarget(player1data.PlayerArray, e);  //寻找不到则在备战区寻找
+    }
 }
 void GameScene::ToPlayerArray(Chess* chess, PlayerData& playerdata)
 {
@@ -303,7 +346,25 @@ void GameScene::onMouseUp(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
-
+    if ((int)e->getMouseButton() == 0)
+    {
+        /*取消装备选取*/
+        if (MouseSelectedEquip != -1)
+        {
+            if (EquipSearchChess(e->getCursorX(), e->getCursorY(), MouseSelectedEquip))//装备搜索到附近的棋子
+            {
+                ((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(10000, 10000);
+                ccArrayRemoveObjectAtIndex(player1data.UnequipedEquipment, MouseSelectedEquip);
+                this->removeChild((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]));
+                player1data.occupied_slot--;
+            }
+            else  //搜索失败，返回原有位置
+            {
+                ((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(player1data.slotPoint[MouseSelectedEquip]);
+            }
+            MouseSelectedEquip = -1;
+        }
+    }
     if ((int)e->getMouseButton() == 0)
     {
         
@@ -381,6 +442,10 @@ void GameScene::onMouseMove(Event* event)
 {
     // to illustrate the event....
     EventMouse* e = (EventMouse*)event;
+    if (MouseSelectedEquip != -1 && test_timer->pTime > 1e-6)
+    {
+        ((Equipment*)(player1data.UnequipedEquipment->arr[MouseSelectedEquip]))->setPosition(e->getCursorX(), e->getCursorY());
+    }
     if (MouseToChess != -1)
     {
         if (test_timer->pTime < 1e-2 && MouseToChess < FightNumber)
@@ -492,4 +557,47 @@ void GameScene::GameStartMouseInit()
             MouseToChess = -1;
         }
     }
+}
+
+bool GameScene::EquipSearchChess(const float EquipX, const float EquipY, const int EquipIndex)
+{
+    for (int i = 0; i < player1data.FightArray->num; i++)//先在战斗区寻找
+    {
+        float dx = EquipX - ((Chess*)(player1data.FightArray->arr[i]))->getPosition().x;
+        float dy = EquipY - ((Chess*)(player1data.FightArray->arr[i]))->getPosition().y;
+        float distance = sqrt(dx * dx + dy * dy);
+        if (distance < 20) //搜索精度设定为20
+        {
+            switch (((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->type)
+            {
+                case GUN:
+                    ((Gun*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.FightArray->arr[i]));
+                    break;
+                case KNIFE:
+                    ((Knife*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.FightArray->arr[i]));
+                    break;
+            }
+            return true;
+        }
+    }
+    for (int i = 0; i < player1data.PlayerArray->num; i++)//接下来在备战区寻找
+    {
+        float dx = EquipX - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().x;
+        float dy = EquipY - ((Chess*)(player1data.PlayerArray->arr[i]))->getPosition().y;
+        float distance = sqrt(dx * dx + dy * dy);
+        if (distance < 20) //搜索精度设定为20
+        {
+            switch (((Equipment*)player1data.UnequipedEquipment->arr[EquipIndex])->type)
+            {
+                case GUN:
+                    ((Gun*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.PlayerArray->arr[i]));
+                    break;
+                case KNIFE:
+                    ((Knife*)player1data.UnequipedEquipment->arr[EquipIndex])->EquipToChess((Chess*)(player1data.PlayerArray->arr[i]));
+                    break;
+            }
+            return true;
+        }
+    }
+    return false;
 }
